@@ -90,5 +90,6 @@ Don NOT think about currently:
 
 - struct in C. Implement char[] first, later, you know struct in C.
 - multithread support. 
+- exception.
 
 

@@ -1,0 +1,87 @@
+## Token
+
+byte
+    0~255
+    'one printable char'
+    "\""x"[0-9a-fA-F]{2}
+
+
+integer
+    (-|+)?[0-9]+
+
+
+identifier:
+    [a-zA-Z_][a-zA-Z_0-9]*
+
+wp:
+    "\""t"
+    " "
+
+nr:
+    "\r"
+    "\n"
+
+wpnr:
+    "\r"
+    "\n"
+    "\t"
+    " "
+
+
+## Gramma special notation
+## [R](xxx)    at least one rule R saperate by xxx
+## {R}(xxx)    none or at least one rule R saperate by xxx
+## "xxx"       exact match of string xxx
+#    -2147483648 to 2147483647
+#    -9223372036854775808 to 9223372036854775807
+
+
+
+## Gramma
+BaseType:
+    "byte"
+    "int32"
+    "size_t"
+
+BaseValue:
+    integer
+
+SingleType:
+    BaseType
+    identifier        # custom type
+
+ArrayType:
+    SingleType "[" "]"
+    ArrayType  "[" "]"
+
+VarDeclaration:
+    ArrayType  identifier "=" [Expr](, wpnr)
+    SingleType idenfifier "=" Expr
+    ArrayType  identifier
+    SingleType identifier
+
+TypeDeclaration:
+    "type" {identifier} "{" {VarDeclaration}(,) "}"     # can be anonymous
+
+
+Expr:     # something that can return a value
+    FunctionCall          # derived from return value
+    BaseValue
+    identifier            # declared
+    "(" Expr ")"
+
+
+FunctioniDeclaration:
+    "func" identifer "(" {VarDeclaration} ")"       {"{"  Statements "}"}
+
+
+FunctionCall:
+    [identifier](.) "(" {Expr}(,) ")"
+    FunctionCall "." "(" {Expr}(,) ")"
+
+Module:
+    {TypeDeclaration}(NR)
+    {FunctioniDeclaration}(NR)
+    {VarDeclaration}(NR)
+
+

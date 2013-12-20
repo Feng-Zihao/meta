@@ -1,12 +1,12 @@
 ## Token
 
-byte
-    0~255
-    'one printable char'
-    "\""x"[0-9a-fA-F]{2}
+byte:
+    "\x"[0-9a-fA-F]{2}
 
+string:
+    \"{printable char}\"
 
-integer
+integer:
     (-|+)?[0-9]+
 
 
@@ -14,7 +14,8 @@ identifier:
     [a-zA-Z_][a-zA-Z_0-9]*
 
 wp:
-    "\""t"
+    "\"
+    "t"
     " "
 
 nr:
@@ -27,61 +28,123 @@ wpnr:
     "\t"
     " "
 
-
-## Gramma special notation
-## [R](xxx)    at least one rule R saperate by xxx
-## {R}(xxx)    none or at least one rule R saperate by xxx
-## "xxx"       exact match of string xxx
-#    -2147483648 to 2147483647
-#    -9223372036854775808 to 9223372036854775807
-
-
-
 ## Gramma
+#  XXXX()   ListMatcher separate by regex in ()
+#
+
+
 BaseType:
     "byte"
     "int32"
     "size_t"
 
-BaseValue:
-    integer
 
-SingleType:
+SingleType:    # ex: int32, uint8, abc.efg
     BaseType
-    identifier        # custom type
+    Attribute     # custom type
+
 
 ArrayType:
-    SingleType "[" "]"
-    ArrayType  "[" "]"
+    SingleType "[" "]"   # ex: int32[], uint8[], abc.efg[]
+    ArrayType  "[" "]"   # ex: int32[][], uint8[][][], abc.efg[][][][][]
+
+
+Type:
+    SingleType      # ex: int32, uint8, abc.efg
+    ArrayType       # ex: int32, uint8, 
+
 
 VarDeclaration:
-    ArrayType  identifier "=" [Expr](, wpnr)
-    SingleType idenfifier "=" Expr
-    ArrayType  identifier
-    SingleType identifier
+    Identifier(s,) Type "=" Expr(s,)       # with default value
+    Identifier(s,) Type
+    Identifier(s,) "=" Expr(s,)            # auto type judgement
+    identifier "[" "]" "=" ListExpr             # should be list expr in the same type
+
 
 TypeDeclaration:
-    "type" {identifier} "{" {VarDeclaration}(,) "}"     # can be anonymous
+    "type" {identifier} "{" VarDeclaration(s) "}"     # can be anonymous
 
+ListExpr:
+    "[" Expr(s,) "]"
 
 Expr:     # something that can return a value
-    FunctionCall          # derived from return value
-    BaseValue
-    identifier            # declared
-    "(" Expr ")"
+    integer
+    Attribute
+    FunctionCall                 # should have return value
+    "(" Expr ")"                 # derived rules
+    ListExpr
+    Expr BinaryOperator Expr
+    UnaryOperator Expr
+    Expr "?" Expr ":" Expr
+
+
+Attribute:
+    identifier(s.)
+
+BinaryOperator:
+    "+" "-" "*"  "**" "/" "//"
+    BitwiseOperator
+
+LogicOperator:
+    "&&" "||" "==" "!="
+
+BitwiseOperator:
+    "&" "|" "^" ">>" "<<"
+
+UnaryOperator:
+    "!"
+
+Operator:
+    BinaryOperator
+    UnaryOperator
+    LogicOperator
+
+AssignmentOperator:
+    "="
+    "|="
+    "&="
+    "^="
+    "+="
+    "-="
+    "*="
+    "/="
+    "**="
+
+LeftValue:
+    Attribute(s,)
+
+RightValue:
+    Expr(s,)
+
+
+Assignment:
+    LeftValue AssignmentOperator RightValue
 
 
 FunctioniDeclaration:
-    "func" identifer "(" {VarDeclaration} ")"       {"{"  Statements "}"}
+    "func" identifer "(" {VarDeclaration} ")"  Blocks
 
+Blocks:
+    "{" {Statement(s)} "}"
 
 FunctionCall:
-    [identifier](.) "(" {Expr}(,) ")"
-    FunctionCall "." "(" {Expr}(,) ")"
+    Attribute "(" Expr(s,) ")"               #direct function call
+    Expr "." FunctionCall
+
+
+Statement:
+    "while" Expr Blocks 
+    "for"  ";"  ";" Blocks
+    "if" Expr Blocks {("elif" Expr Blocks)(s)} {"else" Blocks}?
+
+
 
 Module:
-    {TypeDeclaration}(NR)
-    {FunctioniDeclaration}(NR)
-    {VarDeclaration}(NR)
+    {VarDeclaration(s)}
+    {TypeDeclaration(s)}
+    {FunctioniDeclaration(s)}
+    {Statement(s)}
+
+
 
 

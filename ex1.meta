@@ -1,0 +1,90 @@
+
+import a.b.c.d
+import os
+import fmt
+
+struct A {
+    a int = 3
+    ar int[] = {3,4,5,6,7}
+    b = 34.0
+    left  = A.null
+    right = A.null
+    kids = CloudList<A>
+}
+
+func compare(self, other) int {
+    return 0;
+}
+
+func extract(self) int, int[], A {
+    return a, ar, kids
+}
+
+
+func cmp(self, other) int {
+    if self.a == other.a
+        return 0
+    return self.a < other.a
+}
+
+<T>
+func sort(l T[], start int, end int, func cmp(T, T) int) {
+    left = start
+    right = end
+    while left < right {
+        while left < right && l[left] < l[right] {left++}
+        l[left], l[right] = l[right], l[left]
+        while left < right && l[left] < l[right] {right--}
+        l[left], l[right] = l[right], l[left]
+    }
+
+    if end == start {
+        return
+    } else {
+        mid = start/2 + end/2
+        thread (start, end) {
+            sort(l, start, end)
+        } <= (start, mid), (mid, end)
+    }
+}
+
+
+func main(args string[]) {
+    a A[] = CloudList;
+    a = A.null
+    b = A.new
+    c = A[](A.null)
+    d = A.new[]
+    d = d[:8]
+    f = string[]{"a", "b", "c", "d", "e"}
+
+    v = A[100]
+    v1, v2 = 20, 1
+    v3 = v1 * (v2 + v1)
+    d = A.arrayList(100)
+
+
+    x = {"abc": 1, "efg": 2}
+    x.each k,v,i {  // map type
+        if k == "abc"
+            break
+        else
+            continue
+    }
+
+
+
+    out <= thread(a int, b int) boolean {
+        os.sleep(1);
+        lock { 
+            (1..10).each i {
+                print i, j, k
+            }
+        }
+    } <= (1, 2), (3, 4)
+
+    print out
+
+}
+
+

@@ -1,0 +1,59 @@
+
+import a.b.c.d
+import os
+import fmt
+
+struct Complex {
+    real = 0.0
+    imag = 0.0
+}
+
+func cmp(self, other) int {
+    if self.real == other.real
+        return cmp(self.imag, other.imag)
+    return cmp(self.imag, other.imag)
+}
+
+func unpack(self) int, int {
+    return self.real, self.imag
+}
+
+
+func cmp(self, other) int {
+    if self.a == other.a
+        return 0
+    return self.a < other.a
+}
+
+
+func main(args string[]) {
+    a = CloudList<A>;
+    a = A.null
+    b = A
+    b = A[100]       // should insert free b here
+    c = A[](A.null, A.new)
+    d = A[1000]
+    d = d[:8]
+    f = string[]{"a", "b", "c", "d", "e"}
+
+    v = A[100]
+    v1, v2 = 20, 1
+    v3 = v1 * (v2 + v1)
+    d = A.arrayList(100)
+
+    l = [100].each i, e {
+        e.a, e.b = 0, 1
+        e.c = A
+    }
+
+    i = 0
+    while i < 10 {
+        i += 1
+        if i == 5
+            break
+    }
+
+    print i
+}
+
+

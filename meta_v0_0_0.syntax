@@ -35,8 +35,9 @@ wpnr:
 
 BaseType:
     "byte"
-    "int32"
-    "size_t"
+    "int"          # same size of size_t
+    "uint"         # same size of size_t
+    "string"
 
 
 SingleType:    # ex: int32, uint8, abc.efg

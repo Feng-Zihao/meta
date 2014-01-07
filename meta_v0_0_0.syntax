@@ -19,11 +19,35 @@ whitespace:
     " "
 
 basicOperator:
-    "+" "-" "*" "/" "//"
+    "+" "-" "*" "/"
 
-logicOperator:
+logicBinaryOperator:
     "&&" "||" "==" "!="
 
+logicUnaryOperator:
+    "!"
+
+compareOperator:
+    ">" "<"
+
+bitwiseBinaryOperator:
+    "<<" ">>"      // shift
+    "<<<" ">>>"    // rotate
+    "^" "&" "|"
+
+
+BinaryOperator:
+    basicOperator
+    logicBinaryOperator
+    bitwiseBinaryOperator
+    compareOperator
+
+LogicOperator:
+    logicBinaryOperator
+    logicUnaryOperator
+
+UnaryOperator:
+    logicUnaryOperator
 
 Attribute:
     identifier(".")
@@ -85,10 +109,7 @@ Value:
     FunctionCall
     "(" Value ")"
     Value binaryOperator Value
-    ArrayValue
-    ListValue
-    DictValue
-
+    
 
 FunctionCall:
     Attribute "(" Value(",") ")"

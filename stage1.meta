@@ -5,58 +5,49 @@ Complex {
     imag = 0.0
 }
 
-cmp(self Complex, other = Complex(0.0, 0.0)) int {
+init(Complex self, double real, imag) {
+    self.real = real;
+    self.imag = imag;
+}
+
+cmp(Complex self, other = Complex(0.0, 0.0)) int {
     if self.real == other.real
         return cmp(self.imag, other.imag)
     return cmp(self.imag, other.imag)
 }
 
 wrap(int i) Complex {
-    return Complex(real=i)
+    return Complex(real=i)         // implicit convertion
 }
 
-unpack(self Complex) double, double{
+unpack(Complex self) double, double{
     return self.real, self.imag
 }
 
-cmp(self, other Complex) int {
+cmp(Complex self, other) int {
     if self.a == other.a
         return 0
     return self.a < other.a
 }
 
-+(self, other Complex) Complex {
++(Complex self, other) Complex {
     self.real, self.imag += other.real, other.imag
     return self
 }
 
 struct SS {
-    a int[][][] = null
+    int[][][] a
 }
 
 
-func main() int {
-    a = Complex(real=1, imag=2)           // construct raw Complex
+main() int {
 
-    // should free a
-    // init an array containing 100
-    a = Complex[100]{Complex{real: 1, imag: 2}, default)
+    a = Complex[100]
 
-    reals = [0..100]         // of type int
-
-    imags = reals.map(e => e+1)
+    reals = {0..100}
 
 
-    // i int, e int
-    // generate func(e int) int {return e+1}
-
-    b = [0..100].map(i) {
-        Complex{real: reals[i], imag: imags[i] if 20 < imags[i] < 60 else 0}
-    }
-
-    c = (Complex(real=1, imag=1), Complex(real=2, imag=2))  // array
-
-    b = [Complex(1, 1), Complex(2, 2)]  // free b
+    b = {Complex(1, 1), Complex(2, 2)}  // free b
                                         // Complex array of size 2
 
     a = Complex(1, 2)
@@ -65,13 +56,12 @@ func main() int {
 
 
     v1, v2 = 20, 1
+    v1, v2 = v2, v1
     v3 = v1 * (v2 + v1)
 
     i = 0
     while i < 10 {
         i += 1
-        if i == 5
-            break
     }
 }
 

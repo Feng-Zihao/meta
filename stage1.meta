@@ -3,54 +3,69 @@
 Complex {
     real = 0.0
     imag = 0.0
+}
 
-    cmp(self, other) int {
-        if self.real == other.real
-            return cmp(self.imag, other.imag)
+cmp(self Complex, other = Complex(0.0, 0.0)) int {
+    if self.real == other.real
         return cmp(self.imag, other.imag)
-    }
+    return cmp(self.imag, other.imag)
+}
 
-    unpack(self) int, int {
-        return self.real, self.imag
-    }
+wrap(int i) Complex {
+    return Complex(real=i)
+}
 
+unpack(self Complex) double, double{
+    return self.real, self.imag
+}
 
-    cmp(self, other) int {
-        if self.a == other.a
-            return 0
-        return self.a < other.a
-    }
+cmp(self, other Complex) int {
+    if self.a == other.a
+        return 0
+    return self.a < other.a
+}
 
++(self, other Complex) Complex {
+    self.real, self.imag += other.real, other.imag
+    return self
+}
+
+struct SS {
+    a int[][][] = null
 }
 
 
+func main() int {
+    a = Complex(real=1, imag=2)           // construct raw Complex
+
+    // should free a
+    // init an array containing 100
+    a = Complex[100]{Complex{real: 1, imag: 2}, default)
+
+    reals = [0..100]         // of type int
+
+    imags = reals.map(e => e+1)
 
 
-func main(args string[]) {
-    a = CloudList<A>;
-    a = A.null
-    b = A
-    b = A[100]       // should insert free b here
-    c = A[](A.null, A.new)
-    d = A[1000]
-    d = d[:8]
-    f = string[]{"a", "b", "c", "d", "e"}
+    // i int, e int
+    // generate func(e int) int {return e+1}
 
-    v = A[100]
+    b = [0..100].map(i) {
+        Complex{real: reals[i], imag: imags[i] if 20 < imags[i] < 60 else 0}
+    }
+
+    c = (Complex(real=1, imag=1), Complex(real=2, imag=2))  // array
+
+    b = [Complex(1, 1), Complex(2, 2)]  // free b
+                                        // Complex array of size 2
+
+    a = Complex(1, 2)
+    b = Complex(-1, -2)
+    a, b = a.unpack()
+
+
     v1, v2 = 20, 1
     v3 = v1 * (v2 + v1)
-    d List<A> = ArrayList(100)
-
-    // create anonymous type for l
-    // struct {
-    //   a, b int
-    //   c A
-    // }
-
-    l = [100].each i, e {
-        e.a, e.b = 0, 1
-        e.c = A
-    }
 
     i = 0
     while i < 10 {
@@ -58,8 +73,5 @@ func main(args string[]) {
         if i == 5
             break
     }
-
-    print i
 }
-
 

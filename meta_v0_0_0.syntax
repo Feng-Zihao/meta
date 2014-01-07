@@ -1,151 +1,95 @@
 ## Token
 
-byte:
-    "\x"[0-9a-fA-F]{2}
-
-string:
-    \"{printable char}\"
-
 integer:
     (-|+)?[0-9]+
-
 
 identifier:
     [a-zA-Z_][a-zA-Z_0-9]*
 
-wp:
-    "\"
-    "t"
-    " "
-
-nr:
+newline:
     "\r"
     "\n"
 
-wpnr:
+whitespace:
     "\r"
     "\n"
     "\t"
+    "\v"
+    "\f"
     " "
 
-## Gramma
-#  XXXX()   ListMatcher separate by regex in ()
-#
+basicOperator:
+    "+" "-" "*" "/" "//"
 
-
-BaseType:
-    "byte"
-    "int"          # same size of size_t
-    "uint"         # same size of size_t
-    "string"
-
-
-SingleType:    # ex: int32, uint8, abc.efg
-    BaseType
-    Attribute     # custom type
-
-
-ArrayType:
-    SingleType "[" "]"   # ex: int32[], uint8[], abc.efg[]
-    ArrayType  "[" "]"   # ex: int32[][], uint8[][][], abc.efg[][][][][]
-
-
-Type:
-    SingleType      # ex: int32, uint8, abc.efg
-    ArrayType       # ex: int32, uint8, 
-
-
-VarDeclaration:
-    Identifier(s,) Type "=" Expr(s,)       # with default value
-    Identifier(s,) Type
-    Identifier(s,) "=" Expr(s,)            # auto type judgement
-    identifier "[" "]" "=" ListExpr             # should be list expr in the same type
-
-
-TypeDeclaration:
-    "type" {identifier} "{" VarDeclaration(s) "}"     # can be anonymous
-
-ListExpr:
-    "[" Expr(s,) "]"
-
-Expr:     # something that can return a value
-    integer
-    Attribute
-    FunctionCall                 # should have return value
-    "(" Expr ")"                 # derived rules
-    ListExpr
-    Expr BinaryOperator Expr
-    UnaryOperator Expr
-    Expr "?" Expr ":" Expr
+logicOperator:
+    "&&" "||" "==" "!="
 
 
 Attribute:
-    identifier(s.)
+    identifier(".")
 
-BinaryOperator:
-    "+" "-" "*"  "**" "/" "//"
-    BitwiseOperator
+DeclBlock:
+    StructDecl
+    FuncDecl
 
-LogicOperator:
-    "&&" "||" "==" "!="
+StructDecl:
+    "struct" identifier "{" VarDecl(newline) "}"
 
-BitwiseOperator:
-    "&" "|" "^" ">>" "<<"
+FuncDecl:
+    "func" identifier "(" VarDecl(",") ")" VarDecl(",") "{" Statement(whitespace) "}"
 
-UnaryOperator:
-    "!"
+Type:
+    Attribute
+    Type "[" "]"   // array type
 
-Operator:
-    BinaryOperator
-    UnaryOperator
-    LogicOperator
+VarDecl:
+    ImplicitVarDecl
+    ExplicitVarDecl
 
-AssignmentOperator:
-    "="
-    "|="
-    "&="
-    "^="
-    "+="
-    "-="
-    "*="
-    "/="
-    "**="
+ImplicitVarDecl:
+    identifier(",") Attribute                   // implicit assign to default value
 
-LeftValue:
-    Attribute(s,)
-
-RightValue:
-    Expr(s,)
-
-
-Assignment:
-    LeftValue AssignmentOperator RightValue
-
-
-FunctioniDeclaration:
-    "func" identifer "(" {VarDeclaration} ")"  Blocks
-
-Blocks:
-    "{" {Statement(s)} "}"
-
-FunctionCall:
-    Attribute "(" Expr(s,) ")"               #direct function call
-    Expr "." FunctionCall
-
+ExplicitVarDecl:
+    identifier(",") Type "=" Value(",")
+    identifier(",") "=" Value(",")
 
 Statement:
-    "while" Expr Blocks 
-    "for"  ";"  ";" Blocks
-    "if" Expr Blocks {("elif" Expr Blocks)(s)} {"else" Blocks}?
+    VarDecl
+    If
+    While
+    For
+    Assignment
+
+If:
+    "if" Value "{" Statement(whitespace) "}"
+    If "elif" value "{" Statement(whitespace) "}"
+    If "else" "{" Statement(whitespace) "}"
+
+While:
+    "while" Value "{" Statement(whitespace) "}"
+
+For:
+    "for" ForHead; Value; ForTail "{" Statement(whitespace) "}"
+
+ForHead:
+    ExplicitVarDecl(",")
+
+ForTail:
+    Assignment(",)
+
+Assignment:
+    Attribute(,) "=" Value(",")
+
+Value:
+    Attribute
+    FunctionCall
+    "(" Value ")"
+    Value binaryOperator Value
+    ArrayValue
+    ListValue
+    DictValue
 
 
-
-Module:
-    {VarDeclaration(s)}
-    {TypeDeclaration(s)}
-    {FunctioniDeclaration(s)}
-    {Statement(s)}
-
-
-
-
+FunctionCall:
+    Attribute "(" Value(",") ")"
+    FunctionCall(".")

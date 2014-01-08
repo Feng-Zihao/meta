@@ -71,10 +71,14 @@ VarDecl:
     ExplicitVarDecl
 
 ImplicitVarDecl:
-    identifier(",") Attribute                   // implicit assign to default value
+    identifier(",") "=" Value(",")
 
 ExplicitVarDecl:
-    identifier(",") Type "=" Value(",")
+    Type identifier(",") "=" Value(",")
+    Type identifier(",")
+
+AssignedVarDecl:
+    Type identifier(",") "=" Value(",")
     identifier(",") "=" Value(",")
 
 Statement:
@@ -93,13 +97,13 @@ While:
     "while" Value "{" Statement(whitespace) "}"
 
 For:
-    "for" ForHead; Value; ForTail "{" Statement(whitespace) "}"
+    "for" {ForHead} ";" Value ";" ForTail "{" Statement(whitespace) "}"
 
 ForHead:
-    ExplicitVarDecl(",")
+    AssignedVarDecl
 
 ForTail:
-    Assignment(",)
+    Assignment(",")
 
 Assignment:
     Attribute(,) "=" Value(",")
@@ -108,8 +112,9 @@ Value:
     Attribute
     FunctionCall
     "(" Value ")"
+    "{" Value(,) "}"
     Value binaryOperator Value
-    
+    UnaryOperator Value
 
 FunctionCall:
     Attribute "(" Value(",") ")"

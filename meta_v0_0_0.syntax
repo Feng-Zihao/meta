@@ -1,16 +1,24 @@
-## Token
 
-integer:
+# Prefixed by:
+# % :           token
+# @ :           rule which starts with token finally
+# Capitalized   start with keywords
+#
+# xxx {","}         zero or more xxx separates by ","
+# xxx [%newline]    one or more xxx separates by matching %newline
+#
+
+%integer:
     (-|+)?[0-9]+
 
-identifier:
+%identifier:
     [a-zA-Z_][a-zA-Z_0-9]*
 
-newline:
+%newline:
     "\r"
     "\n"
 
-whitespace:
+%whitespace:
     "\r"
     "\n"
     "\t"
@@ -18,104 +26,128 @@ whitespace:
     "\f"
     " "
 
-basicOperator:
-    "+" "-" "*" "/"
+%arithmeticOperator:
+    "+"
+    "-"
+    "*"
+    "/"
 
-logicBinaryOperator:
-    "&&" "||" "==" "!="
+%logicalBinaryOperator:
+    "&&"
+    "||"
+    "=="
+    "!="
 
-logicUnaryOperator:
+%logicalUnaryOperator:
     "!"
 
-compareOperator:
-    ">" "<"
+%compareOperator:
+    ">"
+    "<"
 
-bitwiseBinaryOperator:
-    "<<" ">>"      // shift
-    "<<<" ">>>"    // rotate
-    "^" "&" "|"
+%bitwiseBinaryOperator:
+    "<<<"
+    ">>>"    # rotate
+    "<<"
+    ">>"     # shift
+    "^"
+    "&"
+    "|"
 
 
-BinaryOperator:
-    basicOperator
-    logicBinaryOperator
-    bitwiseBinaryOperator
-    compareOperator
 
-LogicOperator:
-    logicBinaryOperator
-    logicUnaryOperator
 
-UnaryOperator:
-    logicUnaryOperator
 
-Attribute:
-    identifier(".")
 
-DeclBlock:
-    StructDecl
-    FuncDecl
 
-StructDecl:
-    "struct" identifier "{" VarDecl(newline) "}"
+@attribute:
+    %identifier["."]
 
-FuncDecl:
-    "func" identifier "(" VarDecl(",") ")" VarDecl(",") "{" Statement(whitespace) "}"
+@typeDecl:
+    @attribute
+    @typeDecl "[" "]"   #array type
 
-Type:
-    Attribute
-    Type "[" "]"   // array type
+@varDeclUntypedAssigned:
+    %identifier[","] "=" Value[","]
 
-VarDecl:
-    ImplicitVarDecl
-    ExplicitVarDecl
+@varDeclTypedAssigned:
+    @typeDecl %identifier[","] "=" Value[","]
 
-ImplicitVarDecl:
-    identifier(",") "=" Value(",")
+@varDeclTypedUnassigned:
+    @typeDecl %identifier[","]
 
-ExplicitVarDecl:
-    Type identifier(",") "=" Value(",")
-    Type identifier(",")
+@varDeclTyped:
+    @varDeclTypedAssigned
+    @varDeclTypedUnassigned
 
-AssignedVarDecl:
-    Type identifier(",") "=" Value(",")
-    identifier(",") "=" Value(",")
+@varDeclAssigned:
+    @varDeclTypedAssigned
+    @varDeclUntypedAssigned
 
-Statement:
-    VarDecl
+@varDecl:
+    @varDeclTypedAssigned
+    @varDeclTypedUnassigned
+    @varDeclUntypedAssigned
+
+@module:
+    StructDecl{%newline}
+    FuncDecl{%newline}
+    @module{%newline}
+
+@assignment:
+    @attribute "=" Value
+
+@statement:
+    @varDecl
     If
     While
     For
     Assignment
 
+
+
+
+
+StructDecl:
+    %identifier "{" @varDecl{%newline} "}"
+
+FuncDecl:
+    %identifier "(" @varDecl{","} ")" @varDeclTypedUnassigned StatementBlock
+
+StatementBlock:
+    "{" @statement{%whitespace} "}"
+
 If:
-    "if" Value "{" Statement(whitespace) "}"
-    If "elif" value "{" Statement(whitespace) "}"
-    If "else" "{" Statement(whitespace) "}"
+    "if" Value StatementBlock
+    If "elif" value StatementBlock
+    If "else" StatementBlock
 
 While:
-    "while" Value "{" Statement(whitespace) "}"
+    "while" Value StatementBlock
 
 For:
-    "for" {ForHead} ";" Value ";" ForTail "{" Statement(whitespace) "}"
+    "for" @varDeclAssigned{","}  ";" Value ";" @assignment{","} StatementBlock
 
-ForHead:
-    AssignedVarDecl
-
-ForTail:
-    Assignment(",")
 
 Assignment:
     Attribute(,) "=" Value(",")
 
+
 Value:
+    "true"
+    "false"
+    "null"
     Attribute
     FunctionCall
+    Value(,)
     "(" Value ")"
-    "{" Value(,) "}"
-    Value binaryOperator Value
+    "{" Value "}"
+    Value BinaryOperator Value
     UnaryOperator Value
 
 FunctionCall:
-    Attribute "(" Value(",") ")"
+    @attribute "(" Value(",") ")"
     FunctionCall(".")
+
+
+

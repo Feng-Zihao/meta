@@ -1,54 +1,54 @@
 
 
-Complex {
+struct Complex {
     real = 0.0
     imag = 0.0
 }
 
-init(Complex self, double real, imag) {
+func init(Complex self, double real, imag) {
     self.real = real;
     self.imag = imag;
 }
 
-cmp(Complex self, other = Complex(0.0, 0.0)) int {
+func cmp(Complex self, other = Complex(0.0, 0.0)) int {
     if self.real == other.real
         return cmp(self.imag, other.imag)
     return cmp(self.imag, other.imag)
 }
 
-wrap(int i) Complex {
+func wrap(int i) Complex {
     return Complex(real=i)         // implicit convertion
 }
 
-unpack(Complex self) double, double{
+func unpack(Complex self) double, double{
     return self.real, self.imag
 }
 
-cmp(Complex self, other) int {
+func cmp(Complex self, other) int {
     if self.a == other.a
         return 0
     return self.a < other.a
 }
 
-+(Complex self, other) Complex {
+func +(Complex self, other) Complex {
     self.real, self.imag += other.real, other.imag
     return self
 }
 
 struct SS {
-    int[][][] a
+    array<int> a
 }
 
 
-main() int {
+func main() int {
 
     a = Complex[100]
 
-    reals = {0..100}
+    a = range(100)
 
-
-    b = {Complex(1, 1), Complex(2, 2)}  // free b
-                                        // Complex array of size 2
+    // Complex array of size 2
+    // implicit array<Complex>
+    b = array(Complex(1, 1), Complex(2, 2))  
 
     a = Complex(1, 2)
     b = Complex(-1, -2)

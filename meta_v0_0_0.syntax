@@ -12,21 +12,11 @@ integer:
 identifier:
     [a-zA-Z_][a-zA-Z_0-9]*
 
-logicalValue:
-    "true"
-    "false"
-
 newline:
-    "\r"
-    "\n"
+    [\r\n]+
 
 whitespace:
-    "\r"
-    "\n"
-    "\t"
-    "\v"
-    "\f"
-    " "
+    [ \r\n\t\v\f]+
 
 arithmeticOperator:
     "+"
@@ -58,7 +48,8 @@ bitwiseBinaryOperator:
 
 Value:
     "null"
-    logicalValue
+    "true"
+    "false"
     integer
     identifier
     "(" Value ")"

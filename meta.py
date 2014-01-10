@@ -22,5 +22,5 @@ def try_token(src, target):
 
 
 
-
-
+class Parser(object):
+    pass

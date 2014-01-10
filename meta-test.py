@@ -1,31 +1,26 @@
 
 from meta import *
-import nose
 from nose.tools import assert_equal
 
 
-def test_integer_tokenizer():
-    assert_equal(try_token('-123abc', integer), '-123')
-    assert_equal(try_token('+123abc', integer), '+123')
-    assert_equal(try_token('123', integer), '123')
-    assert_equal(try_token('abc', integer), None)
-    assert_equal(try_token('+', integer), None)
-    assert_equal(try_token('-', integer), None)
+def testTokenMatcher():
+    params = [
+        ('integer', '123', '123'),
+        ('integer', '+123a', '+123'),
+        ('integer', '-123a', '-123'),
+        ('integer', 'aa', False),
+        ('integer', '+', False),
+        ('integer', '-', False),
 
-def test_identifier_tokenizer():
-    assert_equal(try_token('abc', identifier), 'abc')
-    assert_equal(try_token('_abc', identifier), '_abc')
-    assert_equal(try_token('123', identifier), None)
+        ('identifier', 'abc', 'abc'),
+        ('identifier', 'a9_bd', 'a9_bd'),
+        ('identifier', '____', '____'),
+        ('identifier', '9ad', False),
+        ('identifier', '', False),
 
-def test_newline_tokenizer():
-    assert_equal(try_token('\r\nab', newline), '\r\n')
-    assert_equal(try_token('09\r\nab', newline), None)
-
-def test_operator_tokenizer():
-    assert_equal(try_token('|||', logicalBinaryOperator), '||')
-    assert_equal(try_token('|', logicalBinaryOperator), None)
-    assert_equal(try_token('>>>', bitwiseBinaryOperator), '>>>')
-    assert_equal(try_token('>>', bitwiseBinaryOperator), '>>')
-    assert_equal(try_token('^', bitwiseBinaryOperator), '^')
-    assert_equal(try_token('&', bitwiseBinaryOperator), '&')
-    assert_equal(try_token('|', bitwiseBinaryOperator), '|')
+        ('logicalBinaryOperator', '|||', '||'),
+        ('bitwiseBinaryOperator', '^', '^'),
+        ('bitwiseBinaryOperator', '||', '|')
+    ]
+    for p in params:
+        assert_equal(grammar.match_token(p[0], p[1]), p[2])

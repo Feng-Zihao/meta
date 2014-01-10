@@ -2,18 +2,18 @@
 # Prefixed by:
 #
 #
-# xxx{","}        zero or more xxx separates by ","
-# xxx[newline]    one or more xxx separates by matching newline
+# xxx{","}     zero or more xxx separates by ","
+# xxx[rule]    one or more xxx separates by matching rule
 #
 
 integer:
     (\-|\+)?[0-9]+
 
 identifier:
-    [a-zA-Z_][0-9a-zA-Z]*
+    [_a-zA-Z][_0-9a-zA-Z]*
 
 newline:
-    ((\r\n)|(\n))+
+    [\r\n]+
 
 whitespace:
     [ \r\n\t\v\f]+
@@ -22,32 +22,34 @@ arithmeticOperator:
     \+|\-|*|/
 
 logicalBinaryOperator:
-    &&|\|\||==|!=
+    &&|\|\||
 
 logicalUnaryOperator:
     !
 
 compareOperator:
-    >|<
+    >=|<=|>|<|==|!=
 
 bitwiseBinaryOperator:
-    <<<|>>>|<<|>>|^|&|\|
+    <<<|>>>|<<|>>|\^|\&|\|
+
+boolean:
+    true|false
 
 Value:
     "null"
-    "true"
-    "false"
+    boolean
     integer
     identifier
     "(" Value ")"
     "[" Value "]"
     Value BinaryOperator Value
-    UnaryOperator Value
-    Value "." identifier "(" Value{","} ")"   # function call
+    "!" Value
+    Value "." identifier "(" Value{","} ")"    # Function call
 
 TypeDecl:
     identifier["."]
-    "array<" identifier["."] ">"
+    "array" "<" identifier["."] ">"
 
 VarDeclUntypedAssigned:
     identifier[","] "=" Value[","]
@@ -89,8 +91,7 @@ For:
     "for" VarDeclAssigned{","}  ";" Value ";" Assignment{","} StatementBlock
 
 Assignment:
-    Value(",") "=" Value(",")
-
+    Value[","] "=" Value[","]
 
 Statement:
     VarDecl
@@ -119,8 +120,8 @@ FunctionName:
 FuncDecl:
     "func" FunctionName "(" VarDecl{","} ")" VarDeclTypedUnassigned StatementBlock
 
-Module:
-    StructDecl{newline}
-    FuncDecl{newline}
+Module:    # after parsing this, accept end of file
+    StructDecl[newline]
+    FuncDecl[newline]
     Module{newline}
 

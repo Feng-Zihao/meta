@@ -9,6 +9,9 @@
 integer:
     (\-|\+)?[0-9]+
 
+string:
+    "([^\s\\]|[ ]|(\\[\\nrvtf]))+"
+
 identifier:
     [_a-zA-Z][_0-9a-zA-Z]*
 
@@ -38,6 +41,7 @@ boolean:
 
 Value:
     "null"
+    string
     boolean
     integer
     identifier

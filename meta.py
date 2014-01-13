@@ -1,6 +1,5 @@
 
 import re
-import string
 import sets
 
 grammar_path = 'meta_v0_0_0.grammar'
@@ -35,8 +34,6 @@ class Grammar(object):
                 self.dict[k] = self.dict[k][0]
             else:
                 self.dict[k] = map(lambda r: GrammarRule(r), self.dict[k])
-                #for r in self.dict[k]:
-                #    r = GrammarRule(r)
 
     def match_token(self, token_name, s):
         rs = re.match(self.dict[token_name], s)
@@ -94,12 +91,9 @@ class GrammarRule(object):
         self.start_syms = sets.Set()
         if is_start_symbol(self.nodes[0].name):
             self.start_syms.add(self.nodes[0].name)
-        #print self.nodes
-        #print self.start_syms
 
     def __str__(self):
         s = self.rule_expr + "\n"
-        #s += "\n".join([("    "+str(n)) for n in self.nodes])
         return s
 
 
@@ -110,7 +104,7 @@ class GrammarRuleNode(object):
         self.separator = separator
 
     def __str__(self):
-        return "<%s ,%s, %d>"%\
+        return "<%s ,%s, %d>" % \
                 (self.name, self.separator, self.lower_limit)
 
     @staticmethod
@@ -123,16 +117,15 @@ class GrammarRuleNode(object):
             if s[0] == '{':
                 lower_limit = 0
                 separator = GrammarRuleNode._accept_string_or_name(s[1:])
-                if s[len(separator)+1] != '}':
+                if s[len(separator) + 1] != '}':
                     raise ValueError('"}" missing')
-                s = s[len(separator)+2:]
+                s = s[len(separator) + 2:]
             elif s[0] == '[':
                 separator = GrammarRuleNode._accept_string_or_name(s[1:])
-                if s[len(separator)+1] != ']':
+                if s[len(separator) + 1] != ']':
                     raise ValueError('"]" missing')
-                s = s[len(separator)+2:]
+                s = s[len(separator) + 2:]
         return GrammarRuleNode(name, lower_limit, separator), s
-
 
     @staticmethod
     def _accept_string_or_name(s):
@@ -150,6 +143,4 @@ class GrammarRuleNode(object):
 
 
 grammar = Grammar(open(grammar_path))
-#grammar.print_dict()
 grammar.construct_start_symbol()
-grammar.print_start_symbol()

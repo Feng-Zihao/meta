@@ -34,8 +34,8 @@ def test_grammar_parser():
         ('"[]"["[]"]', '"[]"', '"[]"', 1)
         ]
     for p in params:
-        n, s = GrammarNode.parse_rule(p[0])
-        assert_equal(n.rule, p[1])
+        n, s = GrammarRuleNode.parse_rule(p[0])
+        assert_equal(n.name, p[1])
         assert_equal(n.separator, p[2])
         assert_equal(n.lower_limit, p[3])
 
@@ -45,5 +45,5 @@ for k in sorted(grammar.dict):
         continue
     print k
     for v in grammar.dict[k]:
-        gn = GrammarRule(v)
+        print v
 

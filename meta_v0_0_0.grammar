@@ -47,7 +47,7 @@ Value:
     "!" Value
     Value "." identifier "(" Value{","} ")"    # Function call
 
-TypeDecl:
+Type:
     identifier["."]
     "array" "<" identifier["."] ">"
 
@@ -55,10 +55,10 @@ VarDeclUntypedAssigned:
     identifier[","] "=" Value[","]
 
 VarDeclTypedAssigned:
-    TypeDecl identifier[","] "=" Value[","]
+    Type identifier[","] "=" Value[","]
 
 VarDeclTypedUnassigned:
-    TypeDecl identifier[","]
+    Type identifier[","]
 
 VarDeclTyped:
     VarDeclTypedAssigned
@@ -127,6 +127,9 @@ FunctionName:
 
 FuncDecl:
     "func" FunctionName "(" VarDecl{","} ")" VarDeclTypedUnassigned StatementBlock
+
+Return:
+    "return" Value{","}
 
 Module:    # after parsing this, accept end of file
     StructDecl[newline]

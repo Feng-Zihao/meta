@@ -80,9 +80,17 @@ StatementBlock:
     "{" Statement{whitespace} "}"
 
 If:
+    IfHead Elif{whitespace} Else{whitespace}
+
+IfHead:
     "if" Value StatementBlock
-    If "elif" value StatementBlock
-    If "else" StatementBlock
+
+Elif:
+    "elif" Value StatementBlock
+
+Else:
+    "else" StatementBlock
+
 
 While:
     "while" Value StatementBlock

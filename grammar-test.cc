@@ -1,5 +1,4 @@
 
-
 #include "grammar.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
@@ -7,9 +6,9 @@
 #include <string>
 using namespace std;
 
-TEST(simple, simple) {
-    EXPECT_EQ(1, 1);
-}
+//TEST(simple, simple) {
+//    EXPECT_EQ(1, 1);
+//}
 
 
 int main(int argc, char **argv) {

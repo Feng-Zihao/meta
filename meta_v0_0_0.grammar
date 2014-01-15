@@ -2,7 +2,7 @@
 # Prefixed by:
 #
 #
-# xxx{","}     zero or more xxx separates by ","
+# xxx{','}     zero or more xxx separates by ','
 # xxx[rule]    one or more xxx separates by matching rule
 #
 
@@ -22,7 +22,7 @@ whitespace:
     [ \r\n\t\v\f]+
 
 arithmeticOperator:
-    \+|\-|*|/
+    \+|\-|\*|/
 
 logicalBinaryOperator:
     &&|\|\||
@@ -40,29 +40,29 @@ boolean:
     true|false
 
 Value:
-    "null"
+    'null'
     string
     boolean
     integer
     identifier
-    "(" Value ")"
-    "[" Value "]"
+    '(' Value ')'
+    '[' Value ']'
     Value BinaryOperator Value
-    "!" Value
-    Value "." identifier "(" Value{","} ")"    # Function call
+    '!' Value
+    Value '.' identifier '(' Value{','} ')'    # Function call
 
 Type:
-    identifier["."]
-    "array" "<" identifier["."] ">"
+    identifier['.']
+    'array' '<' identifier['.'] '>'
 
 VarDeclUntypedAssigned:
-    identifier[","] "=" Value[","]
+    identifier[','] '=' Value[',']
 
 VarDeclTypedAssigned:
-    Type identifier[","] "=" Value[","]
+    Type identifier[','] '=' Value[',']
 
 VarDeclTypedUnassigned:
-    Type identifier[","]
+    Type identifier[',']
 
 VarDeclTyped:
     VarDeclTypedAssigned
@@ -78,32 +78,32 @@ VarDecl:
     VarDeclUntypedAssigned
 
 Assignment:
-    Value[","] "=" Value[","]
+    Value[','] '=' Value[',']
 
 StatementBlock:
-    "{" Statement{whitespace} "}"
+    '{' Statement{whitespace} '}'
 
 If:
     IfHead Elif{whitespace} Else{whitespace}
 
 IfHead:
-    "if" Value StatementBlock
+    'if' Value StatementBlock
 
 Elif:
-    "elif" Value StatementBlock
+    'elif' Value StatementBlock
 
 Else:
-    "else" StatementBlock
+    'else' StatementBlock
 
 
 While:
-    "while" Value StatementBlock
+    'while' Value StatementBlock
 
 For:
-    "for" VarDeclAssigned{","}  ";" Value ";" Assignment{","} StatementBlock
+    'for' VarDeclAssigned{','}  ';' Value ';' Assignment{','} StatementBlock
 
 Assignment:
-    Value[","] "=" Value[","]
+    Value[','] '=' Value[',']
 
 Statement:
     VarDecl
@@ -115,10 +115,10 @@ Statement:
 
 
 StructDecl:
-    "struct" identifier "{" VarDecl{newline} "}"
+    'struct' identifier '{' VarDecl{newline} '}'
 
 FunctionalOperator:
-    "[]"
+    '[]'
     arithmeticOperator
     compareOperator
     logicalBinaryOperator
@@ -130,13 +130,13 @@ FunctionName:
     FunctionalOperator
 
 FuncDecl:
-    "func" FunctionName "(" VarDecl{","} ")" VarDeclTypedUnassigned StatementBlock
+    'func' FunctionName '(' VarDecl{','} ')' VarDeclTypedUnassigned StatementBlock
 
 Return:
-    "return" Value{","}
+    'return' Value{','}
 
-Module:    # after parsing this, accept end of file
+
+StructOrFuncDecl:    # after parsing this, accept end of file
     StructDecl[newline]
     FuncDecl[newline]
-    Module{newline}
-
+    StructOrFuncDecl{newline}

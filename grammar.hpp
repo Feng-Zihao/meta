@@ -5,67 +5,70 @@
 #include <iostream>
 #include <string>
 #include <functional>
-#include <boost/regex.hpp>
 #include <unordered_set>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 #include <deque>
-
+#include <boost/regex.hpp>
 using namespace std;
 
 
-class Token {
+class Symbol {
 public:
-    Token(string _name, string _expr);
-    
-    const string name;
-    const string expr;
-    const boost::regex rgx;
+    static Symbol Regex(string _expr);
+    static Symbol Keyword(string _value);
+    static Symbol SpecialCharacter(string _value);
+    static Symbol Nonterminal(string _value);
+
+    static const int kTerminal = 0;
+    static const int kNonTerminal  = 1;
+
+    static const int kKeyword = 2;
+    static const int kSpecialCharacter = 3;
+
+    string value;
+    int symbol_type;
+    int terminal_type;
+    boost::regex re;
 };
 
-class RuleNode {
+class SymbolChain {
 public:
-    RuleNode(string _value, string _separator, int _chain_type);
-
-    bool isTokenName();
-    bool isKeyword();
-
-    static const int kCanIgnored = 0;
-    static const int kAtLeastOnce = 1;
-
-    const string value;
-    const string separator;
-    const int chain_type;
-    
+    static const int kCanSkip;
+    static const int kAtLeastOnce;
+    static const int kOnlyOnce;
+    Symbol main;
+    Symbol separator;
+    int chain_type;
 };
-
 
 class Rule {
 public:
-    set<string> start_symbols;
-    vector<RuleNode> nodes;
+    vector<SymbolChain> symbol_chains;
+    set<Symbol> start_symbols;  // tokens, keywords or specific characters
 };
 
 
-typedef unordered_map<string, Token, hash<string>> TokenMap;
-typedef unordered_map<string, Rule, hash<string>> RuleMap;
-typedef unordered_set<string, hash<string>> KeywordSet;
+class RuleGroup {
+public:
+    string name;
+    vector<Rule> rules;
+    set<Symbol> start_symbols;
+};
 
+
+typedef map<string, Symbol> TSymMap;
 class Parser {
 public:
 
     bool ReadGrammarFile(string path);
 
-    TokenMap token_map = TokenMap(1024);
-    RuleMap rule_map = RuleMap(1024);
-    KeywordSet keyword_set = KeywordSet(1024);
-
+    TSymMap terminal_symbol_map;
 
 private:
-    typedef pair<string, Token> TokenMapPair;
-    TokenMapPair declToken(string name, string expr) {
-        return make_pair(name, Token(name, expr));
-    }
 };
+
+string GetOneSymbolExpr(string& rule_expr);
+
 #endif

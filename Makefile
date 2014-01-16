@@ -1,17 +1,26 @@
 
-CXX=clang++
-CXXFLAGS=-c -O0 -std=c++11
-LDFLAGS=-lgtest -lboost_regex
+CC=clang
+CFLAGS=-c -O0 
+LDFLAGS=
 
-all: test
+all: lemon
 
-test: grammar-test.o grammar.o
-	$(CXX) $(LDFLAGS) $^ -o $@
-	./test
+#test: grammar-test.o grammar.o
+#    $(CC) $(LDFLAGS) $^ -o $@
 
-%.o: %.cc *.hpp Makefile
-	$(CXX) $(CXXFLAGS) $< -o $@
+%.o: %.c Makefile
+	$(CC) $(CFLAGS) $< -o $@
+
+lex.yy.c: meta.l
+	flex meta.l
+
+lemon: lemon.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+meta.h: lemon meta.y
+	./lemon meta.y
 
 clean:
-	rm -f *.o *.pyc
-	rm -f test
+	rm -f *.o
+	rm -f meta.h meta.c meta.out lex.yy.c
+	rm -f lemon

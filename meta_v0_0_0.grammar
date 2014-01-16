@@ -46,7 +46,6 @@ Value:
     integer
     identifier
     '(' Value ')'
-    '[' Value ']'
     Value BinaryOperator Value
     '!' Value
     Value '.' identifier '(' Value{','} ')'    # Function call

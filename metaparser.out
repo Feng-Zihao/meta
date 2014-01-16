@@ -1,0 +1,82 @@
+State 0:
+          value ::= * NULL
+          value ::= * STRING
+          value ::= * INT
+          value ::= * ID
+          value ::= * LPARENTHESES value RPARENTHESES
+
+                          NULL shift  6
+                        STRING shift  5
+                           INT shift  4
+                            ID shift  3
+                  LPARENTHESES shift  1
+                         value accept
+
+State 1:
+          value ::= * NULL
+          value ::= * STRING
+          value ::= * INT
+          value ::= * ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= LPARENTHESES * value RPARENTHESES
+
+                          NULL shift  6
+                        STRING shift  5
+                           INT shift  4
+                            ID shift  3
+                  LPARENTHESES shift  1
+                         value shift  7
+
+State 2:
+      (4) value ::= LPARENTHESES value RPARENTHESES *
+
+                             $ reduce 4
+                  RPARENTHESES reduce 4
+
+State 3:
+      (3) value ::= ID *
+
+                             $ reduce 3
+                  RPARENTHESES reduce 3
+
+State 4:
+      (2) value ::= INT *
+
+                             $ reduce 2
+                  RPARENTHESES reduce 2
+
+State 5:
+      (1) value ::= STRING *
+
+                             $ reduce 1
+                  RPARENTHESES reduce 1
+
+State 6:
+      (0) value ::= NULL *
+
+                             $ reduce 0
+                  RPARENTHESES reduce 0
+
+State 7:
+          value ::= LPARENTHESES value * RPARENTHESES
+
+                  RPARENTHESES shift  2
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: MUL
+    2: DIV
+    3: PLUS
+    4: MINUS
+    5: AND
+    6: OR
+    7: NOT
+    8: RPARENTHESES
+    9: NULL
+   10: STRING
+   11: INT
+   12: ID
+   13: LPARENTHESES
+   14: error:
+   15: value: NULL STRING INT ID LPARENTHESES

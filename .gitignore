@@ -38,3 +38,6 @@ nosetests.xml
 *.o
 /test
 .exrc
+meta.h
+meta.out
+meta.c

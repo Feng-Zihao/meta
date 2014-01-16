@@ -52,8 +52,8 @@ Value:
     Value '.' identifier '(' Value{','} ')'    # Function call
 
 Type:
+    identifier['.'] '<' Type['.'] '>'
     identifier['.']
-    'array' '<' identifier['.'] '>'
 
 VarDeclUntypedAssigned:
     identifier[','] '=' Value[',']

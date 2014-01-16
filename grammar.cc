@@ -5,43 +5,15 @@
 #include <boost/algorithm/string.hpp>
 using namespace std;
 
+const int Symbol::kCanSkip = 0;
+const int Symbol::kOnlyOnce = 1;
+const int Symbol::kAtLeastOnce = 2;
 
 Symbol Symbol::Regex(string _expr)
 {
     Symbol sym;
     sym.symbol_type = kTerminal;
     sym.re = boost::regex(_expr);
-    return sym;
-}
-
-
-Symbol Symbol::Keyword(string _value)
-{
-    Symbol sym;
-    sym.symbol_type = kTerminal;
-    sym.terminal_type = kKeyword;
-    sym.value = _value;
-    sym.re = boost::regex(_value);
-    return sym;
-}
-
-
-Symbol Symbol::SpecialCharacter(string _value)
-{
-    Symbol sym;
-    sym.symbol_type = kTerminal;
-    sym.terminal_type = kSpecialCharacter;
-    sym.value = _value;
-    sym.re = boost::regex(_value);
-    return sym;
-}
-
-
-Symbol Symbol::Nonterminal(string _value)
-{
-    Symbol sym;
-    sym.symbol_type = kNonTerminal;
-    sym.value = _value;
     return sym;
 }
 
@@ -85,8 +57,8 @@ bool Parser::ReadGrammarFile(string path)
     while (lsit != lines.end()) {
         if (boost::regex_match(*lsit, re)) {
             curr_key = *lsit;
+            curr_key.pop_back();
             *lsit++;
-            cout << curr_key << endl;
             continue;
         }
 
@@ -96,43 +68,22 @@ bool Parser::ReadGrammarFile(string path)
         //Rule rule;
         boost::trim(rule_expr);
         while (!rule_expr.empty()) {
-            string main = GetOneSymbolExpr(rule_expr);
-            rule_expr.erase(0, main.length());
-            string separator;
-            if (!rule_expr.empty()) {
-                if (rule_expr[0] == '[') {
-                    rule_expr.erase(0, 1);
-                    separator = GetOneSymbolExpr(rule_expr);
-                    rule_expr.erase(0, separator.length());
-                    if (rule_expr[0] != ']') {
-                        cerr << "error in grammar" << endl;
-                        exit(EXIT_FAILURE);
-                    }
-                    rule_expr.erase(0, 1);
-                } 
-                if (rule_expr[0] == '{') {
-                    rule_expr.erase(0, 1);
-                    separator = GetOneSymbolExpr(rule_expr);
-                    rule_expr.erase(0, separator.length());
-                    if (rule_expr[0] != '}') {
-                        cerr << "error in grammar" << endl;
-                        exit(EXIT_FAILURE);
-                    }
-                    rule_expr.erase(0, 1);
-                }
-            }
-            cout << main << ":" << separator << endl;
+            Symbol s;
+            s.InitFromRuleExpr(rule_expr);
+            //cout << "    " << s.value;
+            //if (s.separator != nullptr) {
+            //    cout << " :: " << s.separator->value;
+            //}
+            //cout << endl;
             boost::trim(rule_expr);
         }
     }
-    
 
-    
     return true;
 }
 
 
-string GetOneSymbolExpr(string& rule_expr)
+string GetOneSymbolExpr(const string& rule_expr)
 {
     boost::smatch sm;
     if (rule_expr[0] == '\'') {
@@ -141,4 +92,48 @@ string GetOneSymbolExpr(string& rule_expr)
         boost::regex_search(rule_expr, sm, boost::regex("[a-zA-Z]+"));
     }
     return sm.str();
+}
+
+
+void Symbol::InitFromRuleExpr(string& rule_expr)
+{
+    value = move(GetOneSymbolExpr(rule_expr));
+    chain_type = kOnlyOnce;
+    separator = nullptr;
+    rule_expr.erase(0, value.length());
+    if (!rule_expr.empty()) {
+        if (rule_expr[0] == '[') {
+            chain_type = kAtLeastOnce;
+            rule_expr.erase(0, 1);
+            separator =  unique_ptr<Symbol>(new Symbol);
+            separator->value = move(GetOneSymbolExpr(rule_expr));
+            rule_expr.erase(0, separator->value.length());
+            if (rule_expr[0] != ']') {
+                cerr << "error in grammar" << endl;
+                exit(EXIT_FAILURE);
+            }
+            rule_expr.erase(0, 1);
+        }
+        if (rule_expr[0] == '{') {
+            chain_type = kCanSkip;
+            rule_expr.erase(0, 1);
+            separator = unique_ptr<Symbol>(new Symbol);
+            separator->value = move(GetOneSymbolExpr(rule_expr));
+            rule_expr.erase(0, separator->value.length());
+            if (rule_expr[0] != '}') {
+                cerr << "error in grammar" << endl;
+                exit(EXIT_FAILURE);
+            }
+            rule_expr.erase(0, 1);
+        }
+    }
+}
+
+
+bool Symbol::isNonTerminal() {
+    return boost::regex_search(value, boost::regex("[A-Z]"));
+}
+
+bool Symbol::isKeyword() {
+    return boost::regex_match(value, boost::regex("'[a-z]+'"));
 }

@@ -1,82 +1,918 @@
 State 0:
-          value ::= * NULL
-          value ::= * STRING
-          value ::= * INT
-          value ::= * ID
-          value ::= * LPARENTHESES value RPARENTHESES
+          prog ::= * prog_block
+          prog_block ::= * prog_block prog_block
+          prog_block ::= * struct_decl
+          prog_block ::= * func_decl
+      (4) prog_block ::= *
+          func_decl ::= * KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block
+          struct_decl ::= * KW_STRUCT ID LBRACE var_decl_list RBRACE
 
-                          NULL shift  6
-                        STRING shift  5
-                           INT shift  4
-                            ID shift  3
-                  LPARENTHESES shift  1
-                         value accept
+                       KW_FUNC shift  50
+                       KW_FUNC reduce 4   ** Parsing conflict **
+                     KW_STRUCT shift  39
+                     KW_STRUCT reduce 4   ** Parsing conflict **
+                          prog accept
+                    prog_block shift  7
+                   struct_decl shift  82
+                     func_decl shift  81
+                     {default} reduce 4
 
 State 1:
-          value ::= * NULL
-          value ::= * STRING
-          value ::= * INT
-          value ::= * ID
-          value ::= * LPARENTHESES value RPARENTHESES
-          value ::= LPARENTHESES * value RPARENTHESES
+          struct_decl ::= KW_STRUCT ID LBRACE * var_decl_list RBRACE
+     (20) var_decl_list ::= *
+          var_decl_list ::= * var_decl
+          var_decl_list ::= * var_decl_list var_decl
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          id_list ::= * ID
+          id_list ::= * id_list COMMA ID
+          var_decl ::= * var_typed_assigned_decl
+          var_decl ::= * var_untyped_assigned_decl
+          var_decl ::= * var_typed_unassigned_decl
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_typed_assigned_decl ::= * var_type var_untyped_assigned_decl
+          var_typed_unassigned_decl ::= * var_type id_list
+          var_untyped_assigned_decl ::= * id_list EQ value_list
 
-                          NULL shift  6
-                        STRING shift  5
-                           INT shift  4
-                            ID shift  3
-                  LPARENTHESES shift  1
-                         value shift  7
+                            ID shift  35
+                            ID reduce 20  ** Parsing conflict **
+                 var_decl_list shift  3
+                      var_decl shift  52
+                      id_chain shift  45
+                       id_list shift  34
+       var_typed_assigned_decl shift  57
+     var_untyped_assigned_decl shift  56
+     var_typed_unassigned_decl shift  55
+                      var_type shift  13
+                     {default} reduce 20
 
 State 2:
-      (4) value ::= LPARENTHESES value RPARENTHESES *
+          func_decl ::= KW_FUNC ID LPARENTHESES * var_decl_list RPARENTHESES var_type_list statement_block
+     (20) var_decl_list ::= *
+          var_decl_list ::= * var_decl
+          var_decl_list ::= * var_decl_list var_decl
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          id_list ::= * ID
+          id_list ::= * id_list COMMA ID
+          var_decl ::= * var_typed_assigned_decl
+          var_decl ::= * var_untyped_assigned_decl
+          var_decl ::= * var_typed_unassigned_decl
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_typed_assigned_decl ::= * var_type var_untyped_assigned_decl
+          var_typed_unassigned_decl ::= * var_type id_list
+          var_untyped_assigned_decl ::= * id_list EQ value_list
 
-                             $ reduce 4
-                  RPARENTHESES reduce 4
+                            ID shift  35
+                            ID reduce 20  ** Parsing conflict **
+                 var_decl_list shift  4
+                      var_decl shift  52
+                      id_chain shift  45
+                       id_list shift  34
+       var_typed_assigned_decl shift  57
+     var_untyped_assigned_decl shift  56
+     var_typed_unassigned_decl shift  55
+                      var_type shift  13
+                     {default} reduce 20
 
 State 3:
-      (3) value ::= ID *
+          struct_decl ::= KW_STRUCT ID LBRACE var_decl_list * RBRACE
+          var_decl_list ::= var_decl_list * var_decl
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          id_list ::= * ID
+          id_list ::= * id_list COMMA ID
+          var_decl ::= * var_typed_assigned_decl
+          var_decl ::= * var_untyped_assigned_decl
+          var_decl ::= * var_typed_unassigned_decl
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_typed_assigned_decl ::= * var_type var_untyped_assigned_decl
+          var_typed_unassigned_decl ::= * var_type id_list
+          var_untyped_assigned_decl ::= * id_list EQ value_list
 
-                             $ reduce 3
-                  RPARENTHESES reduce 3
+                            ID shift  35
+                        RBRACE shift  51
+                      var_decl shift  59
+                      id_chain shift  45
+                       id_list shift  34
+       var_typed_assigned_decl shift  57
+     var_untyped_assigned_decl shift  56
+     var_typed_unassigned_decl shift  55
+                      var_type shift  13
 
 State 4:
-      (2) value ::= INT *
+          func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list * RPARENTHESES var_type_list statement_block
+          var_decl_list ::= var_decl_list * var_decl
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          id_list ::= * ID
+          id_list ::= * id_list COMMA ID
+          var_decl ::= * var_typed_assigned_decl
+          var_decl ::= * var_untyped_assigned_decl
+          var_decl ::= * var_typed_unassigned_decl
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_typed_assigned_decl ::= * var_type var_untyped_assigned_decl
+          var_typed_unassigned_decl ::= * var_type id_list
+          var_untyped_assigned_decl ::= * id_list EQ value_list
 
-                             $ reduce 2
-                  RPARENTHESES reduce 2
+                            ID shift  35
+                  RPARENTHESES shift  10
+                      var_decl shift  59
+                      id_chain shift  45
+                       id_list shift  34
+       var_typed_assigned_decl shift  57
+     var_untyped_assigned_decl shift  56
+     var_typed_unassigned_decl shift  55
+                      var_type shift  13
 
 State 5:
-      (1) value ::= STRING *
+          statement_block ::= LBRACE * statement_list RBRACE
+      (7) statement_list ::= *
+          statement_list ::= * statement
+          statement_list ::= * statement_list statement
+          statement ::= * while_stmt
+          statement ::= * if_stmt
+          while_stmt ::= * KW_WHILE value statement_block
+          if_stmt ::= * KW_IF value statement_block elif_block_list else_block
 
-                             $ reduce 1
-                  RPARENTHESES reduce 1
+                      KW_WHILE shift  24
+                      KW_WHILE reduce 7   ** Parsing conflict **
+                         KW_IF shift  18
+                         KW_IF reduce 7   ** Parsing conflict **
+                statement_list shift  6
+                     statement shift  63
+                    while_stmt shift  77
+                       if_stmt shift  76
+                     {default} reduce 7
 
 State 6:
-      (0) value ::= NULL *
+          statement_block ::= LBRACE statement_list * RBRACE
+          statement_list ::= statement_list * statement
+          statement ::= * while_stmt
+          statement ::= * if_stmt
+          while_stmt ::= * KW_WHILE value statement_block
+          if_stmt ::= * KW_IF value statement_block elif_block_list else_block
 
-                             $ reduce 0
-                  RPARENTHESES reduce 0
+                        RBRACE shift  79
+                      KW_WHILE shift  24
+                         KW_IF shift  18
+                     statement shift  78
+                    while_stmt shift  77
+                       if_stmt shift  76
 
 State 7:
-          value ::= LPARENTHESES value * RPARENTHESES
+      (0) prog ::= prog_block *
+          prog_block ::= * prog_block prog_block
+          prog_block ::= prog_block * prog_block
+          prog_block ::= * struct_decl
+          prog_block ::= * func_decl
+      (4) prog_block ::= *
+          func_decl ::= * KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block
+          struct_decl ::= * KW_STRUCT ID LBRACE var_decl_list RBRACE
 
-                  RPARENTHESES shift  2
+                             $ reduce 0
+                             $ reduce 4   ** Parsing conflict **
+                       KW_FUNC shift  50
+                       KW_FUNC reduce 4   ** Parsing conflict **
+                     KW_STRUCT shift  39
+                     KW_STRUCT reduce 4   ** Parsing conflict **
+                    prog_block shift  8
+                   struct_decl shift  82
+                     func_decl shift  81
+
+State 8:
+          prog_block ::= * prog_block prog_block
+          prog_block ::= prog_block * prog_block
+      (1) prog_block ::= prog_block prog_block *
+          prog_block ::= * struct_decl
+          prog_block ::= * func_decl
+      (4) prog_block ::= *
+          func_decl ::= * KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block
+          struct_decl ::= * KW_STRUCT ID LBRACE var_decl_list RBRACE
+
+                             $ reduce 4   ** Parsing conflict **
+                       KW_FUNC shift  50
+                       KW_FUNC reduce 4   ** Parsing conflict **
+                       KW_FUNC reduce 1   ** Parsing conflict **
+                     KW_STRUCT shift  39
+                     KW_STRUCT reduce 4   ** Parsing conflict **
+                     KW_STRUCT reduce 1   ** Parsing conflict **
+                    prog_block shift  8
+                   struct_decl shift  82
+                     func_decl shift  81
+                     {default} reduce 1
+
+State 9:
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_type ::= var_type LBRACKET * var_type_list RBRACKET
+          var_type_list ::= * var_type
+          var_type_list ::= * var_type_list COMMA var_type
+
+                            ID shift  62
+                 var_type_list shift  36
+                      id_chain shift  45
+                      var_type shift  42
+
+State 10:
+          func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES * var_type_list statement_block
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_type_list ::= * var_type
+          var_type_list ::= * var_type_list COMMA var_type
+
+                            ID shift  62
+                 var_type_list shift  28
+                      id_chain shift  45
+                      var_type shift  42
+
+State 11:
+          var_untyped_assigned_decl ::= id_list EQ * value_list
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+          value_list ::= * value
+          value_list ::= * value_list COMMA value
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  32
+                    value_list shift  40
+
+State 12:
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+          value ::= value LPARENTHESES * value_list RPARENTHESES
+          value_list ::= * value
+          value_list ::= * value_list COMMA value
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  32
+                    value_list shift  37
+
+State 13:
+          id_list ::= * ID
+          id_list ::= * id_list COMMA ID
+          var_type ::= var_type * LBRACKET var_type_list RBRACKET
+          var_typed_assigned_decl ::= var_type * var_untyped_assigned_decl
+          var_typed_unassigned_decl ::= var_type * id_list
+          var_untyped_assigned_decl ::= * id_list EQ value_list
+
+                            ID shift  54
+                      LBRACKET shift  9
+                       id_list shift  33
+     var_untyped_assigned_decl shift  53
+
+State 14:
+          if_stmt ::= KW_IF value statement_block elif_block_list * else_block
+          elif_block ::= * KW_ELIF value statement_block
+          elif_block_list ::= elif_block_list * elif_block
+          else_block ::= * KW_ELSE statement_block
+
+                       KW_ELIF shift  17
+                       KW_ELSE shift  29
+                    else_block shift  68
+                    elif_block shift  66
+
+State 15:
+          id_chain ::= * ID
+          id_chain ::= * id_chain DOT ID
+          var_type ::= * id_chain
+          var_type ::= * var_type LBRACKET var_type_list RBRACKET
+          var_type_list ::= var_type_list COMMA * var_type
+
+                            ID shift  62
+                      id_chain shift  45
+                      var_type shift  43
+
+State 16:
+          if_stmt ::= KW_IF value statement_block * elif_block_list else_block
+          elif_block ::= * KW_ELIF value statement_block
+     (15) elif_block_list ::= *
+          elif_block_list ::= * elif_block
+          elif_block_list ::= * elif_block_list elif_block
+
+                       KW_ELIF shift  17
+                       KW_ELIF reduce 15  ** Parsing conflict **
+               elif_block_list shift  14
+                    elif_block shift  64
+                     {default} reduce 15
+
+State 17:
+          elif_block ::= KW_ELIF * value statement_block
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  25
+
+State 18:
+          if_stmt ::= KW_IF * value statement_block elif_block_list else_block
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  26
+
+State 19:
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+          value_list ::= value_list COMMA * value
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  31
+
+State 20:
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= NOT * value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  47
+
+State 21:
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= value MINUS * value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  48
+
+State 22:
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= LPARENTHESES * value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  30
+
+State 23:
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= value PLUS * value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  46
+
+State 24:
+          while_stmt ::= KW_WHILE * value statement_block
+          value ::= * KW_NULL
+          value ::= * TOK_STRING
+          value ::= * TOK_INT
+          value ::= * TOK_ID
+          value ::= * LPARENTHESES value RPARENTHESES
+          value ::= * value PLUS value
+          value ::= * value MINUS value
+          value ::= * NOT value
+          value ::= * value LPARENTHESES value_list RPARENTHESES
+
+                           NOT shift  20
+                  LPARENTHESES shift  22
+                       KW_NULL shift  74
+                    TOK_STRING shift  73
+                       TOK_INT shift  72
+                        TOK_ID shift  71
+                         value shift  27
+
+State 25:
+          statement_block ::= * LBRACE statement_list RBRACE
+          elif_block ::= KW_ELIF value * statement_block
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                          PLUS shift  23
+                         MINUS shift  21
+                  LPARENTHESES shift  12
+                        LBRACE shift  5
+               statement_block shift  67
+
+State 26:
+          statement_block ::= * LBRACE statement_list RBRACE
+          if_stmt ::= KW_IF value * statement_block elif_block_list else_block
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                          PLUS shift  23
+                         MINUS shift  21
+                  LPARENTHESES shift  12
+                        LBRACE shift  5
+               statement_block shift  16
+
+State 27:
+          statement_block ::= * LBRACE statement_list RBRACE
+          while_stmt ::= KW_WHILE value * statement_block
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                          PLUS shift  23
+                         MINUS shift  21
+                  LPARENTHESES shift  12
+                        LBRACE shift  5
+               statement_block shift  75
+
+State 28:
+          func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list * statement_block
+          statement_block ::= * LBRACE statement_list RBRACE
+          var_type_list ::= var_type_list * COMMA var_type
+
+                        LBRACE shift  5
+                         COMMA shift  15
+               statement_block shift  80
+
+State 29:
+          statement_block ::= * LBRACE statement_list RBRACE
+          else_block ::= KW_ELSE * statement_block
+
+                        LBRACE shift  5
+               statement_block shift  65
+
+State 30:
+          value ::= LPARENTHESES value * RPARENTHESES
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                          PLUS shift  23
+                         MINUS shift  21
+                  LPARENTHESES shift  12
+                  RPARENTHESES shift  70
+
+State 31:
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+     (47) value_list ::= value_list COMMA value *
+
+                          PLUS shift  23
+                         MINUS shift  21
+                  LPARENTHESES shift  12
+                     {default} reduce 47
+
+State 32:
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+     (46) value_list ::= value *
+
+                          PLUS shift  23
+                         MINUS shift  21
+                  LPARENTHESES shift  12
+                     {default} reduce 46
+
+State 33:
+          id_list ::= id_list * COMMA ID
+     (35) var_typed_unassigned_decl ::= var_type id_list *
+          var_untyped_assigned_decl ::= id_list * EQ value_list
+
+                         COMMA shift  41
+                            EQ shift  11
+                     {default} reduce 35
+
+State 34:
+          id_list ::= id_list * COMMA ID
+          var_untyped_assigned_decl ::= id_list * EQ value_list
+
+                         COMMA shift  41
+                            EQ shift  11
+
+State 35:
+     (23) id_chain ::= ID *
+     (25) id_list ::= ID *
+
+                         COMMA reduce 25
+                            EQ reduce 25
+                     {default} reduce 23
+
+State 36:
+          var_type ::= var_type LBRACKET var_type_list * RBRACKET
+          var_type_list ::= var_type_list * COMMA var_type
+
+                         COMMA shift  15
+                      RBRACKET shift  60
+
+State 37:
+          value ::= value LPARENTHESES value_list * RPARENTHESES
+          value_list ::= value_list * COMMA value
+
+                  RPARENTHESES shift  69
+                         COMMA shift  19
+
+State 38:
+          struct_decl ::= KW_STRUCT ID * LBRACE var_decl_list RBRACE
+
+                        LBRACE shift  1
+
+State 39:
+          struct_decl ::= KW_STRUCT * ID LBRACE var_decl_list RBRACE
+
+                            ID shift  38
+
+State 40:
+     (36) var_untyped_assigned_decl ::= id_list EQ value_list *
+          value_list ::= value_list * COMMA value
+
+                         COMMA shift  19
+                     {default} reduce 36
+
+State 41:
+          id_list ::= id_list COMMA * ID
+
+                            ID shift  58
+
+State 42:
+          var_type ::= var_type * LBRACKET var_type_list RBRACKET
+     (32) var_type_list ::= var_type *
+
+                      LBRACKET shift  9
+                     {default} reduce 32
+
+State 43:
+          var_type ::= var_type * LBRACKET var_type_list RBRACKET
+     (33) var_type_list ::= var_type_list COMMA var_type *
+
+                      LBRACKET shift  9
+                     {default} reduce 33
+
+State 44:
+          id_chain ::= id_chain DOT * ID
+
+                            ID shift  61
+
+State 45:
+          id_chain ::= id_chain * DOT ID
+     (30) var_type ::= id_chain *
+
+                           DOT shift  44
+                     {default} reduce 30
+
+State 46:
+          value ::= value * PLUS value
+     (42) value ::= value PLUS value *
+          value ::= value * MINUS value
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                  LPARENTHESES shift  12
+                  LPARENTHESES reduce 42  ** Parsing conflict **
+                     {default} reduce 42
+
+State 47:
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+     (44) value ::= NOT value *
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                  LPARENTHESES shift  12
+                  LPARENTHESES reduce 44  ** Parsing conflict **
+                     {default} reduce 44
+
+State 48:
+          value ::= value * PLUS value
+          value ::= value * MINUS value
+     (43) value ::= value MINUS value *
+          value ::= value * LPARENTHESES value_list RPARENTHESES
+
+                  LPARENTHESES shift  12
+                  LPARENTHESES reduce 43  ** Parsing conflict **
+                     {default} reduce 43
+
+State 49:
+          func_decl ::= KW_FUNC ID * LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block
+
+                  LPARENTHESES shift  2
+
+State 50:
+          func_decl ::= KW_FUNC * ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block
+
+                            ID shift  49
+
+State 51:
+     (19) struct_decl ::= KW_STRUCT ID LBRACE var_decl_list RBRACE *
+
+                     {default} reduce 19
+
+State 52:
+     (21) var_decl_list ::= var_decl *
+
+                     {default} reduce 21
+
+State 53:
+     (34) var_typed_assigned_decl ::= var_type var_untyped_assigned_decl *
+
+                     {default} reduce 34
+
+State 54:
+     (25) id_list ::= ID *
+
+                     {default} reduce 25
+
+State 55:
+     (29) var_decl ::= var_typed_unassigned_decl *
+
+                     {default} reduce 29
+
+State 56:
+     (28) var_decl ::= var_untyped_assigned_decl *
+
+                     {default} reduce 28
+
+State 57:
+     (27) var_decl ::= var_typed_assigned_decl *
+
+                     {default} reduce 27
+
+State 58:
+     (26) id_list ::= id_list COMMA ID *
+
+                     {default} reduce 26
+
+State 59:
+     (22) var_decl_list ::= var_decl_list var_decl *
+
+                     {default} reduce 22
+
+State 60:
+     (31) var_type ::= var_type LBRACKET var_type_list RBRACKET *
+
+                     {default} reduce 31
+
+State 61:
+     (24) id_chain ::= id_chain DOT ID *
+
+                     {default} reduce 24
+
+State 62:
+     (23) id_chain ::= ID *
+
+                     {default} reduce 23
+
+State 63:
+      (8) statement_list ::= statement *
+
+                     {default} reduce 8
+
+State 64:
+     (16) elif_block_list ::= elif_block *
+
+                     {default} reduce 16
+
+State 65:
+     (18) else_block ::= KW_ELSE statement_block *
+
+                     {default} reduce 18
+
+State 66:
+     (17) elif_block_list ::= elif_block_list elif_block *
+
+                     {default} reduce 17
+
+State 67:
+     (14) elif_block ::= KW_ELIF value statement_block *
+
+                     {default} reduce 14
+
+State 68:
+     (13) if_stmt ::= KW_IF value statement_block elif_block_list else_block *
+
+                     {default} reduce 13
+
+State 69:
+     (45) value ::= value LPARENTHESES value_list RPARENTHESES *
+
+                     {default} reduce 45
+
+State 70:
+     (41) value ::= LPARENTHESES value RPARENTHESES *
+
+                     {default} reduce 41
+
+State 71:
+     (40) value ::= TOK_ID *
+
+                     {default} reduce 40
+
+State 72:
+     (39) value ::= TOK_INT *
+
+                     {default} reduce 39
+
+State 73:
+     (38) value ::= TOK_STRING *
+
+                     {default} reduce 38
+
+State 74:
+     (37) value ::= KW_NULL *
+
+                     {default} reduce 37
+
+State 75:
+     (12) while_stmt ::= KW_WHILE value statement_block *
+
+                     {default} reduce 12
+
+State 76:
+     (11) statement ::= if_stmt *
+
+                     {default} reduce 11
+
+State 77:
+     (10) statement ::= while_stmt *
+
+                     {default} reduce 10
+
+State 78:
+      (9) statement_list ::= statement_list statement *
+
+                     {default} reduce 9
+
+State 79:
+      (6) statement_block ::= LBRACE statement_list RBRACE *
+
+                     {default} reduce 6
+
+State 80:
+      (5) func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block *
+
+                     {default} reduce 5
+
+State 81:
+      (3) prog_block ::= func_decl *
+
+                     {default} reduce 3
+
+State 82:
+      (2) prog_block ::= struct_decl *
+
+                     {default} reduce 2
 
 ----------------------------------------------------
 Symbols:
     0: $:
-    1: MUL
-    2: DIV
-    3: PLUS
-    4: MINUS
-    5: AND
-    6: OR
-    7: NOT
-    8: RPARENTHESES
-    9: NULL
-   10: STRING
-   11: INT
-   12: ID
-   13: LPARENTHESES
-   14: error:
-   15: value: NULL STRING INT ID LPARENTHESES
+    1: PLUS
+    2: MINUS
+    3: MUL
+    4: DIV
+    5: OR
+    6: AND
+    7: DOT
+    8: NOT
+    9: KW_FUNC
+   10: ID
+   11: LPARENTHESES
+   12: RPARENTHESES
+   13: LBRACE
+   14: RBRACE
+   15: KW_WHILE
+   16: KW_IF
+   17: KW_ELIF
+   18: KW_ELSE
+   19: KW_STRUCT
+   20: COMMA
+   21: LBRACKET
+   22: RBRACKET
+   23: EQ
+   24: KW_NULL
+   25: TOK_STRING
+   26: TOK_INT
+   27: TOK_ID
+   28: error:
+   29: prog: <lambda> KW_FUNC KW_STRUCT
+   30: prog_block: <lambda> KW_FUNC KW_STRUCT
+   31: struct_decl: KW_STRUCT
+   32: func_decl: KW_FUNC
+   33: var_decl_list: <lambda> ID
+   34: var_type_list: ID
+   35: statement_block: LBRACE
+   36: statement_list: <lambda> KW_WHILE KW_IF
+   37: statement: KW_WHILE KW_IF
+   38: while_stmt: KW_WHILE
+   39: if_stmt: KW_IF
+   40: value: NOT LPARENTHESES KW_NULL TOK_STRING TOK_INT TOK_ID
+   41: elif_block_list: <lambda> KW_ELIF
+   42: else_block: KW_ELSE
+   43: elif_block: KW_ELIF
+   44: var_decl: ID
+   45: id_chain: ID
+   46: id_list: ID
+   47: var_typed_assigned_decl: ID
+   48: var_untyped_assigned_decl: ID
+   49: var_typed_unassigned_decl: ID
+   50: var_type: ID
+   51: value_list: NOT LPARENTHESES KW_NULL TOK_STRING TOK_INT TOK_ID

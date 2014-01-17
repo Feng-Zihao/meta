@@ -41,3 +41,5 @@ nosetests.xml
 meta.h
 meta.out
 meta.c
+/lemon
+

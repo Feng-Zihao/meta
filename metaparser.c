@@ -61,7 +61,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 17
+#define YYNOCODE 53
 #define YYACTIONTYPE unsigned char
 #define MetaTOKENTYPE const char*
 typedef union {
@@ -75,8 +75,8 @@ typedef union {
 #define MetaARG_PDECL
 #define MetaARG_FETCH
 #define MetaARG_STORE
-#define YYNSTATE 8
-#define YYNRULE 5
+#define YYNSTATE 83
+#define YYNRULE 48
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -145,31 +145,70 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (18)
+#define YY_ACTTAB_COUNT (140)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */     6,    5,    4,    3,    1,    8,    9,   10,   11,   12,
- /*    10 */     2,    7,   14,    8,    9,   10,   11,   12,
+ /*     0 */     4,    6,   63,   77,   76,   68,   66,    3,    8,   82,
+ /*    10 */    81,   52,   45,   34,   57,   56,   55,   13,   52,   45,
+ /*    20 */    34,   57,   56,   55,   13,   59,   45,   34,   57,   56,
+ /*    30 */    55,   13,   20,   23,   21,   22,   45,  132,    7,   82,
+ /*    40 */    81,   43,   44,   12,   70,   23,   21,   28,   74,   73,
+ /*    50 */    72,   71,   23,   21,   36,   12,   49,    5,   45,   83,
+ /*    60 */     5,   69,   12,   42,   14,   45,   64,   15,   50,   19,
+ /*    70 */    42,   78,   77,   76,   79,   24,   18,   33,   39,   53,
+ /*    80 */    32,   61,   15,  108,   60,   54,  108,   17,   29,   41,
+ /*    90 */    32,   37,   11,   50,   24,   18,    9,   35,   35,   10,
+ /*   100 */     2,   40,   51,   39,   12,   58,    9,   38,   65,    1,
+ /*   110 */    19,    5,   80,   75,   27,   16,   67,   17,   62,   35,
+ /*   120 */   133,  133,   46,   30,  133,  133,   48,  133,  133,  133,
+ /*   130 */   133,   47,   31,  133,   26,  133,  133,  133,  133,   25,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */     9,   10,   11,   12,   13,    0,    0,    0,    0,    0,
- /*    10 */     8,   15,   15,    8,    8,    8,    8,    8,
+ /*     0 */    33,   36,   37,   38,   39,   42,   43,   33,   30,   31,
+ /*    10 */    32,   44,   45,   46,   47,   48,   49,   50,   44,   45,
+ /*    20 */    46,   47,   48,   49,   50,   44,   45,   46,   47,   48,
+ /*    30 */    49,   50,    8,    1,    2,   11,   45,   29,   30,   31,
+ /*    40 */    32,   50,    7,   11,   12,    1,    2,   34,   24,   25,
+ /*    50 */    26,   27,    1,    2,   34,   11,   10,   13,   45,    0,
+ /*    60 */    13,   12,   11,   50,   41,   45,   43,   20,    9,   20,
+ /*    70 */    50,   37,   38,   39,   14,   15,   16,   46,   19,   48,
+ /*    80 */    40,   10,   20,   20,   22,   10,   23,   17,   18,   20,
+ /*    90 */    40,   51,   23,    9,   15,   16,   21,   10,   10,   12,
+ /*   100 */    11,   51,   14,   19,   11,   10,   21,   10,   35,   13,
+ /*   110 */    20,   13,   35,   35,   40,   35,   35,   17,   10,   10,
+ /*   120 */    52,   52,   40,   40,   52,   52,   40,   52,   52,   52,
+ /*   130 */    52,   40,   40,   52,   40,   52,   52,   52,   52,   40,
 };
-#define YY_SHIFT_USE_DFLT (-10)
-#define YY_SHIFT_COUNT (7)
-#define YY_SHIFT_MIN   (-9)
-#define YY_SHIFT_MAX   (9)
+#define YY_SHIFT_USE_DFLT (-1)
+#define YY_SHIFT_COUNT (50)
+#define YY_SHIFT_MIN   (0)
+#define YY_SHIFT_MAX   (109)
 static const signed char yy_shift_ofst[] = {
- /*     0 */    -9,   -9,    9,    8,    7,    6,    5,    2,
+ /*     0 */    84,  109,  109,   88,   87,   79,   60,   59,   84,  108,
+ /*    10 */   108,   24,   24,   75,   70,  108,  100,   24,   24,   24,
+ /*    20 */    24,   24,   24,   24,   24,   44,   44,   44,   47,   98,
+ /*    30 */    32,   51,   51,   69,   69,   63,   62,   49,   96,   97,
+ /*    40 */    90,   95,   85,   85,   71,   35,   93,   93,   93,   89,
+ /*    50 */    46,
 };
-#define YY_REDUCE_USE_DFLT (-5)
-#define YY_REDUCE_COUNT (1)
-#define YY_REDUCE_MIN   (-4)
-#define YY_REDUCE_MAX   (0)
+#define YY_REDUCE_USE_DFLT (-38)
+#define YY_REDUCE_COUNT (29)
+#define YY_REDUCE_MIN   (-37)
+#define YY_REDUCE_MAX   (99)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    -3,   -4,
+ /*     0 */     8,  -26,  -33,  -19,  -19,  -35,   34,  -22,  -22,   20,
+ /*    10 */    13,   50,   40,   31,  -37,   -9,   23,   99,   94,   92,
+ /*    20 */    91,   86,   83,   82,   74,   81,   80,   78,   77,   73,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    13,   13,   13,   13,   13,   13,   13,   13,
+ /*     0 */    87,  103,  103,  131,  131,   90,  131,  131,   84,  131,
+ /*    10 */   131,  131,  131,  131,  131,  131,   98,  131,  131,  131,
+ /*    20 */   131,  131,  131,  131,  131,  131,  131,  131,  131,  131,
+ /*    30 */   131,  130,  129,  118,  131,  106,  131,  131,  131,  131,
+ /*    40 */   119,  131,  115,  116,  131,  113,  125,  127,  126,  131,
+ /*    50 */   131,  102,  104,  117,  108,  112,  111,  110,  109,  105,
+ /*    60 */   114,  107,  106,   91,   99,  101,  100,   97,   96,  128,
+ /*    70 */   124,  123,  122,  121,  120,   95,   94,   93,   92,   89,
+ /*    80 */    88,   86,   85,
 };
 
 /* The next table maps tokens into fallback tokens.  If a construct
@@ -262,10 +301,19 @@ void MetaTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "MUL",           "DIV",           "PLUS",        
-  "MINUS",         "AND",           "OR",            "NOT",         
-  "RPARENTHESES",  "NULL",          "STRING",        "INT",         
-  "ID",            "LPARENTHESES",  "error",         "value",       
+  "$",             "PLUS",          "MINUS",         "MUL",         
+  "DIV",           "OR",            "AND",           "DOT",         
+  "NOT",           "KW_FUNC",       "ID",            "LPARENTHESES",
+  "RPARENTHESES",  "LBRACE",        "RBRACE",        "KW_WHILE",    
+  "KW_IF",         "KW_ELIF",       "KW_ELSE",       "KW_STRUCT",   
+  "COMMA",         "LBRACKET",      "RBRACKET",      "EQ",          
+  "KW_NULL",       "TOK_STRING",    "TOK_INT",       "TOK_ID",      
+  "error",         "prog",          "prog_block",    "struct_decl", 
+  "func_decl",     "var_decl_list",  "var_type_list",  "statement_block",
+  "statement_list",  "statement",     "while_stmt",    "if_stmt",     
+  "value",         "elif_block_list",  "else_block",    "elif_block",  
+  "var_decl",      "id_chain",      "id_list",       "var_typed_assigned_decl",
+  "var_untyped_assigned_decl",  "var_typed_unassigned_decl",  "var_type",      "value_list",  
 };
 #endif /* NDEBUG */
 
@@ -273,11 +321,54 @@ static const char *const yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *const yyRuleName[] = {
- /*   0 */ "value ::= NULL",
- /*   1 */ "value ::= STRING",
- /*   2 */ "value ::= INT",
- /*   3 */ "value ::= ID",
- /*   4 */ "value ::= LPARENTHESES value RPARENTHESES",
+ /*   0 */ "prog ::= prog_block",
+ /*   1 */ "prog_block ::= prog_block prog_block",
+ /*   2 */ "prog_block ::= struct_decl",
+ /*   3 */ "prog_block ::= func_decl",
+ /*   4 */ "prog_block ::=",
+ /*   5 */ "func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block",
+ /*   6 */ "statement_block ::= LBRACE statement_list RBRACE",
+ /*   7 */ "statement_list ::=",
+ /*   8 */ "statement_list ::= statement",
+ /*   9 */ "statement_list ::= statement_list statement",
+ /*  10 */ "statement ::= while_stmt",
+ /*  11 */ "statement ::= if_stmt",
+ /*  12 */ "while_stmt ::= KW_WHILE value statement_block",
+ /*  13 */ "if_stmt ::= KW_IF value statement_block elif_block_list else_block",
+ /*  14 */ "elif_block ::= KW_ELIF value statement_block",
+ /*  15 */ "elif_block_list ::=",
+ /*  16 */ "elif_block_list ::= elif_block",
+ /*  17 */ "elif_block_list ::= elif_block_list elif_block",
+ /*  18 */ "else_block ::= KW_ELSE statement_block",
+ /*  19 */ "struct_decl ::= KW_STRUCT ID LBRACE var_decl_list RBRACE",
+ /*  20 */ "var_decl_list ::=",
+ /*  21 */ "var_decl_list ::= var_decl",
+ /*  22 */ "var_decl_list ::= var_decl_list var_decl",
+ /*  23 */ "id_chain ::= ID",
+ /*  24 */ "id_chain ::= id_chain DOT ID",
+ /*  25 */ "id_list ::= ID",
+ /*  26 */ "id_list ::= id_list COMMA ID",
+ /*  27 */ "var_decl ::= var_typed_assigned_decl",
+ /*  28 */ "var_decl ::= var_untyped_assigned_decl",
+ /*  29 */ "var_decl ::= var_typed_unassigned_decl",
+ /*  30 */ "var_type ::= id_chain",
+ /*  31 */ "var_type ::= var_type LBRACKET var_type_list RBRACKET",
+ /*  32 */ "var_type_list ::= var_type",
+ /*  33 */ "var_type_list ::= var_type_list COMMA var_type",
+ /*  34 */ "var_typed_assigned_decl ::= var_type var_untyped_assigned_decl",
+ /*  35 */ "var_typed_unassigned_decl ::= var_type id_list",
+ /*  36 */ "var_untyped_assigned_decl ::= id_list EQ value_list",
+ /*  37 */ "value ::= KW_NULL",
+ /*  38 */ "value ::= TOK_STRING",
+ /*  39 */ "value ::= TOK_INT",
+ /*  40 */ "value ::= TOK_ID",
+ /*  41 */ "value ::= LPARENTHESES value RPARENTHESES",
+ /*  42 */ "value ::= value PLUS value",
+ /*  43 */ "value ::= value MINUS value",
+ /*  44 */ "value ::= NOT value",
+ /*  45 */ "value ::= value LPARENTHESES value_list RPARENTHESES",
+ /*  46 */ "value_list ::= value",
+ /*  47 */ "value_list ::= value_list COMMA value",
 };
 #endif /* NDEBUG */
 
@@ -591,11 +682,54 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 15, 1 },
-  { 15, 1 },
-  { 15, 1 },
-  { 15, 1 },
-  { 15, 3 },
+  { 29, 1 },
+  { 30, 2 },
+  { 30, 1 },
+  { 30, 1 },
+  { 30, 0 },
+  { 32, 7 },
+  { 35, 3 },
+  { 36, 0 },
+  { 36, 1 },
+  { 36, 2 },
+  { 37, 1 },
+  { 37, 1 },
+  { 38, 3 },
+  { 39, 5 },
+  { 43, 3 },
+  { 41, 0 },
+  { 41, 1 },
+  { 41, 2 },
+  { 42, 2 },
+  { 31, 5 },
+  { 33, 0 },
+  { 33, 1 },
+  { 33, 2 },
+  { 45, 1 },
+  { 45, 3 },
+  { 46, 1 },
+  { 46, 3 },
+  { 44, 1 },
+  { 44, 1 },
+  { 44, 1 },
+  { 50, 1 },
+  { 50, 4 },
+  { 34, 1 },
+  { 34, 3 },
+  { 47, 2 },
+  { 49, 2 },
+  { 48, 3 },
+  { 40, 1 },
+  { 40, 1 },
+  { 40, 1 },
+  { 40, 1 },
+  { 40, 3 },
+  { 40, 3 },
+  { 40, 3 },
+  { 40, 2 },
+  { 40, 4 },
+  { 51, 1 },
+  { 51, 3 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -650,16 +784,55 @@ static void yy_reduce(
   **  #line <lineno> <thisfile>
   **     break;
   */
-      case 0: /* value ::= NULL */
-      case 1: /* value ::= STRING */ yytestcase(yyruleno==1);
-      case 2: /* value ::= INT */ yytestcase(yyruleno==2);
-      case 3: /* value ::= ID */ yytestcase(yyruleno==3);
-      case 4: /* value ::= LPARENTHESES value RPARENTHESES */ yytestcase(yyruleno==4);
-#line 25 "metaparser.y"
-{}
-#line 661 "metaparser.c"
-        break;
       default:
+      /* (0) prog ::= prog_block */ yytestcase(yyruleno==0);
+      /* (1) prog_block ::= prog_block prog_block */ yytestcase(yyruleno==1);
+      /* (2) prog_block ::= struct_decl */ yytestcase(yyruleno==2);
+      /* (3) prog_block ::= func_decl */ yytestcase(yyruleno==3);
+      /* (4) prog_block ::= */ yytestcase(yyruleno==4);
+      /* (5) func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block */ yytestcase(yyruleno==5);
+      /* (6) statement_block ::= LBRACE statement_list RBRACE */ yytestcase(yyruleno==6);
+      /* (7) statement_list ::= */ yytestcase(yyruleno==7);
+      /* (8) statement_list ::= statement */ yytestcase(yyruleno==8);
+      /* (9) statement_list ::= statement_list statement */ yytestcase(yyruleno==9);
+      /* (10) statement ::= while_stmt */ yytestcase(yyruleno==10);
+      /* (11) statement ::= if_stmt */ yytestcase(yyruleno==11);
+      /* (12) while_stmt ::= KW_WHILE value statement_block */ yytestcase(yyruleno==12);
+      /* (13) if_stmt ::= KW_IF value statement_block elif_block_list else_block */ yytestcase(yyruleno==13);
+      /* (14) elif_block ::= KW_ELIF value statement_block */ yytestcase(yyruleno==14);
+      /* (15) elif_block_list ::= */ yytestcase(yyruleno==15);
+      /* (16) elif_block_list ::= elif_block */ yytestcase(yyruleno==16);
+      /* (17) elif_block_list ::= elif_block_list elif_block */ yytestcase(yyruleno==17);
+      /* (18) else_block ::= KW_ELSE statement_block */ yytestcase(yyruleno==18);
+      /* (19) struct_decl ::= KW_STRUCT ID LBRACE var_decl_list RBRACE */ yytestcase(yyruleno==19);
+      /* (20) var_decl_list ::= */ yytestcase(yyruleno==20);
+      /* (21) var_decl_list ::= var_decl */ yytestcase(yyruleno==21);
+      /* (22) var_decl_list ::= var_decl_list var_decl */ yytestcase(yyruleno==22);
+      /* (23) id_chain ::= ID */ yytestcase(yyruleno==23);
+      /* (24) id_chain ::= id_chain DOT ID */ yytestcase(yyruleno==24);
+      /* (25) id_list ::= ID */ yytestcase(yyruleno==25);
+      /* (26) id_list ::= id_list COMMA ID */ yytestcase(yyruleno==26);
+      /* (27) var_decl ::= var_typed_assigned_decl */ yytestcase(yyruleno==27);
+      /* (28) var_decl ::= var_untyped_assigned_decl */ yytestcase(yyruleno==28);
+      /* (29) var_decl ::= var_typed_unassigned_decl */ yytestcase(yyruleno==29);
+      /* (30) var_type ::= id_chain */ yytestcase(yyruleno==30);
+      /* (31) var_type ::= var_type LBRACKET var_type_list RBRACKET */ yytestcase(yyruleno==31);
+      /* (32) var_type_list ::= var_type */ yytestcase(yyruleno==32);
+      /* (33) var_type_list ::= var_type_list COMMA var_type */ yytestcase(yyruleno==33);
+      /* (34) var_typed_assigned_decl ::= var_type var_untyped_assigned_decl */ yytestcase(yyruleno==34);
+      /* (35) var_typed_unassigned_decl ::= var_type id_list */ yytestcase(yyruleno==35);
+      /* (36) var_untyped_assigned_decl ::= id_list EQ value_list */ yytestcase(yyruleno==36);
+      /* (37) value ::= KW_NULL */ yytestcase(yyruleno==37);
+      /* (38) value ::= TOK_STRING */ yytestcase(yyruleno==38);
+      /* (39) value ::= TOK_INT */ yytestcase(yyruleno==39);
+      /* (40) value ::= TOK_ID */ yytestcase(yyruleno==40);
+      /* (41) value ::= LPARENTHESES value RPARENTHESES */ yytestcase(yyruleno==41);
+      /* (42) value ::= value PLUS value */ yytestcase(yyruleno==42);
+      /* (43) value ::= value MINUS value */ yytestcase(yyruleno==43);
+      /* (44) value ::= NOT value */ yytestcase(yyruleno==44);
+      /* (45) value ::= value LPARENTHESES value_list RPARENTHESES */ yytestcase(yyruleno==45);
+      /* (46) value_list ::= value */ yytestcase(yyruleno==46);
+      /* (47) value_list ::= value_list COMMA value */ yytestcase(yyruleno==47);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -722,7 +895,7 @@ static void yy_syntax_error(
 #line 10 "metaparser.y"
 
     fprintf(stderr, "Error parsing command\n");
-#line 726 "metaparser.c"
+#line 899 "metaparser.c"
   MetaARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

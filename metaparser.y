@@ -30,7 +30,11 @@ prog_block ::= func_decl .
 prog_block ::= .
 
 
-func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block .
+struct_decl ::= KW_STRUCT TOK_ID LBRACE var_decl_list RBRACE .
+
+
+func_decl ::= KW_FUNC TOK_ID LPARENTHESES var_decl_list 
+              RPARENTHESES var_type_list statement_block .
 
 
 statement_block ::= LBRACE statement_list RBRACE .
@@ -44,6 +48,8 @@ statement_list ::= statement_list statement .
 /*statement ::= for_stmt .*/
 statement ::= while_stmt .
 statement ::= if_stmt .
+statement ::= for_stmt .
+statement ::= assignment_stmt .
 
 
 while_stmt ::= KW_WHILE value statement_block .
@@ -57,8 +63,14 @@ elif_block_list ::= elif_block_list elif_block .
 else_block ::= KW_ELSE statement_block .
 
 
+assignment_stmt ::= value_list EQ value_list .
 
-struct_decl ::= KW_STRUCT ID LBRACE var_decl_list RBRACE .
+
+for_stmt ::= KW_FOR for_stmt_head SEMICOLON value SEMICOLON assignment_stmt
+             statement_block .
+for_stmt_head ::= var_typed_assigned_decl .
+for_stmt_head ::= var_untyped_assigned_decl .
+for_stmt_head ::= .
 
 
 var_decl_list ::= .
@@ -66,12 +78,12 @@ var_decl_list ::= var_decl .
 var_decl_list ::= var_decl_list var_decl .
 
 
-id_chain ::= ID .                      // aa.bb.cc.dd
-id_chain ::= id_chain DOT ID .
+id_chain ::= TOK_ID .                      // aa.bb.cc.dd
+id_chain ::= id_chain DOT TOK_ID .
 
 
-id_list ::= ID .                       // aa, bb, cc, dd
-id_list ::= id_list COMMA ID .
+id_list ::= TOK_ID .                       // aa, bb, cc, dd
+id_list ::= id_list COMMA TOK_ID .
 
 
 var_decl ::= var_typed_assigned_decl .

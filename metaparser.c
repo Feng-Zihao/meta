@@ -61,7 +61,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 53
+#define YYNOCODE 57
 #define YYACTIONTYPE unsigned char
 #define MetaTOKENTYPE const char*
 typedef union {
@@ -75,8 +75,8 @@ typedef union {
 #define MetaARG_PDECL
 #define MetaARG_FETCH
 #define MetaARG_STORE
-#define YYNSTATE 83
-#define YYNRULE 48
+#define YYNSTATE 98
+#define YYNRULE 55
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -145,70 +145,83 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (140)
+#define YY_ACTTAB_COUNT (184)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */     4,    6,   63,   77,   76,   68,   66,    3,    8,   82,
- /*    10 */    81,   52,   45,   34,   57,   56,   55,   13,   52,   45,
- /*    20 */    34,   57,   56,   55,   13,   59,   45,   34,   57,   56,
- /*    30 */    55,   13,   20,   23,   21,   22,   45,  132,    7,   82,
- /*    40 */    81,   43,   44,   12,   70,   23,   21,   28,   74,   73,
- /*    50 */    72,   71,   23,   21,   36,   12,   49,    5,   45,   83,
- /*    60 */     5,   69,   12,   42,   14,   45,   64,   15,   50,   19,
- /*    70 */    42,   78,   77,   76,   79,   24,   18,   33,   39,   53,
- /*    80 */    32,   61,   15,  108,   60,   54,  108,   17,   29,   41,
- /*    90 */    32,   37,   11,   50,   24,   18,    9,   35,   35,   10,
- /*   100 */     2,   40,   51,   39,   12,   58,    9,   38,   65,    1,
- /*   110 */    19,    5,   80,   75,   27,   16,   67,   17,   62,   35,
- /*   120 */   133,  133,   46,   30,  133,  133,   48,  133,  133,  133,
- /*   130 */   133,   47,   31,  133,   26,  133,  133,  133,  133,   25,
+ /*     0 */    25,    3,   88,   98,   76,   20,   28,   80,   24,   23,
+ /*    10 */    41,  130,   60,    7,  130,   25,   49,   88,   91,   90,
+ /*    20 */    89,   28,    6,   24,   23,   69,   67,   58,    7,    5,
+ /*    30 */    51,   34,   39,   91,   90,   89,   40,   85,   84,   78,
+ /*    40 */    58,   44,   83,   18,   85,   84,   78,   58,   44,   83,
+ /*    50 */    18,    4,   61,   74,   73,   72,   71,   39,   27,   26,
+ /*    60 */    15,   40,   59,   56,   85,   84,   94,   58,   44,   83,
+ /*    70 */    18,   14,   75,   74,   73,   72,   71,   39,   25,    8,
+ /*    80 */    88,   40,   27,   26,   28,   39,   46,   63,   62,   55,
+ /*    90 */    58,   44,    1,   16,   33,   14,   91,   90,   89,   27,
+ /*   100 */    26,  154,    9,   97,   96,   27,   26,   10,   97,   96,
+ /*   110 */     1,   58,   14,   87,   51,   86,   13,   58,   14,   29,
+ /*   120 */    50,   82,   20,   29,   17,   79,   65,   57,   42,   79,
+ /*   130 */    22,   35,   44,   39,   39,   12,   60,   43,   47,   45,
+ /*   140 */    49,   95,   45,   93,   92,   29,   48,   11,   12,   14,
+ /*   150 */    21,    2,   66,    1,   64,   77,   38,   70,   37,   19,
+ /*   160 */    54,   68,   81,   22,   45,  155,  155,  155,  155,   53,
+ /*   170 */   155,  155,  155,   52,   32,  155,  155,  155,  155,  155,
+ /*   180 */   155,   31,   30,   36,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    33,   36,   37,   38,   39,   42,   43,   33,   30,   31,
- /*    10 */    32,   44,   45,   46,   47,   48,   49,   50,   44,   45,
- /*    20 */    46,   47,   48,   49,   50,   44,   45,   46,   47,   48,
- /*    30 */    49,   50,    8,    1,    2,   11,   45,   29,   30,   31,
- /*    40 */    32,   50,    7,   11,   12,    1,    2,   34,   24,   25,
- /*    50 */    26,   27,    1,    2,   34,   11,   10,   13,   45,    0,
- /*    60 */    13,   12,   11,   50,   41,   45,   43,   20,    9,   20,
- /*    70 */    50,   37,   38,   39,   14,   15,   16,   46,   19,   48,
- /*    80 */    40,   10,   20,   20,   22,   10,   23,   17,   18,   20,
- /*    90 */    40,   51,   23,    9,   15,   16,   21,   10,   10,   12,
- /*   100 */    11,   51,   14,   19,   11,   10,   21,   10,   35,   13,
- /*   110 */    20,   13,   35,   35,   40,   35,   35,   17,   10,   10,
- /*   120 */    52,   52,   40,   40,   52,   52,   40,   52,   52,   52,
- /*   130 */    52,   40,   40,   52,   40,   52,   52,   52,   52,   40,
+ /*     0 */     8,   11,   10,    0,   12,   23,   14,   25,   16,   17,
+ /*    10 */    35,   20,    9,   21,   23,    8,   13,   10,   26,   27,
+ /*    20 */    28,   14,   34,   16,   17,   45,   46,   52,   21,   34,
+ /*    30 */    55,   42,   43,   26,   27,   28,   47,   49,   50,   51,
+ /*    40 */    52,   53,   54,   55,   49,   50,   51,   52,   53,   54,
+ /*    50 */    55,   37,   38,   39,   40,   41,   42,   43,    1,    2,
+ /*    60 */    20,   47,   10,   23,   49,   50,   51,   52,   53,   54,
+ /*    70 */    55,   14,   38,   39,   40,   41,   42,   43,    8,   22,
+ /*    80 */    10,   47,    1,    2,   14,   43,   48,   49,   50,   47,
+ /*    90 */    52,   53,   11,   55,   35,   14,   26,   27,   28,    1,
+ /*   100 */     2,   30,   31,   32,   33,    1,    2,   31,   32,   33,
+ /*   110 */    11,   52,   14,   15,   55,   15,   20,   52,   14,   23,
+ /*   120 */    55,   10,   23,   23,   44,   50,   46,    7,   53,   50,
+ /*   130 */    18,   19,   53,   43,   43,   24,    9,   47,   47,   10,
+ /*   140 */    13,   12,   10,   10,   10,   23,   10,   15,   24,   14,
+ /*   150 */    22,   14,   36,   11,   36,   36,   43,   36,   43,   36,
+ /*   160 */    43,   36,   10,   18,   10,   56,   56,   56,   56,   43,
+ /*   170 */    56,   56,   56,   43,   43,   56,   56,   56,   56,   56,
+ /*   180 */    56,   43,   43,   43,
 };
-#define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_COUNT (50)
-#define YY_SHIFT_MIN   (0)
-#define YY_SHIFT_MAX   (109)
-static const signed char yy_shift_ofst[] = {
- /*     0 */    84,  109,  109,   88,   87,   79,   60,   59,   84,  108,
- /*    10 */   108,   24,   24,   75,   70,  108,  100,   24,   24,   24,
- /*    20 */    24,   24,   24,   24,   24,   44,   44,   44,   47,   98,
- /*    30 */    32,   51,   51,   69,   69,   63,   62,   49,   96,   97,
- /*    40 */    90,   95,   85,   85,   71,   35,   93,   93,   93,   89,
- /*    50 */    46,
+#define YY_SHIFT_USE_DFLT (-19)
+#define YY_SHIFT_COUNT (60)
+#define YY_SHIFT_MIN   (-18)
+#define YY_SHIFT_MAX   (154)
+static const short yy_shift_ofst[] = {
+ /*     0 */   127,    7,  154,  154,   -8,  132,  129,  154,   70,    3,
+ /*    10 */   127,  152,  152,   70,   70,   70,  111,  112,  111,  145,
+ /*    20 */   152,   70,   70,   70,   70,   70,   70,   70,   70,   70,
+ /*    30 */    81,   81,   81,   99,  142,  142,   57,   98,  104,  104,
+ /*    40 */    96,  -18,   40,  100,   40,   -9,  128,  122,  137,  136,
+ /*    50 */   124,  124,  135,  135,  135,  122,  134,  133,  120,  -10,
+ /*    60 */    52,
 };
-#define YY_REDUCE_USE_DFLT (-38)
-#define YY_REDUCE_COUNT (29)
-#define YY_REDUCE_MIN   (-37)
-#define YY_REDUCE_MAX   (99)
-static const signed char yy_reduce_ofst[] = {
- /*     0 */     8,  -26,  -33,  -19,  -19,  -35,   34,  -22,  -22,   20,
- /*    10 */    13,   50,   40,   31,  -37,   -9,   23,   99,   94,   92,
- /*    20 */    91,   86,   83,   82,   74,   81,   80,   78,   77,   73,
+#define YY_REDUCE_USE_DFLT (-26)
+#define YY_REDUCE_COUNT (35)
+#define YY_REDUCE_MIN   (-25)
+#define YY_REDUCE_MAX   (140)
+static const short yy_reduce_ofst[] = {
+ /*     0 */    71,   14,   -5,  -12,   34,   15,   15,   38,  -11,   76,
+ /*    10 */    76,   59,  -25,   91,   90,   42,   79,  -20,   75,   80,
+ /*    20 */    65,  140,  139,  138,  131,  130,  126,  117,  115,  113,
+ /*    30 */   125,  123,  121,  119,  118,  116,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    87,  103,  103,  131,  131,   90,  131,  131,   84,  131,
- /*    10 */   131,  131,  131,  131,  131,  131,   98,  131,  131,  131,
- /*    20 */   131,  131,  131,  131,  131,  131,  131,  131,  131,  131,
- /*    30 */   131,  130,  129,  118,  131,  106,  131,  131,  131,  131,
- /*    40 */   119,  131,  115,  116,  131,  113,  125,  127,  126,  131,
- /*    50 */   131,  102,  104,  117,  108,  112,  111,  110,  109,  105,
- /*    60 */   114,  107,  106,   91,   99,  101,  100,   97,   96,  128,
- /*    70 */   124,  123,  122,  121,  120,   95,   94,   93,   92,   89,
- /*    80 */    88,   86,   85,
+ /*     0 */   102,  106,  125,  125,  153,  153,  153,  124,  153,  153,
+ /*    10 */    99,  153,  153,  153,  153,  153,  153,  153,  153,  116,
+ /*    20 */   153,  153,  153,  153,  153,  153,  153,  153,  153,  153,
+ /*    30 */   153,  153,  153,  153,  153,  153,  153,  153,  152,  151,
+ /*    40 */   153,  153,  140,  153,  153,  128,  153,  120,  153,  153,
+ /*    50 */   138,  137,  149,  148,  147,  141,  153,  153,  135,  153,
+ /*    60 */   153,  107,  123,  122,  121,  117,  119,  118,  115,  114,
+ /*    70 */   113,  112,  111,  110,  109,  108,  105,  104,  126,  139,
+ /*    80 */   136,  128,  130,  134,  133,  132,  150,  146,  145,  144,
+ /*    90 */   143,  142,  131,  129,  127,  103,  101,  100,
 };
 
 /* The next table maps tokens into fallback tokens.  If a construct
@@ -303,17 +316,18 @@ void MetaTrace(FILE *TraceFILE, char *zTracePrompt){
 static const char *const yyTokenName[] = { 
   "$",             "PLUS",          "MINUS",         "MUL",         
   "DIV",           "OR",            "AND",           "DOT",         
-  "NOT",           "KW_FUNC",       "ID",            "LPARENTHESES",
-  "RPARENTHESES",  "LBRACE",        "RBRACE",        "KW_WHILE",    
-  "KW_IF",         "KW_ELIF",       "KW_ELSE",       "KW_STRUCT",   
-  "COMMA",         "LBRACKET",      "RBRACKET",      "EQ",          
-  "KW_NULL",       "TOK_STRING",    "TOK_INT",       "TOK_ID",      
-  "error",         "prog",          "prog_block",    "struct_decl", 
-  "func_decl",     "var_decl_list",  "var_type_list",  "statement_block",
-  "statement_list",  "statement",     "while_stmt",    "if_stmt",     
-  "value",         "elif_block_list",  "else_block",    "elif_block",  
-  "var_decl",      "id_chain",      "id_list",       "var_typed_assigned_decl",
-  "var_untyped_assigned_decl",  "var_typed_unassigned_decl",  "var_type",      "value_list",  
+  "NOT",           "KW_STRUCT",     "TOK_ID",        "LBRACE",      
+  "RBRACE",        "KW_FUNC",       "LPARENTHESES",  "RPARENTHESES",
+  "KW_WHILE",      "KW_IF",         "KW_ELIF",       "KW_ELSE",     
+  "EQ",            "KW_FOR",        "SEMICOLON",     "COMMA",       
+  "LBRACKET",      "RBRACKET",      "KW_NULL",       "TOK_STRING",  
+  "TOK_INT",       "error",         "prog",          "prog_block",  
+  "struct_decl",   "func_decl",     "var_decl_list",  "var_type_list",
+  "statement_block",  "statement_list",  "statement",     "while_stmt",  
+  "if_stmt",       "for_stmt",      "assignment_stmt",  "value",       
+  "elif_block_list",  "else_block",    "elif_block",    "value_list",  
+  "for_stmt_head",  "var_typed_assigned_decl",  "var_untyped_assigned_decl",  "var_decl",    
+  "id_chain",      "id_list",       "var_typed_unassigned_decl",  "var_type",    
 };
 #endif /* NDEBUG */
 
@@ -326,49 +340,56 @@ static const char *const yyRuleName[] = {
  /*   2 */ "prog_block ::= struct_decl",
  /*   3 */ "prog_block ::= func_decl",
  /*   4 */ "prog_block ::=",
- /*   5 */ "func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block",
- /*   6 */ "statement_block ::= LBRACE statement_list RBRACE",
- /*   7 */ "statement_list ::=",
- /*   8 */ "statement_list ::= statement",
- /*   9 */ "statement_list ::= statement_list statement",
- /*  10 */ "statement ::= while_stmt",
- /*  11 */ "statement ::= if_stmt",
- /*  12 */ "while_stmt ::= KW_WHILE value statement_block",
- /*  13 */ "if_stmt ::= KW_IF value statement_block elif_block_list else_block",
- /*  14 */ "elif_block ::= KW_ELIF value statement_block",
- /*  15 */ "elif_block_list ::=",
- /*  16 */ "elif_block_list ::= elif_block",
- /*  17 */ "elif_block_list ::= elif_block_list elif_block",
- /*  18 */ "else_block ::= KW_ELSE statement_block",
- /*  19 */ "struct_decl ::= KW_STRUCT ID LBRACE var_decl_list RBRACE",
- /*  20 */ "var_decl_list ::=",
- /*  21 */ "var_decl_list ::= var_decl",
- /*  22 */ "var_decl_list ::= var_decl_list var_decl",
- /*  23 */ "id_chain ::= ID",
- /*  24 */ "id_chain ::= id_chain DOT ID",
- /*  25 */ "id_list ::= ID",
- /*  26 */ "id_list ::= id_list COMMA ID",
- /*  27 */ "var_decl ::= var_typed_assigned_decl",
- /*  28 */ "var_decl ::= var_untyped_assigned_decl",
- /*  29 */ "var_decl ::= var_typed_unassigned_decl",
- /*  30 */ "var_type ::= id_chain",
- /*  31 */ "var_type ::= var_type LBRACKET var_type_list RBRACKET",
- /*  32 */ "var_type_list ::= var_type",
- /*  33 */ "var_type_list ::= var_type_list COMMA var_type",
- /*  34 */ "var_typed_assigned_decl ::= var_type var_untyped_assigned_decl",
- /*  35 */ "var_typed_unassigned_decl ::= var_type id_list",
- /*  36 */ "var_untyped_assigned_decl ::= id_list EQ value_list",
- /*  37 */ "value ::= KW_NULL",
- /*  38 */ "value ::= TOK_STRING",
- /*  39 */ "value ::= TOK_INT",
- /*  40 */ "value ::= TOK_ID",
- /*  41 */ "value ::= LPARENTHESES value RPARENTHESES",
- /*  42 */ "value ::= value PLUS value",
- /*  43 */ "value ::= value MINUS value",
- /*  44 */ "value ::= NOT value",
- /*  45 */ "value ::= value LPARENTHESES value_list RPARENTHESES",
- /*  46 */ "value_list ::= value",
- /*  47 */ "value_list ::= value_list COMMA value",
+ /*   5 */ "struct_decl ::= KW_STRUCT TOK_ID LBRACE var_decl_list RBRACE",
+ /*   6 */ "func_decl ::= KW_FUNC TOK_ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block",
+ /*   7 */ "statement_block ::= LBRACE statement_list RBRACE",
+ /*   8 */ "statement_list ::=",
+ /*   9 */ "statement_list ::= statement",
+ /*  10 */ "statement_list ::= statement_list statement",
+ /*  11 */ "statement ::= while_stmt",
+ /*  12 */ "statement ::= if_stmt",
+ /*  13 */ "statement ::= for_stmt",
+ /*  14 */ "statement ::= assignment_stmt",
+ /*  15 */ "while_stmt ::= KW_WHILE value statement_block",
+ /*  16 */ "if_stmt ::= KW_IF value statement_block elif_block_list else_block",
+ /*  17 */ "elif_block ::= KW_ELIF value statement_block",
+ /*  18 */ "elif_block_list ::=",
+ /*  19 */ "elif_block_list ::= elif_block",
+ /*  20 */ "elif_block_list ::= elif_block_list elif_block",
+ /*  21 */ "else_block ::= KW_ELSE statement_block",
+ /*  22 */ "assignment_stmt ::= value_list EQ value_list",
+ /*  23 */ "for_stmt ::= KW_FOR for_stmt_head SEMICOLON value SEMICOLON assignment_stmt statement_block",
+ /*  24 */ "for_stmt_head ::= var_typed_assigned_decl",
+ /*  25 */ "for_stmt_head ::= var_untyped_assigned_decl",
+ /*  26 */ "for_stmt_head ::=",
+ /*  27 */ "var_decl_list ::=",
+ /*  28 */ "var_decl_list ::= var_decl",
+ /*  29 */ "var_decl_list ::= var_decl_list var_decl",
+ /*  30 */ "id_chain ::= TOK_ID",
+ /*  31 */ "id_chain ::= id_chain DOT TOK_ID",
+ /*  32 */ "id_list ::= TOK_ID",
+ /*  33 */ "id_list ::= id_list COMMA TOK_ID",
+ /*  34 */ "var_decl ::= var_typed_assigned_decl",
+ /*  35 */ "var_decl ::= var_untyped_assigned_decl",
+ /*  36 */ "var_decl ::= var_typed_unassigned_decl",
+ /*  37 */ "var_type ::= id_chain",
+ /*  38 */ "var_type ::= var_type LBRACKET var_type_list RBRACKET",
+ /*  39 */ "var_type_list ::= var_type",
+ /*  40 */ "var_type_list ::= var_type_list COMMA var_type",
+ /*  41 */ "var_typed_assigned_decl ::= var_type var_untyped_assigned_decl",
+ /*  42 */ "var_typed_unassigned_decl ::= var_type id_list",
+ /*  43 */ "var_untyped_assigned_decl ::= id_list EQ value_list",
+ /*  44 */ "value ::= KW_NULL",
+ /*  45 */ "value ::= TOK_STRING",
+ /*  46 */ "value ::= TOK_INT",
+ /*  47 */ "value ::= TOK_ID",
+ /*  48 */ "value ::= LPARENTHESES value RPARENTHESES",
+ /*  49 */ "value ::= value PLUS value",
+ /*  50 */ "value ::= value MINUS value",
+ /*  51 */ "value ::= NOT value",
+ /*  52 */ "value ::= value LPARENTHESES value_list RPARENTHESES",
+ /*  53 */ "value_list ::= value",
+ /*  54 */ "value_list ::= value_list COMMA value",
 };
 #endif /* NDEBUG */
 
@@ -682,54 +703,61 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 29, 1 },
-  { 30, 2 },
   { 30, 1 },
-  { 30, 1 },
-  { 30, 0 },
-  { 32, 7 },
-  { 35, 3 },
-  { 36, 0 },
-  { 36, 1 },
-  { 36, 2 },
+  { 31, 2 },
+  { 31, 1 },
+  { 31, 1 },
+  { 31, 0 },
+  { 32, 5 },
+  { 33, 7 },
+  { 36, 3 },
+  { 37, 0 },
   { 37, 1 },
-  { 37, 1 },
-  { 38, 3 },
-  { 39, 5 },
-  { 43, 3 },
-  { 41, 0 },
-  { 41, 1 },
-  { 41, 2 },
-  { 42, 2 },
-  { 31, 5 },
-  { 33, 0 },
-  { 33, 1 },
-  { 33, 2 },
-  { 45, 1 },
-  { 45, 3 },
-  { 46, 1 },
+  { 37, 2 },
+  { 38, 1 },
+  { 38, 1 },
+  { 38, 1 },
+  { 38, 1 },
+  { 39, 3 },
+  { 40, 5 },
   { 46, 3 },
+  { 44, 0 },
   { 44, 1 },
-  { 44, 1 },
-  { 44, 1 },
-  { 50, 1 },
-  { 50, 4 },
+  { 44, 2 },
+  { 45, 2 },
+  { 42, 3 },
+  { 41, 7 },
+  { 48, 1 },
+  { 48, 1 },
+  { 48, 0 },
+  { 34, 0 },
   { 34, 1 },
-  { 34, 3 },
-  { 47, 2 },
-  { 49, 2 },
-  { 48, 3 },
-  { 40, 1 },
-  { 40, 1 },
-  { 40, 1 },
-  { 40, 1 },
-  { 40, 3 },
-  { 40, 3 },
-  { 40, 3 },
-  { 40, 2 },
-  { 40, 4 },
+  { 34, 2 },
+  { 52, 1 },
+  { 52, 3 },
+  { 53, 1 },
+  { 53, 3 },
   { 51, 1 },
-  { 51, 3 },
+  { 51, 1 },
+  { 51, 1 },
+  { 55, 1 },
+  { 55, 4 },
+  { 35, 1 },
+  { 35, 3 },
+  { 49, 2 },
+  { 54, 2 },
+  { 50, 3 },
+  { 43, 1 },
+  { 43, 1 },
+  { 43, 1 },
+  { 43, 1 },
+  { 43, 3 },
+  { 43, 3 },
+  { 43, 3 },
+  { 43, 2 },
+  { 43, 4 },
+  { 47, 1 },
+  { 47, 3 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -790,49 +818,56 @@ static void yy_reduce(
       /* (2) prog_block ::= struct_decl */ yytestcase(yyruleno==2);
       /* (3) prog_block ::= func_decl */ yytestcase(yyruleno==3);
       /* (4) prog_block ::= */ yytestcase(yyruleno==4);
-      /* (5) func_decl ::= KW_FUNC ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block */ yytestcase(yyruleno==5);
-      /* (6) statement_block ::= LBRACE statement_list RBRACE */ yytestcase(yyruleno==6);
-      /* (7) statement_list ::= */ yytestcase(yyruleno==7);
-      /* (8) statement_list ::= statement */ yytestcase(yyruleno==8);
-      /* (9) statement_list ::= statement_list statement */ yytestcase(yyruleno==9);
-      /* (10) statement ::= while_stmt */ yytestcase(yyruleno==10);
-      /* (11) statement ::= if_stmt */ yytestcase(yyruleno==11);
-      /* (12) while_stmt ::= KW_WHILE value statement_block */ yytestcase(yyruleno==12);
-      /* (13) if_stmt ::= KW_IF value statement_block elif_block_list else_block */ yytestcase(yyruleno==13);
-      /* (14) elif_block ::= KW_ELIF value statement_block */ yytestcase(yyruleno==14);
-      /* (15) elif_block_list ::= */ yytestcase(yyruleno==15);
-      /* (16) elif_block_list ::= elif_block */ yytestcase(yyruleno==16);
-      /* (17) elif_block_list ::= elif_block_list elif_block */ yytestcase(yyruleno==17);
-      /* (18) else_block ::= KW_ELSE statement_block */ yytestcase(yyruleno==18);
-      /* (19) struct_decl ::= KW_STRUCT ID LBRACE var_decl_list RBRACE */ yytestcase(yyruleno==19);
-      /* (20) var_decl_list ::= */ yytestcase(yyruleno==20);
-      /* (21) var_decl_list ::= var_decl */ yytestcase(yyruleno==21);
-      /* (22) var_decl_list ::= var_decl_list var_decl */ yytestcase(yyruleno==22);
-      /* (23) id_chain ::= ID */ yytestcase(yyruleno==23);
-      /* (24) id_chain ::= id_chain DOT ID */ yytestcase(yyruleno==24);
-      /* (25) id_list ::= ID */ yytestcase(yyruleno==25);
-      /* (26) id_list ::= id_list COMMA ID */ yytestcase(yyruleno==26);
-      /* (27) var_decl ::= var_typed_assigned_decl */ yytestcase(yyruleno==27);
-      /* (28) var_decl ::= var_untyped_assigned_decl */ yytestcase(yyruleno==28);
-      /* (29) var_decl ::= var_typed_unassigned_decl */ yytestcase(yyruleno==29);
-      /* (30) var_type ::= id_chain */ yytestcase(yyruleno==30);
-      /* (31) var_type ::= var_type LBRACKET var_type_list RBRACKET */ yytestcase(yyruleno==31);
-      /* (32) var_type_list ::= var_type */ yytestcase(yyruleno==32);
-      /* (33) var_type_list ::= var_type_list COMMA var_type */ yytestcase(yyruleno==33);
-      /* (34) var_typed_assigned_decl ::= var_type var_untyped_assigned_decl */ yytestcase(yyruleno==34);
-      /* (35) var_typed_unassigned_decl ::= var_type id_list */ yytestcase(yyruleno==35);
-      /* (36) var_untyped_assigned_decl ::= id_list EQ value_list */ yytestcase(yyruleno==36);
-      /* (37) value ::= KW_NULL */ yytestcase(yyruleno==37);
-      /* (38) value ::= TOK_STRING */ yytestcase(yyruleno==38);
-      /* (39) value ::= TOK_INT */ yytestcase(yyruleno==39);
-      /* (40) value ::= TOK_ID */ yytestcase(yyruleno==40);
-      /* (41) value ::= LPARENTHESES value RPARENTHESES */ yytestcase(yyruleno==41);
-      /* (42) value ::= value PLUS value */ yytestcase(yyruleno==42);
-      /* (43) value ::= value MINUS value */ yytestcase(yyruleno==43);
-      /* (44) value ::= NOT value */ yytestcase(yyruleno==44);
-      /* (45) value ::= value LPARENTHESES value_list RPARENTHESES */ yytestcase(yyruleno==45);
-      /* (46) value_list ::= value */ yytestcase(yyruleno==46);
-      /* (47) value_list ::= value_list COMMA value */ yytestcase(yyruleno==47);
+      /* (5) struct_decl ::= KW_STRUCT TOK_ID LBRACE var_decl_list RBRACE */ yytestcase(yyruleno==5);
+      /* (6) func_decl ::= KW_FUNC TOK_ID LPARENTHESES var_decl_list RPARENTHESES var_type_list statement_block */ yytestcase(yyruleno==6);
+      /* (7) statement_block ::= LBRACE statement_list RBRACE */ yytestcase(yyruleno==7);
+      /* (8) statement_list ::= */ yytestcase(yyruleno==8);
+      /* (9) statement_list ::= statement */ yytestcase(yyruleno==9);
+      /* (10) statement_list ::= statement_list statement */ yytestcase(yyruleno==10);
+      /* (11) statement ::= while_stmt */ yytestcase(yyruleno==11);
+      /* (12) statement ::= if_stmt */ yytestcase(yyruleno==12);
+      /* (13) statement ::= for_stmt */ yytestcase(yyruleno==13);
+      /* (14) statement ::= assignment_stmt */ yytestcase(yyruleno==14);
+      /* (15) while_stmt ::= KW_WHILE value statement_block */ yytestcase(yyruleno==15);
+      /* (16) if_stmt ::= KW_IF value statement_block elif_block_list else_block */ yytestcase(yyruleno==16);
+      /* (17) elif_block ::= KW_ELIF value statement_block */ yytestcase(yyruleno==17);
+      /* (18) elif_block_list ::= */ yytestcase(yyruleno==18);
+      /* (19) elif_block_list ::= elif_block */ yytestcase(yyruleno==19);
+      /* (20) elif_block_list ::= elif_block_list elif_block */ yytestcase(yyruleno==20);
+      /* (21) else_block ::= KW_ELSE statement_block */ yytestcase(yyruleno==21);
+      /* (22) assignment_stmt ::= value_list EQ value_list */ yytestcase(yyruleno==22);
+      /* (23) for_stmt ::= KW_FOR for_stmt_head SEMICOLON value SEMICOLON assignment_stmt statement_block */ yytestcase(yyruleno==23);
+      /* (24) for_stmt_head ::= var_typed_assigned_decl */ yytestcase(yyruleno==24);
+      /* (25) for_stmt_head ::= var_untyped_assigned_decl */ yytestcase(yyruleno==25);
+      /* (26) for_stmt_head ::= */ yytestcase(yyruleno==26);
+      /* (27) var_decl_list ::= */ yytestcase(yyruleno==27);
+      /* (28) var_decl_list ::= var_decl */ yytestcase(yyruleno==28);
+      /* (29) var_decl_list ::= var_decl_list var_decl */ yytestcase(yyruleno==29);
+      /* (30) id_chain ::= TOK_ID */ yytestcase(yyruleno==30);
+      /* (31) id_chain ::= id_chain DOT TOK_ID */ yytestcase(yyruleno==31);
+      /* (32) id_list ::= TOK_ID */ yytestcase(yyruleno==32);
+      /* (33) id_list ::= id_list COMMA TOK_ID */ yytestcase(yyruleno==33);
+      /* (34) var_decl ::= var_typed_assigned_decl */ yytestcase(yyruleno==34);
+      /* (35) var_decl ::= var_untyped_assigned_decl */ yytestcase(yyruleno==35);
+      /* (36) var_decl ::= var_typed_unassigned_decl */ yytestcase(yyruleno==36);
+      /* (37) var_type ::= id_chain */ yytestcase(yyruleno==37);
+      /* (38) var_type ::= var_type LBRACKET var_type_list RBRACKET */ yytestcase(yyruleno==38);
+      /* (39) var_type_list ::= var_type */ yytestcase(yyruleno==39);
+      /* (40) var_type_list ::= var_type_list COMMA var_type */ yytestcase(yyruleno==40);
+      /* (41) var_typed_assigned_decl ::= var_type var_untyped_assigned_decl */ yytestcase(yyruleno==41);
+      /* (42) var_typed_unassigned_decl ::= var_type id_list */ yytestcase(yyruleno==42);
+      /* (43) var_untyped_assigned_decl ::= id_list EQ value_list */ yytestcase(yyruleno==43);
+      /* (44) value ::= KW_NULL */ yytestcase(yyruleno==44);
+      /* (45) value ::= TOK_STRING */ yytestcase(yyruleno==45);
+      /* (46) value ::= TOK_INT */ yytestcase(yyruleno==46);
+      /* (47) value ::= TOK_ID */ yytestcase(yyruleno==47);
+      /* (48) value ::= LPARENTHESES value RPARENTHESES */ yytestcase(yyruleno==48);
+      /* (49) value ::= value PLUS value */ yytestcase(yyruleno==49);
+      /* (50) value ::= value MINUS value */ yytestcase(yyruleno==50);
+      /* (51) value ::= NOT value */ yytestcase(yyruleno==51);
+      /* (52) value ::= value LPARENTHESES value_list RPARENTHESES */ yytestcase(yyruleno==52);
+      /* (53) value_list ::= value */ yytestcase(yyruleno==53);
+      /* (54) value_list ::= value_list COMMA value */ yytestcase(yyruleno==54);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -895,7 +930,7 @@ static void yy_syntax_error(
 #line 10 "metaparser.y"
 
     fprintf(stderr, "Error parsing command\n");
-#line 899 "metaparser.c"
+#line 934 "metaparser.c"
   MetaARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

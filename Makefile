@@ -1,26 +1,18 @@
 
 CC=clang
-CFLAGS=-c -O0 
+CFLAGS=-O0 
 LDFLAGS=
+SRC_DIR=./src/
 
-all: lemon
+.PHONY: build all
 
-#test: grammar-test.o grammar.o
-#    $(CC) $(LDFLAGS) $^ -o $@
+all: build
 
-%.o: %.c Makefile
-	$(CC) $(CFLAGS) $< -o $@
-
-lex.yy.c: meta.l
-	flex meta.l
-
-lemon: lemon.o
-	$(CC) $(LDFLAGS) $^ -o $@
-
-meta.h: lemon meta.y
-	./lemon meta.y
+build:
+	make -C src/
+	make -C test/
 
 clean:
-	rm -f *.o
-	rm -f meta.h meta.c meta.out lex.yy.c
-	rm -f lemon
+	make -C src/ clean
+	make -C test/ clean
+	rm ./obj/*.o

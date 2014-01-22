@@ -1,8 +1,8 @@
 #! /bin/bash
 
 while true; do
-    inotifywait -q -e close_write ./metaparser.y;
+    inotifywait -q -e close_write ./{src,test}
     clear;
-    ./lemon metaparser.y;
+    make
     date
 done;

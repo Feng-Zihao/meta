@@ -36,10 +36,5 @@ nosetests.xml
 .pydevproject
 *.swp
 *.o
-/test
 .exrc
-meta.h
-meta.out
-meta.c
-/lemon
 

@@ -54,34 +54,34 @@ statement ::= for_stmt .
 statement ::= assignment_stmt .
 
 
-while_stmt ::= KW_WHILE value statement_block .
+while_stmt ::= KW_WHILE expr statement_block .
 
 
-if_stmt    ::= KW_IF value statement_block elif_block_list else_block .
-elif_block ::= KW_ELIF value statement_block .
+if_stmt    ::= KW_IF expr statement_block elif_block_list else_block .
+elif_block ::= KW_ELIF expr statement_block .
 elif_block_list ::= .
 elif_block_list ::= elif_block .
 elif_block_list ::= elif_block_list elif_block .
 else_block ::= KW_ELSE statement_block .
 
 
-assignment_stmt ::= value_list SYM_EQ value_list .   // a, b = c, d
-assignment_stmt ::= value_list SYM_EQ value SYM_DIV value .  // a, b = c / d
-assignment_stmt ::= value SYM_ADD_EQ value .   // a += b
-assignment_stmt ::= value SYM_SUB_EQ value .   // a -= b
-assignment_stmt ::= value SYM_MUL_EQ value .   // a *= b
-assignment_stmt ::= value SYM_DIV_EQ value .   // a /= b
-assignment_stmt ::= value SYM_MOD_EQ value .   // a %= b
-assignment_stmt ::= value SYM_POW_EQ value .   // a **= b
-assignment_stmt ::= value SYM_SHL_EQ value .   // a <<= b
-assignment_stmt ::= value SYM_SHR_EQ value .   // a >>= b
-assignment_stmt ::= value SYM_ROL_EQ value .   // a <<<= b
-assignment_stmt ::= value SYM_ROR_EQ value .   // a >>>= b
-assignment_stmt ::= value SYM_OR_EQ value .    // a ||= b
+assignment_stmt ::= expr_list SYM_EQ expr_list .   // a, b = c, d
+assignment_stmt ::= expr_list SYM_EQ expr SYM_DIV expr .  // a, b = c / d
+assignment_stmt ::= expr SYM_ADD_EQ expr .   // a += b
+assignment_stmt ::= expr SYM_SUB_EQ expr .   // a -= b
+assignment_stmt ::= expr SYM_MUL_EQ expr .   // a *= b
+assignment_stmt ::= expr SYM_DIV_EQ expr .   // a /= b
+assignment_stmt ::= expr SYM_MOD_EQ expr .   // a %= b
+assignment_stmt ::= expr SYM_POW_EQ expr .   // a **= b
+assignment_stmt ::= expr SYM_SHL_EQ expr .   // a <<= b
+assignment_stmt ::= expr SYM_SHR_EQ expr .   // a >>= b
+assignment_stmt ::= expr SYM_ROL_EQ expr .   // a <<<= b
+assignment_stmt ::= expr SYM_ROR_EQ expr .   // a >>>= b
+assignment_stmt ::= expr SYM_OR_EQ expr .    // a ||= b
 
 
 
-for_stmt ::= KW_FOR for_stmt_head SYM_SEMICOLON value SYM_SEMICOLON assignment_stmt
+for_stmt ::= KW_FOR for_stmt_head SYM_SEMICOLON expr SYM_SEMICOLON assignment_stmt
              statement_block .
 for_stmt_head ::= var_typed_assigned_decl .
 for_stmt_head ::= var_untyped_assigned_decl .
@@ -120,47 +120,48 @@ var_type_list ::= var_type_list COMMA var_type .
 
 var_typed_assigned_decl ::= var_type var_untyped_assigned_decl .
 var_typed_unassigned_decl ::= var_type id_list .
-var_untyped_assigned_decl ::= id_list SYM_EQ value_list .
+var_untyped_assigned_decl ::= id_list SYM_EQ expr_list .
 
 
-value ::= KW_NULL .
-value ::= TOK_STRING . 
-value ::= TOK_INT .
-value ::= TOK_ID .
-value ::= value SYM_DOT value .
-value ::= LPARENTHESES value RPARENTHESES .    // (value)
+expr ::= KW_NULL .
+expr ::= TOK_STRING . 
+expr ::= TOK_INT .
+expr ::= TOK_ID .
+expr ::= TOK_FLOAT .
+expr ::= expr SYM_DOT expr .
+expr ::= LPARENTHESES expr RPARENTHESES .    // (expr)
 
-value ::= value SYM_ADD value .            // value + value
-value ::= value SYM_SUB value .            // value - value
-value ::= value SYM_MUL value .            // value * value
-value ::= value SYM_DIV value .            // value / value
-value ::= value SYM_MOD value .            // value % value
-value ::= value SYM_POW value .            // value ** value
+expr ::= expr SYM_ADD expr .            // expr + expr
+expr ::= expr SYM_SUB expr .            // expr - expr
+expr ::= expr SYM_MUL expr .            // expr * expr
+expr ::= expr SYM_DIV expr .            // expr / expr
+expr ::= expr SYM_MOD expr .            // expr % expr
+expr ::= expr SYM_POW expr .            // expr ** expr
 
-value ::= value SYM_AND value .            // value && value
-value ::= value SYM_OR value .             // value || value
-value ::= SYM_NOT value .                  // ! value
+expr ::= expr SYM_AND expr .            // expr && expr
+expr ::= expr SYM_OR expr .             // expr || expr
+expr ::= SYM_NOT expr .                  // ! expr
 
-/*boolean value*/
-value ::= value SYM_EQ value .             // value == value
-value ::= value SYM_GT value .             // value > value
-value ::= value SYM_LT value .             // value < value
-value ::= value SYM_GE value .             // value >= value
-value ::= value SYM_LE value .             // value <= value
-value ::= value SYM_NE value .             // value != value
+/*boolean expr*/
+expr ::= expr SYM_EQ expr .             // expr == expr
+expr ::= expr SYM_GT expr .             // expr > expr
+expr ::= expr SYM_LT expr .             // expr < expr
+expr ::= expr SYM_GE expr .             // expr >= expr
+expr ::= expr SYM_LE expr .             // expr <= expr
+expr ::= expr SYM_NE expr .             // expr != expr
 
 /*bitwise operation*/
-value ::= value SYM_BIT_AND value .        // value & value
-value ::= value SYM_BIT_OR value .         // value | value
-value ::= value SYM_BIT_XOR value .        // value ^ value
-value ::= value SYM_SHL value .            // value << value
-value ::= value SYM_SHR value .            // value >> value
-value ::= value SYM_ROL value .            // value <<< value
-value ::= value SYM_ROR value .            // value >>> value
+expr ::= expr SYM_BIT_AND expr .        // expr & expr
+expr ::= expr SYM_BIT_OR expr .         // expr | expr
+expr ::= expr SYM_BIT_XOR expr .        // expr ^ expr
+expr ::= expr SYM_SHL expr .            // expr << expr
+expr ::= expr SYM_SHR expr .            // expr >> expr
+expr ::= expr SYM_ROL expr .            // expr <<< expr
+expr ::= expr SYM_ROR expr .            // expr >>> expr
 
 
-value ::= value LPARENTHESES value_list RPARENTHESES .  // abc(a, b, c)
+expr ::= expr LPARENTHESES expr_list RPARENTHESES .  // abc(a, b, c)
 
 
-value_list ::= value .
-value_list ::= value_list COMMA value .
+expr_list ::= expr .
+expr_list ::= expr_list COMMA expr .

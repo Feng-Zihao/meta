@@ -38,3 +38,13 @@ nosetests.xml
 *.o
 .exrc
 
+
+
+
+src/lemon
+src/lex.c
+src/parser.c
+src/parser.h
+src/parser.out
+test/lex-test
+

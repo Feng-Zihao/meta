@@ -8,7 +8,7 @@ YACC=bison
 LEX=flex
 
 .PHONY:  clean 
-.IGNORE: lex.c parser.c
+.IGNORE: lex.c 
 
 
 #all: $(addprefix $(OBJ_DIR),parser.o lex.o)

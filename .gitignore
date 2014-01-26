@@ -43,8 +43,8 @@ nosetests.xml
 
 src/lemon
 src/lex.c
-src/parser.c
-src/parser.h
-src/parser.out
+src/gram.c
+src/gram.h
+src/gram.output
 test/lex-test
 

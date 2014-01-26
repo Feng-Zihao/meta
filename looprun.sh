@@ -1,12 +1,13 @@
 #! /bin/bash
 
 while true; do
-    inotifywait -q -e modify ./src/{lex.l,parser.y} ./test/*.{c,h}
+    inotifywait -q -e modify ./src/{lex.l,gram.y} ./test/*.{c,h}
     clear;
     rm -f test/lex-test
-    make
-    echo "== Run  =="
-    ./test/lex-test
-    echo "== Stop =="
+    bison src/gram.y 2>&1 | head -n 20
+    #make
+    #echo "== Run  =="
+    #./test/lex-test
+    #echo "== Stop =="
     date
 done;

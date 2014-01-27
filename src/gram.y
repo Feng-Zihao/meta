@@ -41,12 +41,12 @@ void yyerror(void* scanner, const char* msg);
 %nonassoc "<<=" ">>=" "<<<=" ">>>=" "||="
 
 
-%left PREC_1
-%left PREC_9
-
-
 %token TOK_ID TOK_STRING TOK_INT TOK_FLOAT TOK_NEWLINE
 %start prog
+
+
+%precedence PREC_HIGH
+%precedence PREC_LOW
 
 %%
 prog :
@@ -76,8 +76,9 @@ func_decl : "func" TOK_ID '(' func_arg_decl_list ')' var_type_list statement_blo
 
 
 func_arg_decl:
-    TOK_ID '=' expr   %prec PREC_9
-|   var_type id_list  %prec PREC_1
+    TOK_ID '=' expr
+|   var_type TOK_ID
+|   TOK_ID
 ;
 
 
@@ -105,6 +106,7 @@ statement :
 |   while_stmt
 |   if_stmt
 |   assignment_stmt
+|   expr
 ;
 
 
@@ -158,7 +160,7 @@ for_stmt_head :
 
 id_chain : // aa.bb.cc.dd
     TOK_ID
-|   id_chain '.' TOK_ID     %prec PREC_9
+|   id_chain '.' TOK_ID
 ;
 
 
@@ -198,51 +200,79 @@ var_typed_unassigned_decl : var_type id_list ;
 var_untyped_assigned_decl : id_list '=' expr_list ;
 
 
-expr :
-/*basic value*/
-   "null"
+const_token_expr:
+    "null"
 |   TOK_STRING
 |   TOK_INT
 |   TOK_FLOAT
-|   id_chain      %prec PREC_1
-|   '(' expr ')'
-
-/*arithmetic expr*/
-|   expr '+' expr
-|   expr '-' expr
-|   expr '*' expr
-|   expr '/' expr
-|   expr '%' expr
-|   expr "**" expr
-
-/*logic arithmetic*/
-|   expr "&&" expr
-|   expr "||" expr
-|   '!' expr
-
-/*comparison expr*/
-|   expr "==" expr
-|   expr '>' expr
-|   expr '<' expr
-|   expr ">=" expr
-|   expr "<=" expr
-|   expr "!=" expr
-
-/*bitwise operation*/
-|   expr '&' expr
-|   expr '|' expr
-|   expr '^' expr
-|   expr "<<" expr
-|   expr ">>" expr
-|   expr "<<<" expr
-|   expr ">>>" expr
-|   expr '.' id_chain '(' expr_list ')'
-|   expr '.' id_chain '(' ')'
-|   expr '[' expr ']'
 ;
 
+callable_or_indexible_prefix:
+    id_chain
+|   TOK_INT '.' id_chain
+|   TOK_STRING '.' id_chain
+|   fcall_expr                      %prec PREC_LOW
+|   fcall_expr '.' id_chain         %prec PREC_HIGH
+|   indexible_expr
+|   indexible_expr '.' id_chain
+;
+
+
+fcall_expr:
+    callable_or_indexible_prefix '(' expr_list ')'
+;
+
+
+indexible_expr:
+    callable_or_indexible_prefix '[' expr_list ']'
+;
+
+
+
+op_expr:   /* expression that can be used as operand*/
+    const_token_expr
+|   callable_or_indexible_prefix
+|   '(' expr ')'
+;
+
+
+expr :
+    op_expr
+/*arithmetic expr*/
+|   expr '+' op_expr
+|   expr '-' op_expr
+|   expr '*' op_expr
+|   expr '/' op_expr
+|   expr '%' op_expr
+|   expr "**" op_expr
+
+/*logic arithmetic*/
+|   expr "&&" op_expr
+|   expr "||" op_expr
+|   '!' op_expr
+
+/*comparison op_expr*/
+|   expr "==" op_expr
+|   expr '>' op_expr
+|   expr '<' op_expr
+|   expr ">=" op_expr
+|   expr "<=" op_expr
+|   expr "!=" op_expr
+
+/*bitwise operation*/
+|   expr '&' op_expr
+|   expr '|' op_expr
+|   expr '^' op_expr
+|   expr "<<" op_expr
+|   expr ">>" op_expr
+|   expr "<<<" op_expr
+|   expr ">>>" op_expr
+
+;
 
 expr_list :
     expr
 |   expr_list ',' expr
 ;
+
+

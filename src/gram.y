@@ -1,25 +1,40 @@
  %{
-    #include <stdio.h>
-    #include <assert.h>
-    #include "def.h"
-    #define YYSTYPE char const *
+#include <stdio.h>
+#include <assert.h>
+#include "def.h"
+#include "lex.h"
+#include "gram.h"
+
+
+void yyerror(void* scanner, const char* msg) {
+    fprintf(stderr, "%s\n", msg);
+}
 %}
+
+%code requires {
+#define YYSTYPE char const *
+#define YYLEX_PARAM   scanner
+void yyerror(void* scanner, const char* msg);
+}
+
+
 
 
 /*%define api.pure full*/
 %pure-parser
+%param {void* scanner}
+%expect 0
 
 %left ','
 %left "||"
 %left "&&"
 %left '<' '>' "<=" ">=" "==" "!="
-%left '+' '-'
-%left '*' '/'
-%left '&' '|' '^'
-%left "**"
-%left '%'
-%right "<<" ">>" "<<<" ">>>"
 %right '='
+%left '+' '-'
+%left '*' '/' '%'
+%left "**"
+%left '&' '|' '^'
+%right "<<" ">>" "<<<" ">>>"
 %left '.'
 
 %nonassoc '!' "+=" "-=" "*=" "/=" "%=" "**="
@@ -223,6 +238,7 @@ expr :
 |   expr ">>>" expr
 |   expr '.' id_chain '(' expr_list ')'
 |   expr '.' id_chain '(' ')'
+|   expr '[' expr ']'
 ;
 
 

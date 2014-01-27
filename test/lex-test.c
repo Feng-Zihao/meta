@@ -23,49 +23,10 @@ void test_lexer_only() {
     struct {
         char *str; int tok;
     } args[] = {
-        /*{"if", KW_IF},*/
-        /*{"elif", KW_ELIF},*/
-        /*{"else", KW_ELSE},*/
-        /*{"for", KW_FOR},*/
-        /*{"while", KW_WHILE},*/
-        /*{"struct", KW_STRUCT},*/
-        /*{"func", KW_FUNC},*/
-        /*{"int", KW_INT},*/
-        /*{"double", KW_DOUBLE},*/
-        /*{"string", KW_STRING},*/
-
-        /*{"+", SYM_ADD},*/
-        /*{"-", SYM_SUB},*/
-        /*{"*", SYM_MUL},*/
-        /*{"/", SYM_DIV},*/
-        /*{"**", SYM_POW},*/
-
-        /*{"+=", SYM_ADD_EQ},*/
-        /*{"-=", SYM_SUB_EQ},*/
-        /*{"*=", SYM_MUL_EQ},*/
-        /*{"/=", SYM_DIV_EQ},*/
-        /*{"%=", SYM_MOD_EQ},*/
-        /*{"**=", SYM_POW_EQ},*/
-
-        /*{">", SYM_GT},*/
-        /*{"<", SYM_LT},*/
-        /*{">=", SYM_GE},*/
-        /*{"<=", SYM_LE},*/
-        /*{"==", SYM_EQ},*/
-        /*{"!=", SYM_NE},*/
-
-        /*{"&", SYM_BIT_AND},*/
-        /*{"|", SYM_BIT_OR},*/
-        /*{"^", SYM_BIT_XOR},*/
-
-        /*{"!", SYM_NOT},*/
-        /*{".", SYM_DOT},*/
-        /*{",", SYM_COMMA},*/
-
-
         {"090123123", TOK_INT},
         {"+090123123", TOK_INT},
         {"-0", TOK_INT},
+        {"0", TOK_INT},
 
 
         {"+0.", TOK_FLOAT},
@@ -82,8 +43,12 @@ void test_lexer_only() {
         {"-.0123e+10", TOK_FLOAT},
         {"-.0123e-10", TOK_FLOAT},
 
-
         {"_abcd_1234123__", TOK_ID},
+
+        {"\n\r", TOK_NEWLINE},
+        {"\r\n", TOK_NEWLINE},
+        {"\n", TOK_NEWLINE},
+        {"\r", TOK_NEWLINE},
 
         {"", 0}
 

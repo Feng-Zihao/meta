@@ -12,6 +12,12 @@ build:
 	make -C src/
 	make -C test/
 
+check:	build
+	@echo "=== Build Success ==="
+	./test/lex-test
+	./test/gram-test
+	@echo "=== Check Finished =="
+
 clean:
 	make -C src/ clean
 	make -C test/ clean

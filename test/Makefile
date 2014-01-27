@@ -8,12 +8,14 @@ LDFLAGS=
 
 .PHONY:  all clean
 
-all: lex-test
+all: lex-test gram-test
 
 
 lex-test: $(addprefix $(OBJ_DIR),lex-test.o lex.o)
 	$(CC) $(LDFLAGS) $^ -o $@
 
+gram-test: $(addprefix $(OBJ_DIR),gram-test.o gram.o lex.o)
+	$(CC) $(LDFLAGS) $^ -o $@
 
 $(addprefix $(OBJ_DIR),%.o): %.c *.h
 	$(CC) -c $(CFLAGS) $< -o $@

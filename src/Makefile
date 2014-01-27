@@ -1,21 +1,17 @@
 
 
 CC=clang
-CFLAGS=-O0 
+CFLAGS=-O0
 LDFLAGS=
 OBJ_DIR=../obj/
 YACC=bison
 LEX=flex
 
-.PHONY:  clean 
-.IGNORE: lex.c 
+#.PHONY:  clean
+#.IGNORE: lex.c 
 
 
-#all: $(addprefix $(OBJ_DIR),parser.o lex.o)
-all: $(addprefix $(OBJ_DIR),gram.o lex.o)
-
-#lemon: $(addprefix $(OBJ_DIR),lemon.o)
-#    $(CC) $(LDFLAGS) $< -o $@
+all: $(addprefix $(OBJ_DIR),lex.o gram.o)
 
 gram.c: gram.y
 	$(YACC) -d -v -o $@ $^
@@ -25,7 +21,7 @@ gram.h: gram.c
 lex.c: lex.l gram.h
 	$(LEX) $^
 
-$(addprefix $(OBJ_DIR),%.o): %.c
+$(addprefix $(OBJ_DIR),%.o): %.c 
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:

@@ -1,7 +1,6 @@
  %{
 #include <stdio.h>
 #include <assert.h>
-#include "def.h"
 #include "lex.h"
 #include "gram.h"
 
@@ -44,9 +43,8 @@ void yyerror(void* scanner, const char* msg);
 %token TOK_ID TOK_STRING TOK_INT TOK_FLOAT TOK_NEWLINE
 %start prog
 
-
-/*%precedence PREC_HIGH*/
-/*%precedence PREC_LOW*/
+%precedence PREC_LOW
+%precedence '('
 
 %%
 prog :
@@ -219,10 +217,10 @@ indexible_expr:
 
 op_expr:   /* expression that can be used as operand*/
     const_token_expr
-|   '(' expr ')'
 |   id_chain
 |   TOK_INT '.' id_chain
 |   TOK_STRING '.' id_chain
+|   '(' expr ')'
 |   fcall_expr
 |   fcall_expr '.' id_chain
 |   indexible_expr
@@ -231,7 +229,7 @@ op_expr:   /* expression that can be used as operand*/
 
 
 expr :
-    op_expr
+    op_expr         %prec PREC_LOW
 /*arithmetic expr*/
 |   expr '+' op_expr
 |   expr '-' op_expr

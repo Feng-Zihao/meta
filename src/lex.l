@@ -11,7 +11,6 @@
 
 %top{
 #include <stdio.h>
-#include "def.h"
 #include "gram.h"
 }
 

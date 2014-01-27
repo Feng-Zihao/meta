@@ -1,7 +1,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "def.h"
 #include "lex.h"
 #include "ctest.h"
 

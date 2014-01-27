@@ -7,9 +7,6 @@ OBJ_DIR=../obj/
 YACC=bison
 LEX=flex
 
-#.PHONY:  clean
-#.IGNORE: lex.c 
-
 
 all: $(addprefix $(OBJ_DIR),lex.o gram.o)
 

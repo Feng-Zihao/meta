@@ -43,11 +43,13 @@ void test_lexer_only() {
         {"-.0123e-10", TOK_FLOAT},
 
         {"_abcd_1234123__", TOK_ID},
+        {"struct", TOK_KEYWORD},
 
-        {"\n\r", TOK_NEWLINE},
-        {"\r\n", TOK_NEWLINE},
-        {"\n", TOK_NEWLINE},
-        {"\r", TOK_NEWLINE},
+
+        /*{"\n\r", TOK_NEWLINE},*/
+        /*{"\r\n", TOK_NEWLINE},*/
+        /*{"\n", TOK_NEWLINE},*/
+        /*{"\r", TOK_NEWLINE},*/
 
         {"", 0}
 

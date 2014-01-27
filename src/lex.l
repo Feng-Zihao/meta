@@ -23,7 +23,8 @@ utf8_c [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]
 (\+|\-)?[[:digit:]]+\.[[:digit:]]*((e|E)(\+|\-)?[[:digit:]]+)? {return TOK_FLOAT;}
 (\+|\-)?[[:digit:]]*\.[[:digit:]]+((e|E)(\+|\-)?[[:digit:]]+)? {return TOK_FLOAT;}
 [_[:alpha:]][_[:alnum:]]+   {return TOK_ID;}
-\n|\r|(\r\n)|(\n\r)         {return TOK_NEWLINE;}
+\n|\r|(\r\n)|(\n\r)         {;}
+struct                      {printf("%s\n", yytext); return TOK_KEYWORD;}
 
 
 %%

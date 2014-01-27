@@ -40,7 +40,7 @@ void yyerror(void* scanner, const char* msg);
 %nonassoc "<<=" ">>=" "<<<=" ">>>=" "||="
 
 
-%token TOK_ID TOK_STRING TOK_INT TOK_FLOAT TOK_NEWLINE
+%token TOK_ID TOK_STRING TOK_INT TOK_FLOAT TOK_NEWLINE TOK_KEYWORD
 %start prog
 
 %precedence PREC_LOW
@@ -49,7 +49,8 @@ void yyerror(void* scanner, const char* msg);
 %%
 prog :
      %empty
-|    prog_block_list ;
+|    prog_block_list
+;
 
 prog_block_list:
     prog_block

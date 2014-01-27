@@ -45,8 +45,8 @@ void yyerror(void* scanner, const char* msg);
 %start prog
 
 
-%precedence PREC_HIGH
-%precedence PREC_LOW
+/*%precedence PREC_HIGH*/
+/*%precedence PREC_LOW*/
 
 %%
 prog :
@@ -207,32 +207,26 @@ const_token_expr:
 |   TOK_FLOAT
 ;
 
-callable_or_indexible_prefix:
-    id_chain
-|   TOK_INT '.' id_chain
-|   TOK_STRING '.' id_chain
-|   fcall_expr                      %prec PREC_LOW
-|   fcall_expr '.' id_chain         %prec PREC_HIGH
-|   indexible_expr
-|   indexible_expr '.' id_chain
-;
-
 
 fcall_expr:
-    callable_or_indexible_prefix '(' expr_list ')'
+    op_expr '(' expr_list ')'
 ;
 
 
 indexible_expr:
-    callable_or_indexible_prefix '[' expr_list ']'
+    op_expr '[' expr_list ']'
 ;
-
-
 
 op_expr:   /* expression that can be used as operand*/
     const_token_expr
-|   callable_or_indexible_prefix
 |   '(' expr ')'
+|   id_chain
+|   TOK_INT '.' id_chain
+|   TOK_STRING '.' id_chain
+|   fcall_expr
+|   fcall_expr '.' id_chain
+|   indexible_expr
+|   indexible_expr '.' id_chain
 ;
 
 

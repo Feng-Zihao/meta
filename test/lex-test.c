@@ -9,12 +9,14 @@
 void test_lexer_only() { 
     yyscan_t scanner;
     YY_BUFFER_STATE buf;
+    int tmprs;
 
     YYSTYPE yystype;
 #define __LEX_TEST(str, ret);\
     yylex_init(&scanner);\
     buf = yy_scan_string(str, scanner);\
-    CASSERT_EQ( yylex(&yystype, scanner), ret );\
+    tmprs = yylex(&yystype, scanner);\
+    CASSERT_EQ( tmprs, ret );\
     CASSERT_STR_EQ( yyget_text(scanner), str );\
     yy_delete_buffer(buf, scanner);\
     yylex_destroy(scanner);\
@@ -43,13 +45,37 @@ void test_lexer_only() {
         {"-.0123e-10", TOK_FLOAT},
 
         {"_abcd_1234123__", TOK_ID},
-        {"struct", TOK_KEYWORD},
 
+        {"struct", KW_STRUCT},
+        {"func", KW_FUNC},
+        {"for", KW_FOR},
+        {"while", KW_WHILE},
+        {"if", KW_IF},
+        {"elif", KW_ELIF},
+        {"else", KW_ELSE},
+        {"int", KW_INT},
+        {"float", KW_FLOAT},
+        {"string", KW_STRING},
 
-        /*{"\n\r", TOK_NEWLINE},*/
-        /*{"\r\n", TOK_NEWLINE},*/
-        /*{"\n", TOK_NEWLINE},*/
-        /*{"\r", TOK_NEWLINE},*/
+        {"(", '('},
+        {")",')'},
+        {"{", '{'},
+        {"}", '}'},
+        {"[", '['},
+        {"]", ']'},
+        {"+", '+'},
+        {"-", '-'},
+        {"*", '*'},
+        {"/", '/'},
+        {"%", '%'},
+        {"&", '&'},
+        {"|", '|'},
+        {"^", '^'},
+        {",", ','},
+        {".", '.'},
+        {"<", '<'},
+        {">", '>'},
+        {"=", '='},
 
         {"", 0}
 

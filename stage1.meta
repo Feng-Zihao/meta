@@ -24,7 +24,7 @@ func unpack(Complex self) double, double{
     return self.real, self.imag
 }
 
-func cmp(Complex self, other) int {
+func cmp(Complex self) int {
     if self.a == other.a
         return 0
     return self.a < other.a
@@ -35,6 +35,7 @@ func +(Complex self, other) Complex {
     return self
 }
 
+
 struct SS {
     array<int> a
 }
@@ -43,7 +44,6 @@ struct SS {
 func main() int {
 
     a = Complex[100]
-
     a = range(100)
 
     // Complex array of size 2

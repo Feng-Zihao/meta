@@ -89,7 +89,23 @@ void test_lexer_only() {
 }
 
 int main(int argc, const char *argv[])
-{
+{ 
     CTEST_FUNC(test_lexer_only);
+
+    yyscan_t scanner;
+ 
+    yylex_init(&scanner);
+    yy_push_state(2, scanner);
+    yy_push_state(3, scanner);
+    yy_push_state(4, scanner);
+    printf("%d\n", yy_top_state(scanner));
+    yy_pop_state(scanner);
+    printf("%d\n", yy_top_state(scanner));
+    yy_pop_state(scanner);
+    printf("%d\n", yy_top_state(scanner));
+    yy_pop_state(scanner);
+    yylex_destroy(scanner);
+
+
     return 0;
 }

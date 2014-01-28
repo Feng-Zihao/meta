@@ -11,10 +11,10 @@ LDFLAGS=
 all: lex-test gram-test
 
 
-lex-test: $(addprefix $(OBJ_DIR),lex-test.o lex.o)
+lex-test: $(addprefix $(OBJ_DIR),lex.o lex-test.o)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-gram-test: $(addprefix $(OBJ_DIR),gram-test.o gram.o lex.o)
+gram-test: $(addprefix $(OBJ_DIR),lex.o gram.o gram-test.o)
 	$(CC) $(LDFLAGS) $^ -o $@
 
 $(addprefix $(OBJ_DIR),%.o): %.c *.h

@@ -1,18 +1,19 @@
  %{
 #include <stdio.h>
 #include <assert.h>
-#include "lex.h"
 #include "gram.h"
 
+#define YY_HEADER_EXPORT_START_CONDITIONS
+#include "lex.h"
 
 void yyerror(void* scanner, const char* msg) {
     fprintf(stderr, "%s\n", msg);
 }
+
+
 %}
 
 %code requires {
-#define YYSTYPE char const *
-#define YYLEX_PARAM   scanner
 void yyerror(void* scanner, const char* msg);
 }
 
@@ -74,9 +75,11 @@ prog_block :
 struct_decl : KW_STRUCT TOK_ID '{' struct_var_decl_list '}';
 
 struct_var_decl_list:
-    %empty
-|   var_decl
-|   struct_var_decl_list TOK_NEWLINE var_decl
+    /*%empty*/
+    var_decl
+|   struct_var_decl_list {yy_push_state(FORCE_NEWLINE, scanner);}
+        TOK_NEWLINE {yy_pop_state(scanner);}
+        var_decl
 ;
 
 func_decl : KW_FUNC TOK_ID '(' func_arg_decl_list ')' var_type_list statement_block ;

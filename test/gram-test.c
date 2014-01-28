@@ -21,19 +21,19 @@ void gram_valid_test_struct_decl() {
     yylex_destroy(scanner);
 
     const char * args[] = {
-        "struct abc {   }",
-        "struct abc{}",
-        "struct abc {int a}",
-        "struct abc {int a = 1}"
-        "struct abc {a = 1}"
-        "struct abc {int a, b = 1, 2\nfloat c}"
+        /*"struct abc {   }",*/
+        /*"struct abc{}",*/
+        /*"struct abc {int a}",*/
+        /*"struct abc {int a = 1}"*/
+        /*"struct abc {a =\n 1}"*/
+        /*"struct abc {int a, b = 1, 2}"*/
+        "struct abc {int a = 1\nfloat b}"
     };
 
     int i;
     for ( i = 0; i < sizeof(args)/sizeof(char*); i++) {
         __VALID_STRUCT_DECL(args[i]);
     }
-    printf("hello\n");
 
 }
 

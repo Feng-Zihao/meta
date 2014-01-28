@@ -7,11 +7,19 @@
 %option pointer
 %option reentrant
 %option bison-bridge
-
+%option stack
 
 %top{
 #include <stdio.h>
 #include "gram.h"
+
+#define YYSTYPE char const *
+#define YYLEX_PARAM   scanner
+
+void yy_push_state (int new_state ,void* yyscanner);
+void yy_pop_state (void* yyscanner);
+int yy_top_state (void* yyscanner);
+
 }
 
 utf8_c [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]|[\xE1-\xEC\xEE\xEF]([\x80-\xBF]{2})|\xED[\x80-\x9F][\x80-\xBF]|\xF0[\x90-\xBF]([\x80-\xBF]{2})|[\xF1-\xF3]([\x80-\xBF]{3})|\xF4[\x80-\x8F]([\x80-\xBF]{2})
@@ -19,10 +27,7 @@ utf8_c [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]
 
 newline (\n\r)|(\r\n)|\n|\r
 
-%{
-void hh(void);
-%}
-%x FORCE_NEWLINE
+%s FORCE_NEWLINE
 
 %%
 
@@ -73,10 +78,10 @@ string  {return KW_STRING;}
 (\+|\-)?[[:digit:]]+\.[[:digit:]]*((e|E)(\+|\-)?[[:digit:]]+)? {return TOK_FLOAT;}
 (\+|\-)?[[:digit:]]*\.[[:digit:]]+((e|E)(\+|\-)?[[:digit:]]+)? {return TOK_FLOAT;}
 [_[:alpha:]][_[:alnum:]]*   {return TOK_ID;}
+
+<FORCE_NEWLINE>{newline}    {printf("force newline\n");yy_pop_state(yyscanner);return TOK_NEWLINE;}
+
 {newline}                   {;}
-
-<FORCE_NEWLINE>{newline}    {return TOK_NEWLINE;}
-
 [[:space:]]                 {;}
 
 

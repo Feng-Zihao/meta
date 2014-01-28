@@ -39,10 +39,8 @@ nosetests.xml
 .exrc
 
 
-
-
-src/lemon
 src/lex.c
+src/lex.h
 src/gram.c
 src/gram.h
 src/gram.output

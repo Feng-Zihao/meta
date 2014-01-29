@@ -2,26 +2,26 @@
 #include <stdio.h>
 #include <assert.h>
 #include "gram.h"
-
-#define YY_HEADER_EXPORT_START_CONDITIONS
 #include "lex.h"
 
-void yyerror(void* scanner, const char* msg) {
+void yyerror(YYLTYPE *llocp, yyscan_t scanner,
+             const char* msg)
+{
     fprintf(stderr, "%s\n", msg);
+    fprintf(stderr, "locations %d:%d\n",
+            llocp->first_line, llocp->first_column);
 }
 
 
 %}
 
 %code requires {
-void yyerror(void* scanner, const char* msg);
 }
-
-
 
 
 /*%define api.pure full*/
 %pure-parser
+%locations
 %param {void* scanner}
 %expect 0
 
@@ -72,14 +72,25 @@ prog_block :
 ;
 
 
-struct_decl : KW_STRUCT TOK_ID '{' struct_var_decl_list '}';
+struct_decl : KW_STRUCT TOK_ID '{'
+    struct_var_decl_list {
+        printf("reduced %d\n", yy_top_state(scanner));
+        printf("%llu\n", yyget_extra(scanner));
+        /*yyset_extra(0, scanner);*/
+        /*printf("%llu\n", yyget_extra(scanner));*/
+    } '}';
 
 struct_var_decl_list:
-    /*%empty*/
+    var_decl {
+        printf("single var_decl\n");
+        yy_push_state(FORCE_NEWLINE, scanner);
+        printf("in %d\n", yy_top_state(scanner));
+    }
+|   struct_var_decl_list {printf("hello");}
+    TOK_NEWLINE
+        {printf("newline accepted");
+        }
     var_decl
-|   struct_var_decl_list {yy_push_state(FORCE_NEWLINE, scanner);}
-        TOK_NEWLINE {yy_pop_state(scanner);}
-        var_decl
 ;
 
 func_decl : KW_FUNC TOK_ID '(' func_arg_decl_list ')' var_type_list statement_block ;
@@ -157,9 +168,9 @@ assignment_stmt :
 ;
 
 
-
 for_stmt : KW_FOR for_stmt_head ';' expr ';' assignment_stmt
              statement_block;
+
 for_stmt_head :
     %empty
 |   var_typed_assigned_decl
@@ -204,9 +215,9 @@ var_type_list :
 |   var_type_list ',' var_type
 ;
 
-var_typed_assigned_decl : var_typed_unassigned_decl '=' expr_list;
-var_typed_unassigned_decl : var_type id_list ;
-var_untyped_assigned_decl : id_list '=' expr_list ;
+var_typed_assigned_decl : var_typed_unassigned_decl '=' expr_list {printf("var_typed_assigned_decl\n");};
+var_typed_unassigned_decl : var_type id_list {printf("var_typed_unassigned_decl\n");};
+var_untyped_assigned_decl : id_list '=' expr_list {printf("var_untyped_assigned_decl\n");};
 
 
 const_token_expr:
@@ -274,8 +285,8 @@ expr :
 ;
 
 expr_list :
-    expr
-|   expr_list ',' expr
+    expr {printf("expr\n");}
+|   expr_list ',' {printf(", ");} expr {printf("expr_list\n");}
 ;
 
 

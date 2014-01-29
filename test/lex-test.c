@@ -4,19 +4,21 @@
 #include "lex.h"
 #include "ctest.h"
 
+yyscan_t scanner;
+YY_BUFFER_STATE buf;
+int tmprs;
+
+YYSTYPE lval;
+YYLTYPE lloc;
 
 
 void test_lexer_only() { 
-    yyscan_t scanner;
-    YY_BUFFER_STATE buf;
-    int tmprs;
-
-    YYSTYPE yystype;
-#define __LEX_TEST(str, ret);\
+#define __LEX_TEST(str, tok);\
     yylex_init(&scanner);\
+    yylex_init_extra(0, &scanner);\
     buf = yy_scan_string(str, scanner);\
-    tmprs = yylex(&yystype, scanner);\
-    CASSERT_EQ( tmprs, ret );\
+    tmprs = yylex(&lval, &lloc, scanner);\
+    CASSERT_EQ( tmprs, tok );\
     CASSERT_STR_EQ( yyget_text(scanner), str );\
     yy_delete_buffer(buf, scanner);\
     yylex_destroy(scanner);\
@@ -85,27 +87,26 @@ void test_lexer_only() {
     for (; i < sizeof(args)/sizeof(args[0]); i++) {
         __LEX_TEST(args[i].str, args[i].tok);
     }
+}
 
+void test_lexer_start_condition()
+{
+    yylex_init(&scanner);
+    yylex_init_extra(0, &scanner);
+    yy_push_state(FORCE_NEWLINE, scanner);
+    const char* str = "\n\r";
+    buf = yy_scan_string(str, scanner);
+    tmprs = yylex(&lval, &lloc, scanner);
+    CASSERT_EQ( tmprs, TOK_NEWLINE);
+    yy_delete_buffer(buf, scanner);
+    yylex_destroy(scanner);
+  
 }
 
 int main(int argc, const char *argv[])
 { 
     CTEST_FUNC(test_lexer_only);
-
-    yyscan_t scanner;
- 
-    yylex_init(&scanner);
-    yy_push_state(2, scanner);
-    yy_push_state(3, scanner);
-    yy_push_state(4, scanner);
-    printf("%d\n", yy_top_state(scanner));
-    yy_pop_state(scanner);
-    printf("%d\n", yy_top_state(scanner));
-    yy_pop_state(scanner);
-    printf("%d\n", yy_top_state(scanner));
-    yy_pop_state(scanner);
-    yylex_destroy(scanner);
-
+    CTEST_FUNC(test_lexer_start_condition);
 
     return 0;
 }

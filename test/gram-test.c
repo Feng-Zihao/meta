@@ -14,6 +14,7 @@ int rs;
 void gram_valid_test_struct_decl() {
 #define __VALID_STRUCT_DECL(str)\
     yylex_init(&scanner);\
+    yylex_init_extra(0, &scanner);\
     buf = yy_scan_string(str, scanner);\
     rs = yyparse(scanner);\
     CASSERT_EQ(rs, 0);\
@@ -26,12 +27,12 @@ void gram_valid_test_struct_decl() {
         /*"struct abc {int a}",*/
         /*"struct abc {int a = 1}"*/
         /*"struct abc {a =\n 1}"*/
-        /*"struct abc {int a, b = 1, 2}"*/
-        "struct abc {int a = 1\nfloat b}"
+        /*"struct abc {a<b.c> a = 1, 2,3,3,4}",*/
+        "struct abc {a = b,b,b\nfloat\n b=1}"
     };
 
     int i;
-    for ( i = 0; i < sizeof(args)/sizeof(char*); i++) {
+    for ( i = 0; i < sizeof(args)/sizeof(const char*); i++) {
         __VALID_STRUCT_DECL(args[i]);
     }
 

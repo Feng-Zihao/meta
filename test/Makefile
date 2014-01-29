@@ -3,7 +3,7 @@
 CC=clang
 SRC_DIR=../src/
 OBJ_DIR=../obj/
-CFLAGS=-O0 -I$(SRC_DIR) -DCTEST_IGNORE_PASS
+CFLAGS=-g -O0 -I$(SRC_DIR) #-DCTEST_IGNORE_PASS
 LDFLAGS=
 
 .PHONY:  all clean

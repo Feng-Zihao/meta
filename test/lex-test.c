@@ -15,7 +15,6 @@ YYLTYPE lloc;
 void test_lexer_only() { 
 #define __LEX_TEST(str, tok);\
     yylex_init(&scanner);\
-    yylex_init_extra(0, &scanner);\
     buf = yy_scan_string(str, scanner);\
     tmprs = yylex(&lval, &lloc, scanner);\
     CASSERT_EQ( tmprs, tok );\
@@ -89,24 +88,10 @@ void test_lexer_only() {
     }
 }
 
-void test_lexer_start_condition()
-{
-    yylex_init(&scanner);
-    yylex_init_extra(0, &scanner);
-    yy_push_state(FORCE_NEWLINE, scanner);
-    const char* str = "\n\r";
-    buf = yy_scan_string(str, scanner);
-    tmprs = yylex(&lval, &lloc, scanner);
-    CASSERT_EQ( tmprs, TOK_NEWLINE);
-    yy_delete_buffer(buf, scanner);
-    yylex_destroy(scanner);
-  
-}
 
 int main(int argc, const char *argv[])
 { 
     CTEST_FUNC(test_lexer_only);
-    CTEST_FUNC(test_lexer_start_condition);
 
     return 0;
 }

@@ -9,7 +9,6 @@
 %option bison-bridge
 %option bison-locations
 %option stack
-%option extra-type="ssize_t"
 
 %top{
 #include <stdio.h>
@@ -45,7 +44,7 @@ if      {YY_INC_YYLOC; return KW_IF;}
 elif    {YY_INC_YYLOC; return KW_ELIF;}
 else    {YY_INC_YYLOC; return KW_ELSE;}
 int     {YY_INC_YYLOC; return KW_INT;}
-float   {YY_INC_YYLOC; printf("match kw_float\n"); return KW_FLOAT;}
+float   {YY_INC_YYLOC; return KW_FLOAT;}
 string  {YY_INC_YYLOC; return KW_STRING;}
 \(|\)|\{|\}|\[|\]       {YY_INC_YYLOC; return yytext[0];}
 ,|\.|>|<|=              {YY_INC_YYLOC; return yytext[0];}
@@ -84,38 +83,17 @@ string  {YY_INC_YYLOC; return KW_STRING;}
 [_[:alpha:]][_[:alnum:]]*   {YY_INC_YYLOC; return TOK_ID;}
 
 {newline}   {
-    /*printf("initial newline\n");*/
-    yyextra = 1;
     yylloc_param->first_column = 0;
     yylloc_param->first_line++;
     }
 [[:space:]]     {
     YY_INC_YYLOC;
-    /*printf("initial space\n");*/
     }
 
-.   {printf("initial matching nothing\n");return 0;}
+.   {return 0;}
 
 }
 
-
-<FORCE_NEWLINE>{
-{newline}    {
-    printf("force newline state\n");
-    yylloc_param->first_column = 0;
-    yylloc_param->first_line++;
-    }
-[[:space:]]  {
-    printf("force newline state\n");
-    YY_INC_YYLOC;
-    printf("yyless space\n");
-    }
-
-.*   {
-    printf("%lu\n", yyextra);
-    return TOK_NEWLINE;
-    }
-}
 
 %%
 

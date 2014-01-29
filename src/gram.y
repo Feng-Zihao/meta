@@ -29,7 +29,6 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %left OP_LOGIC_OR
 %left OP_LOGIC_AND
 %left '<' '>' OP_LE OP_GE OP_CMP_EQ OP_NE
-%right '='
 %left '+' '-'
 %left '*' '/' '%'
 %left OP_POW
@@ -37,11 +36,12 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %right OP_SHL OP_SHR OP_ROL OP_ROR
 %left '.'
 
+%nonassoc '='
 %nonassoc '!' OP_ADD_EQ OP_SUB_EQ OP_MUL_EQ OP_DIV_EQ OP_MOD_EQ OP_POW_EQ
 %nonassoc OP_SHL_EQ OP_SHR_EQ OP_ROL_EQ OP_ROR_EQ OP_OR_EQ
 
 
-%token TOK_ID TOK_STRING TOK_INT TOK_FLOAT TOK_NEWLINE
+%token TOK_ID TOK_STRING TOK_INT TOK_FLOAT
 %token KW_STRUCT KW_FUNC KW_WHILE KW_FOR KW_IF KW_ELIF KW_ELSE KW_INT KW_FLOAT KW_STRING
 %token OP_SHR_EQ OP_SHL_EQ OP_ROR_EQ OP_ROL_EQ OP_OR_EQ OP_ADD_EQ
 %token OP_SUB_EQ OP_MUL_EQ OP_DIV_EQ OP_MOD_EQ OP_POW_EQ
@@ -72,25 +72,16 @@ prog_block :
 ;
 
 
-struct_decl : KW_STRUCT TOK_ID '{'
-    struct_var_decl_list {
-        printf("reduced %d\n", yy_top_state(scanner));
-        printf("%llu\n", yyget_extra(scanner));
-        /*yyset_extra(0, scanner);*/
-        /*printf("%llu\n", yyget_extra(scanner));*/
-    } '}';
+struct_decl : KW_STRUCT TOK_ID struct_decl_body;
+
+struct_decl_body : 
+    '{' '}'
+|   '{' struct_var_decl_list '}'
 
 struct_var_decl_list:
     var_decl {
-        printf("single var_decl\n");
-        yy_push_state(FORCE_NEWLINE, scanner);
-        printf("in %d\n", yy_top_state(scanner));
     }
-|   struct_var_decl_list {printf("hello");}
-    TOK_NEWLINE
-        {printf("newline accepted");
-        }
-    var_decl
+|   struct_var_decl_list var_decl
 ;
 
 func_decl : KW_FUNC TOK_ID '(' func_arg_decl_list ')' var_type_list statement_block ;
@@ -215,9 +206,9 @@ var_type_list :
 |   var_type_list ',' var_type
 ;
 
-var_typed_assigned_decl : var_typed_unassigned_decl '=' expr_list {printf("var_typed_assigned_decl\n");};
-var_typed_unassigned_decl : var_type id_list {printf("var_typed_unassigned_decl\n");};
-var_untyped_assigned_decl : id_list '=' expr_list {printf("var_untyped_assigned_decl\n");};
+var_typed_assigned_decl : var_typed_unassigned_decl '=' expr_list ;
+var_typed_unassigned_decl : var_type id_list ;
+var_untyped_assigned_decl : id_list '=' expr_list ;
 
 
 const_token_expr:
@@ -229,7 +220,8 @@ const_token_expr:
 
 
 fcall_expr:
-    operand '(' expr_list ')'
+    operand '(' ')'
+|   operand '(' expr_list ')'
 ;
 
 
@@ -281,12 +273,11 @@ expr :
 |   expr OP_SHR operand     /* a >> b */
 |   expr OP_ROL operand     /* a <<< b */
 |   expr OP_ROR operand     /* a >>> b */
-
 ;
 
 expr_list :
-    expr {printf("expr\n");}
-|   expr_list ',' {printf(", ");} expr {printf("expr_list\n");}
+    expr
+|   expr_list ',' expr
 ;
 
 

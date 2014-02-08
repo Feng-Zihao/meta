@@ -26,10 +26,10 @@ void gram_valid_test_struct_decl() {
         "struct abc {int a}",
         "struct abc {int a = 1}",
         "struct abc {a =\n 1}",
-        "struct abc {a<b.c> a = 1, 2,3,3,4}",
+        "struct abc{a<b.c> a = 1, 2,3,3,4}",
         "struct abc {a<b.c<e.f<g> > > a = 1, 2,3,3,4}",
         "struct abc {a = b,b,b float b=1}",
-        "struct abc {b=all()\nfloat b=1\nint c}"
+        "struct abc{b=all()\nfloat b=1\nint c}",
         "struct abc {b=all(a, Complex(c))\nfloat b=1\nint c}"
     };
     int i;
@@ -48,16 +48,38 @@ void gram_valid_test_func_decl() {
     yylex_destroy(scanner);
 
     const char * args[] = {
-        "struct abc {   }",
-        "struct abc{}",
-        "struct abc {int a}",
-        "struct abc {int a = 1}",
-        "struct abc {a =\n 1}",
-        "struct abc {a<b.c> a = 1, 2,3,3,4}",
-        "struct abc {a<b.c<e.f<g> > > a = 1, 2,3,3,4}",
-        "struct abc {a = b,b,b float b=1}",
-        "struct abc {b=all()\nfloat b=1\nint c}"
-        "struct abc {b=all(a, Complex(c))\nfloat b=1\nint c}"
+        // test empty decl
+        "func a() {}",
+        "func a(int a, double b, c){}",
+        "func __(int a, b = 1.000, c=Complex(a,b,c)){}",
+        "func __(a=1, c<In, ad<b, b> >  b){}",
+        "func _a(int a,b,c,d,e,f,g) int, double, Complex<a.b<Complex<c> > > {}",
+        "func a(int a,b) { return }",
+        "func a(int a,b) { return }",
+        "func a(int a,b) { a += 1 b += 2 return a, b, c Complex(d)}",
+        "func main(int a, string b) int, double, Complex {\n"
+        "   for int i=1;i<size(t);i+=1 {\n"
+        "   }\n"
+        "   while next(t) {\n"
+        "   }\n"
+        "   if a < b(t,m) < c < !d {\n"
+        "   }\n"
+        "   if a < b(t,m) <= c[a < d] < !d {\n"
+        "   } elif d > e && b {\n"
+        "   }\n"
+        "   \n"
+        "   if (a < b(t,min(c,d,e())) < !!!!c < !d) {\n"
+        "   } elif d > e && b {\n"
+        "   } else {\n"
+        "   }\n"
+        "   a.b.c.d.e.f.g().h.i(i.ao.d, aie.g)\n"
+        "   _, _, _, ___ = 1,2,3,4\n"
+        "   _, _, _, ___ = Complex(a,b,c,d)\n"
+        "   sql.select(abc).where(a>b && b<c)\n"
+        "   table_abc[id > 1]\n"
+        "   return 0\n"
+        "}",
+        ""
     };
     int i;
     for ( i = 0; i < sizeof(args)/sizeof(const char*); i++) {

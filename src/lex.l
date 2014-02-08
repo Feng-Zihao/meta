@@ -30,7 +30,7 @@ utf8_c [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]
 
 newline (\n\r)|(\r\n)|(\n)|(\r)
 
-%x FORCE_NEWLINE
+%x NEWLINE_SENSITIVE
 
 %%
 
@@ -46,8 +46,10 @@ else    {YY_INC_YYLOC; return KW_ELSE;}
 int     {YY_INC_YYLOC; return KW_INT;}
 float   {YY_INC_YYLOC; return KW_FLOAT;}
 string  {YY_INC_YYLOC; return KW_STRING;}
+return  {YY_INC_YYLOC; return KW_RETURN;}
+null    {YY_INC_YYLOC; return KW_NULL;}
 \(|\)|\{|\}|\[|\]       {YY_INC_YYLOC; return yytext[0];}
-,|\.|>|<|=              {YY_INC_YYLOC; return yytext[0];}
+;|!|,|\.|>|<|=              {YY_INC_YYLOC; return yytext[0];}
 \+|-|\*|\/|\%|\&|\||\^  {YY_INC_YYLOC; return yytext[0];}
 
 \>>=        {YY_INC_YYLOC; return OP_SHR_EQ;}

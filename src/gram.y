@@ -25,6 +25,8 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %param {void* scanner}
 %expect 0
 
+%precedence PREC_LOW
+
 %left ','
 %left OP_LOGIC_OR
 %left OP_LOGIC_AND
@@ -34,15 +36,16 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %left OP_POW
 %left '&' '|' '^'
 %right OP_SHL OP_SHR OP_ROL OP_ROR
+%right '!'
 %left '.'
 
 %nonassoc '='
-%nonassoc '!' OP_ADD_EQ OP_SUB_EQ OP_MUL_EQ OP_DIV_EQ OP_MOD_EQ OP_POW_EQ
+%nonassoc OP_ADD_EQ OP_SUB_EQ OP_MUL_EQ OP_DIV_EQ OP_MOD_EQ OP_POW_EQ
 %nonassoc OP_SHL_EQ OP_SHR_EQ OP_ROL_EQ OP_ROR_EQ OP_OR_EQ
 
 
 %token TOK_ID TOK_STRING TOK_INT TOK_FLOAT
-%token KW_STRUCT KW_FUNC KW_WHILE KW_FOR KW_IF KW_ELIF KW_ELSE KW_INT KW_FLOAT KW_STRING
+%token KW_STRUCT KW_FUNC KW_WHILE KW_FOR KW_IF KW_ELIF KW_ELSE KW_INT KW_FLOAT KW_STRING KW_RETURN KW_NULL
 %token OP_SHR_EQ OP_SHL_EQ OP_ROR_EQ OP_ROL_EQ OP_OR_EQ OP_ADD_EQ
 %token OP_SUB_EQ OP_MUL_EQ OP_DIV_EQ OP_MOD_EQ OP_POW_EQ
 %token OP_SHR OP_SHL OP_ROR OP_ROL OP_POW
@@ -51,8 +54,15 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 
 
 %start prog
-%precedence PREC_LOW
+
+
 %precedence '('
+%precedence '['
+%precedence TOK_ID
+%precedence TOK_STRING
+%precedence TOK_INT
+%precedence TOK_FLOAT
+%precedence KW_NULL
 
 
 %%
@@ -61,7 +71,7 @@ prog :
 |   prog_block_list
 ;
 
-prog_block_list:
+prog_block_list :
     prog_block
 |   prog_block_list prog_block
 ;
@@ -84,7 +94,9 @@ struct_var_decl_list:
 |   struct_var_decl_list var_decl
 ;
 
-func_decl : KW_FUNC TOK_ID '(' func_arg_decl_list ')' var_type_list statement_block ;
+func_decl :
+    KW_FUNC TOK_ID '(' func_arg_decl_list ')' var_type_list statement_block 
+|   KW_FUNC TOK_ID '(' func_arg_decl_list ')' statement_block ;
 
 
 func_arg_decl:
@@ -117,6 +129,7 @@ statement :
     for_stmt
 |   while_stmt
 |   if_stmt
+|   return_stmt
 |   assignment_stmt
 |   expr
 ;
@@ -127,11 +140,12 @@ while_stmt : KW_WHILE expr statement_block ;
 
 if_stmt :
    if_block elif_block_list else_block
+|  if_block else_block
 ;
 
 if_block : KW_IF expr statement_block;
 
-elif_block : KW_ELIF expr statement_block ;
+elif_block : KW_ELIF expr statement_block;
 elif_block_list :
     elif_block
 |   elif_block_list elif_block
@@ -140,6 +154,12 @@ elif_block_list :
 else_block :
     %empty
 |   KW_ELSE statement_block
+;
+
+
+return_stmt :
+    KW_RETURN       %prec PREC_LOW
+|   KW_RETURN expr_list
 ;
 
 
@@ -212,7 +232,7 @@ var_untyped_assigned_decl : id_list '=' expr_list ;
 
 
 const_token_expr:
-    "null"
+    KW_NULL
 |   TOK_STRING
 |   TOK_INT
 |   TOK_FLOAT
@@ -239,6 +259,7 @@ operand:   /* expression that can be used as operand*/
 |   fcall_expr '.' id_chain
 |   indexible_expr
 |   indexible_expr '.' id_chain
+|   '!' operand
 ;
 
 
@@ -255,7 +276,6 @@ expr :
 /*logic arithmetic*/
 |   expr OP_LOGIC_AND operand   /* a && b */
 |   expr OP_LOGIC_OR  operand   /* a || b */
-|   '!' operand
 
 /*comparison operand*/
 |   expr OP_CMP_EQ operand  /* a == b */

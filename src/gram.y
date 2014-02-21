@@ -65,6 +65,12 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %precedence KW_NULL
 
 
+/* for terminals */
+%union {
+};
+
+
+
 %%
 prog :
     %empty
@@ -218,7 +224,9 @@ primitive_var_type:
 var_type :
     primitive_var_type
 |   id_chain
-|   var_type '<' var_type_list '>'
+|   var_type '<' {yy_push_state(ACCEPT_RIGHT_ANGLE_BRACKET, scanner);}
+        var_type_list
+    '>' {yy_pop_state(scanner);}
 ;
 
 var_type_list :

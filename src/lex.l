@@ -31,11 +31,12 @@ utf8_c [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]
 newline (\n\r)|(\r\n)|(\n)|(\r)
 
 %x NEWLINE_SENSITIVE
+%x ACCEPT_RIGHT_ANGLE_BRACKET
 
 %%
 
 
-<INITIAL>{
+<INITIAL,ACCEPT_RIGHT_ANGLE_BRACKET>{
 struct  {YY_INC_YYLOC; return KW_STRUCT;}
 func    {YY_INC_YYLOC; return KW_FUNC;}
 while   {YY_INC_YYLOC; return KW_WHILE;}
@@ -52,10 +53,10 @@ null    {YY_INC_YYLOC; return KW_NULL;}
 ;|!|,|\.|>|<|=              {YY_INC_YYLOC; return yytext[0];}
 \+|-|\*|\/|\%|\&|\||\^  {YY_INC_YYLOC; return yytext[0];}
 
-\>>=        {YY_INC_YYLOC; return OP_SHR_EQ;}
 \<<=        {YY_INC_YYLOC; return OP_SHL_EQ;}
-\>>>=       {YY_INC_YYLOC; return OP_ROR_EQ;}
+\>>=        {YY_INC_YYLOC; return OP_SHR_EQ;}
 \<<<=       {YY_INC_YYLOC; return OP_ROL_EQ;}
+\>>>=       {YY_INC_YYLOC; return OP_ROR_EQ;}
 \|\|\=      {YY_INC_YYLOC; return OP_OR_EQ;}
 \+=         {YY_INC_YYLOC; return OP_ADD_EQ;}
 -=          {YY_INC_YYLOC; return OP_SUB_EQ;}
@@ -64,9 +65,7 @@ null    {YY_INC_YYLOC; return KW_NULL;}
 %=          {YY_INC_YYLOC; return OP_MOD_EQ;}
 \**=        {YY_INC_YYLOC; return OP_POW_EQ;}
 
-\>>         {YY_INC_YYLOC; return OP_SHR;}
 \<<         {YY_INC_YYLOC; return OP_SHL;}
-\>>>        {YY_INC_YYLOC; return OP_ROR;}
 \<<<        {YY_INC_YYLOC; return OP_ROL;}
 
 \**         {YY_INC_YYLOC; return OP_POW;}
@@ -74,8 +73,8 @@ null    {YY_INC_YYLOC; return KW_NULL;}
 \|\|        {YY_INC_YYLOC; return OP_LOGIC_OR;}
 
 ==          {YY_INC_YYLOC; return OP_CMP_EQ;}
-\>=         {YY_INC_YYLOC; return OP_GE;}
 \<=         {YY_INC_YYLOC; return OP_LE;}
+\>=         {YY_INC_YYLOC; return OP_GE;}
 !=          {YY_INC_YYLOC; return OP_NE;}
 
 
@@ -96,6 +95,14 @@ null    {YY_INC_YYLOC; return KW_NULL;}
 
 }
 
+<INITIAL>{
+\>>>        {YY_INC_YYLOC; return OP_ROR;}
+\>>         {YY_INC_YYLOC; return OP_SHR;}
+}
 
+<ACCEPT_RIGHT_ANGLE_BRACKET>{
+\>>>        {REJECT;}
+\>>         {REJECT;}
+}
 %%
 

@@ -27,7 +27,7 @@ void gram_valid_test_struct_decl() {
         "struct abc {int a = 1}",
         "struct abc {a =\n 1}",
         "struct abc{a<b.c> a = 1, 2,3,3,4}",
-        "struct abc {a<b.c<e.f<g> > > a = 1, 2,3,3,4}",
+        "struct abc {a<b.c<e.f<g>>> a = 1, 2,3,3,4}",
         "struct abc {a = b,b,b float b=1}",
         "struct abc{b=all()\nfloat b=1\nint c}",
         "struct abc {b=all(a, Complex(c))\nfloat b=1\nint c}"
@@ -52,8 +52,8 @@ void gram_valid_test_func_decl() {
         "func a() {}",
         "func a(int a, double b, c){}",
         "func __(int a, b = 1.000, c=Complex(a,b,c)){}",
-        "func __(a=1, c<In, ad<b, b> >  b){}",
-        "func _a(int a,b,c,d,e,f,g) int, double, Complex<a.b<Complex<c> > > {}",
+        "func __(a=1, c<In, ad<b, b>>  b){}",
+        "func _a(int a,b,c,d,e,f,g) int, double, Complex<a.b<Complex<c>>> { 1 >>> 3 }",
         "func a(int a,b) { return }",
         "func a(int a,b) { return }",
         "func a(int a,b) { a += 1 b += 2 return a, b, c Complex(d)}",
@@ -68,8 +68,10 @@ void gram_valid_test_func_decl() {
         "   } elif d > e && b {\n"
         "   }\n"
         "   \n"
+        "   return 1<<3"
         "   if (a < b(t,min(c,d,e())) < !!!!c < !d) {\n"
         "   } elif d > e && b {\n"
+        "       1 >>> 8 2 <<< 10\n"
         "   } else {\n"
         "   }\n"
         "   a.b.c.d.e.f.g().h.i(i.ao.d, aie.g)\n"
@@ -89,7 +91,6 @@ void gram_valid_test_func_decl() {
 
 int main(int argc, const char *argv[])
 {
-
     CTEST_FUNC(gram_valid_test_struct_decl);
     CTEST_FUNC(gram_valid_test_func_decl);
     return 0;

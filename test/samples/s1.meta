@@ -1,0 +1,7 @@
+
+
+class C1 {
+    a, b, c = 1, 2, 3
+    int e, f, g = 1, 2, 3
+    int f, g, h
+}

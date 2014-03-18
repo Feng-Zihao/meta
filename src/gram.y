@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "gram.h"
 #include "lex.h"
+#include "semt.h"
 
 void yyerror(YYLTYPE *llocp, yyscan_t scanner,
              const char* msg)
@@ -14,10 +15,6 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 
 
 %}
-
-%code requires {
-}
-
 
 /*%define api.pure full*/
 %pure-parser
@@ -45,7 +42,7 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 
 
 %token TOK_ID TOK_STRING TOK_INT TOK_FLOAT
-%token KW_STRUCT KW_FUNC KW_WHILE KW_FOR KW_IF KW_ELIF KW_ELSE KW_INT KW_FLOAT KW_STRING KW_RETURN KW_NULL
+%token KW_CLASS KW_FUNC KW_WHILE KW_FOR KW_IF KW_ELIF KW_ELSE KW_INT KW_FLOAT KW_STRING KW_RETURN KW_NULL
 %token OP_SHR_EQ OP_SHL_EQ OP_ROR_EQ OP_ROL_EQ OP_OR_EQ OP_ADD_EQ
 %token OP_SUB_EQ OP_MUL_EQ OP_DIV_EQ OP_MOD_EQ OP_POW_EQ
 %token OP_SHR OP_SHL OP_ROR OP_ROL OP_POW
@@ -56,8 +53,7 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %start prog
 
 
-%precedence '('
-%precedence '['
+%precedence '(' '['
 %precedence TOK_ID
 %precedence TOK_STRING
 %precedence TOK_INT
@@ -68,6 +64,22 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 /* for terminals */
 %union {
 };
+
+%code requires {
+
+#define YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE {
+    /* defaults */
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
+    /*  added */
+    FILE* file;
+    struct class_decl** class_decls;
+} YYLTYPE;
+
+}
 
 
 
@@ -83,21 +95,20 @@ prog_block_list :
 ;
 
 prog_block :
-    struct_decl
+    class_decl
 |   func_decl
 ;
 
 
-struct_decl : KW_STRUCT TOK_ID struct_decl_body;
+class_decl : KW_CLASS TOK_ID class_decl_body;
 
-struct_decl_body : 
+class_decl_body : 
     '{' '}'
-|   '{' struct_var_decl_list '}'
+|   '{' class_member_decl_list '}'
 
-struct_var_decl_list:
-    var_decl {
-    }
-|   struct_var_decl_list var_decl
+class_member_decl_list:
+    var_decl 
+|   class_member_decl_list var_decl
 ;
 
 func_decl :
@@ -247,60 +258,54 @@ const_token_expr:
 ;
 
 
-fcall_expr:
-    operand '(' ')'
-|   operand '(' expr_list ')'
+callable_indexible_expr:
+    operand_expr '(' ')'
+|   operand_expr '(' expr_list ')'
+|   operand_expr '[' expr_list ']'
 ;
 
-
-indexible_expr:
-    operand '[' expr_list ']'
-;
-
-operand:   /* expression that can be used as operand*/
+operand_expr:   /* expression that can be used as operand_expr*/
     const_token_expr
 |   id_chain
+|   '(' expr ')'
+|   '!' operand_expr
+|   callable_indexible_expr
 |   TOK_INT '.' id_chain
 |   TOK_STRING '.' id_chain
-|   '(' expr ')'
-|   fcall_expr
-|   fcall_expr '.' id_chain
-|   indexible_expr
-|   indexible_expr '.' id_chain
-|   '!' operand
+|   callable_indexible_expr '.' id_chain   /* attribute access */
 ;
 
 
 expr :
-    operand         %prec PREC_LOW
+    operand_expr         %prec PREC_LOW
 /*arithmetic expr*/
-|   expr '+' operand
-|   expr '-' operand
-|   expr '*' operand
-|   expr '/' operand
-|   expr '%' operand
-|   expr OP_POW operand
+|   expr '+' operand_expr
+|   expr '-' operand_expr
+|   expr '*' operand_expr
+|   expr '/' operand_expr
+|   expr '%' operand_expr
+|   expr OP_POW operand_expr
 
 /*logic arithmetic*/
-|   expr OP_LOGIC_AND operand   /* a && b */
-|   expr OP_LOGIC_OR  operand   /* a || b */
+|   expr OP_LOGIC_AND operand_expr   /* a && b */
+|   expr OP_LOGIC_OR  operand_expr   /* a || b */
 
-/*comparison operand*/
-|   expr OP_CMP_EQ operand  /* a == b */
-|   expr '>' operand
-|   expr '<' operand
-|   expr OP_GE operand      /* a >= b */
-|   expr OP_LE operand      /* a <= b */
-|   expr OP_NE operand      /* a != b */
+/*comparison operand_expr*/
+|   expr OP_CMP_EQ operand_expr  /* a == b */
+|   expr '>' operand_expr
+|   expr '<' operand_expr
+|   expr OP_GE operand_expr      /* a >= b */
+|   expr OP_LE operand_expr      /* a <= b */
+|   expr OP_NE operand_expr      /* a != b */
 
 /*bitwise operation*/
-|   expr '&' operand
-|   expr '|' operand
-|   expr '^' operand
-|   expr OP_SHL operand     /* a << b */
-|   expr OP_SHR operand     /* a >> b */
-|   expr OP_ROL operand     /* a <<< b */
-|   expr OP_ROR operand     /* a >>> b */
+|   expr '&' operand_expr
+|   expr '|' operand_expr
+|   expr '^' operand_expr
+|   expr OP_SHL operand_expr     /* a << b */
+|   expr OP_SHR operand_expr     /* a >> b */
+|   expr OP_ROL operand_expr     /* a <<< b */
+|   expr OP_ROR operand_expr     /* a >>> b */
 ;
 
 expr_list :

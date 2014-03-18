@@ -12,6 +12,7 @@
 
 %top{
 #include <stdio.h>
+#include <string.h>
 #include "gram.h"
 
 #define YY_HEADER_EXPORT_START_CONDITIONS
@@ -21,7 +22,6 @@ void yy_pop_state (void* yyscanner);
 int yy_top_state (void* yyscanner);
 
 #define YY_INC_YYLOC yylloc_param->first_column+=yyleng
-
 
 }
 
@@ -37,7 +37,7 @@ newline (\n\r)|(\r\n)|(\n)|(\r)
 
 
 <INITIAL,ACCEPT_RIGHT_ANGLE_BRACKET>{
-struct  {YY_INC_YYLOC; return KW_STRUCT;}
+class   {YY_INC_YYLOC; return KW_CLASS;}
 func    {YY_INC_YYLOC; return KW_FUNC;}
 while   {YY_INC_YYLOC; return KW_WHILE;}
 for     {YY_INC_YYLOC; return KW_FOR;}

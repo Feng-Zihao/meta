@@ -11,7 +11,7 @@ YY_BUFFER_STATE buf;
 YYSTYPE yystype;
 int rs;
 
-void gram_valid_test_struct_decl() {
+void gram_valid_test_class_decl() {
 #define __VALID_STRUCT_DECL(str)\
     yylex_init(&scanner);\
     buf = yy_scan_string(str, scanner);\
@@ -21,16 +21,16 @@ void gram_valid_test_struct_decl() {
     yylex_destroy(scanner);
 
     const char * args[] = {
-        "struct abc {   }",
-        "struct abc{}",
-        "struct abc {int a}",
-        "struct abc {int a = 1}",
-        "struct abc {a =\n 1}",
-        "struct abc{a<b.c> a = 1, 2,3,3,4}",
-        "struct abc {a<b.c<e.f<g>>> a = 1, 2,3,3,4}",
-        "struct abc {a = b,b,b float b=1}",
-        "struct abc{b=all()\nfloat b=1\nint c}",
-        "struct abc {b=all(a, Complex(c))\nfloat b=1\nint c}"
+        "class abc {   }",
+        "class abc{}",
+        "class abc {int a}",
+        "class abc {int a = 1}",
+        "class abc {a =\n 1}",
+        "class abc{a<b.c> a = 1, 2,3,3,4}",
+        "class abc {a<b.c<e.f<g>>> a = 1, 2,3,3,4}",
+        "class abc {a = b,b,b float b=1}",
+        "class abc{b=all()\nfloat b=1\nint c}",
+        "class abc {b=all(a, Complex(c))\nfloat b=1\nint c}"
     };
     int i;
     for ( i = 0; i < sizeof(args)/sizeof(const char*); i++) {
@@ -59,8 +59,8 @@ void gram_valid_test_func_decl() {
         "func a(int a,b) { a += 1 b += 2 return a, b, c Complex(d)}",
         "func main(int a, string b) int, double, Complex {\n"
         "   for int i=1;i<size(t);i+=1 {\n"
-        "   }\n"
-        "   while next(t) {\n"
+        "       while next(t) {\n"
+        "       }\n"
         "   }\n"
         "   if a < b(t,m) < c < !d {\n"
         "   }\n"
@@ -91,7 +91,7 @@ void gram_valid_test_func_decl() {
 
 int main(int argc, const char *argv[])
 {
-    CTEST_FUNC(gram_valid_test_struct_decl);
+    CTEST_FUNC(gram_valid_test_class_decl);
     CTEST_FUNC(gram_valid_test_func_decl);
     return 0;
 }

@@ -8,7 +8,7 @@ YACC=bison
 LEX=flex
 
 
-all: $(addprefix $(OBJ_DIR),lex.o gram.o)
+all: $(addprefix $(OBJ_DIR),lex.o gram.o semt.o)
 
 gram.c: gram.y
 	$(YACC) -d -v -o $@ $^

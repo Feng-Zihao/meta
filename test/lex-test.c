@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "lex.h"
+#include "gram.h"
 #include "ctest.h"
 
 yyscan_t scanner;
@@ -47,7 +48,7 @@ void test_lexer_only() {
 
         {"_abcd_1234123__", TOK_ID},
 
-        {"struct", KW_STRUCT},
+        {"class", KW_CLASS},
         {"func", KW_FUNC},
         {"for", KW_FOR},
         {"while", KW_WHILE},

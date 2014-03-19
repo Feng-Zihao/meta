@@ -1,9 +1,9 @@
  %{
 #include <stdio.h>
 #include <assert.h>
+#include "semt.h"
 #include "gram.h"
 #include "lex.h"
-#include "semt.h"
 
 void yyerror(YYLTYPE *llocp, yyscan_t scanner,
              const char* msg)
@@ -61,24 +61,10 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %precedence KW_NULL
 
 
-/* for terminals */
-%union {
-};
-
 %code requires {
-
+/* in semt.h */
 #define YYLTYPE_IS_DECLARED
-typedef struct YYLTYPE {
-    /* defaults */
-    int first_line;
-    int first_column;
-    int last_line;
-    int last_column;
-    /*  added */
-    FILE* file;
-    struct class_decl** class_decls;
-} YYLTYPE;
-
+#define YYSTYPE_IS_DECLARED
 }
 
 

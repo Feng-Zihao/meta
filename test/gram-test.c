@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lex.h"
+#include "semt.h"
 #include "gram.h"
 #include "ctest.h"
 

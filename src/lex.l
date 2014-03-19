@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "gram.h"
+#include "semt.h"
 
 #define YY_HEADER_EXPORT_START_CONDITIONS
 

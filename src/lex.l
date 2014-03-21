@@ -1,4 +1,4 @@
-%option outfile="lex.c"
+%option outfile="lex.cpp"
 %option header-file="lex.h"
 %option 8bit
 %option stack
@@ -13,14 +13,14 @@
 %top{
 #include <stdio.h>
 #include <string.h>
-#include "gram.h"
 #include "semt.h"
+#include "gram.h"
 
 #define YY_HEADER_EXPORT_START_CONDITIONS
 
-void yy_push_state (int new_state ,void* yyscanner);
-void yy_pop_state (void* yyscanner);
-int yy_top_state (void* yyscanner);
+/*void yy_push_state (int new_state ,void* yyscanner);*/
+/*void yy_pop_state (void* yyscanner);*/
+/*int yy_top_state (void* yyscanner);*/
 
 #define YY_INC_YYLOC yylloc_param->first_column+=yyleng
 

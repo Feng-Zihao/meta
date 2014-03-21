@@ -1,9 +1,18 @@
- %{
+%code requires {
+#define YYLTYPE_IS_DECLARED
+#define YYSTYPE_IS_DECLARED
+
+}
+
+
+
+
+%code top {
 #include <stdio.h>
 #include <assert.h>
-#include "semt.h"
-#include "gram.h"
-#include "lex.h"
+
+#include "parser.h"
+
 
 void yyerror(YYLTYPE *llocp, yyscan_t scanner,
              const char* msg)
@@ -14,7 +23,7 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 }
 
 
-%}
+}
 
 /*%define api.pure full*/
 %pure-parser
@@ -59,14 +68,6 @@ void yyerror(YYLTYPE *llocp, yyscan_t scanner,
 %precedence TOK_INT
 %precedence TOK_FLOAT
 %precedence KW_NULL
-
-
-%code requires {
-/* in semt.h */
-#define YYLTYPE_IS_DECLARED
-#define YYSTYPE_IS_DECLARED
-}
-
 
 
 %%
@@ -221,9 +222,9 @@ primitive_var_type:
 var_type :
     primitive_var_type
 |   id_chain
-|   var_type '<' {yy_push_state(ACCEPT_RIGHT_ANGLE_BRACKET, scanner);}
+|   var_type '<' /*{yy_push_state(ACCEPT_RIGHT_ANGLE_BRACKET, scanner);}*/
         var_type_list
-    '>' {yy_pop_state(scanner);}
+    '>' /*{yy_pop_state(scanner);}*/
 ;
 
 var_type_list :
@@ -298,5 +299,4 @@ expr_list :
     expr
 |   expr_list ',' expr
 ;
-
 

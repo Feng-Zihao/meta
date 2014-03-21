@@ -1,8 +1,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "lex.h"
-#include "gram.h"
+#include "parser.h"
 #include "ctest.h"
 
 yyscan_t scanner;

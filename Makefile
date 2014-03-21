@@ -1,6 +1,6 @@
 
-CC=clang
-CFLAGS=-O0 
+CXX=clang++
+CXXFLAGS=-O0 
 LDFLAGS=
 SRC_DIR=./src/
 
@@ -21,4 +21,4 @@ check:	build
 clean:
 	make -C src/ clean
 	make -C test/ clean
-	rm ./obj/*.o
+	rm ./obj/* -rf

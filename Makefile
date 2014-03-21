@@ -1,6 +1,6 @@
 
 CXX=clang++
-CXXFLAGS=-O0 
+CXXFLAGS=-O0 -std=c++11
 LDFLAGS=
 SRC_DIR=./src/
 
@@ -13,10 +13,10 @@ build:
 	make -C test/
 
 check:	build
-	@echo "=== Build Success ==="
+	@echo "===   Check Start  ==="
 	./test/lex-test
 	./test/gram-test
-	@echo "=== Check Finished =="
+	@echo "=== Check Finished ==="
 
 clean:
 	make -C src/ clean

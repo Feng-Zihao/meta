@@ -1,7 +1,7 @@
 
 
 CXX=clang++
-CXXFLAGS=-O0
+CXXFLAGS=-O0 -std=c++11
 LDFLAGS=
 OBJ_DIR=../obj/
 YACC=bison
@@ -18,6 +18,7 @@ gram.h: gram.cpp
 
 lex.cpp: lex.l gram.h
 	$(LEX) $<
+	sed -i 's/register//g' $@
 
 $(addprefix $(OBJ_DIR),%.o): %.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@

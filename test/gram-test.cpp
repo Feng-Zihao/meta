@@ -1,10 +1,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <gtest/gtest.h>
 #include "lex.h"
 #include "semt.h"
 #include "gram.h"
-#include "ctest.h"
 
 
 yyscan_t scanner;
@@ -12,12 +12,12 @@ YY_BUFFER_STATE buf;
 YYSTYPE yystype;
 int rs;
 
-void gram_valid_test_class_decl() {
-#define __VALID_STRUCT_DECL(str)\
+TEST(GRAMMAR_TEST, CLASSES) {
+#define __VALID_CLASS_DECL(str)\
     yylex_init(&scanner);\
     buf = yy_scan_string(str, scanner);\
     rs = yyparse(scanner);\
-    CASSERT_EQ(rs, 0);\
+    EXPECT_EQ(0, rs);\
     yy_delete_buffer(buf, scanner);\
     yylex_destroy(scanner);
 
@@ -28,23 +28,23 @@ void gram_valid_test_class_decl() {
         "class abc {int a = 1}",
         "class abc {a =\n 1}",
         "class abc{a<b.c> a = 1, 2,3,3,4}",
-        "class abc {a<b.c<e.f<g> > > a = 1, 2,3,3,4}",
+        "class abc {a<b.c<e.f<g>>> a = 1, 2,3,3,4}",
         "class abc {a = b,b,b float b=1}",
         "class abc{b=all()\nfloat b=1\nint c}",
         "class abc {b=all(a, Complex(c))\nfloat b=1\nint c}"
     };
     int i;
     for ( i = 0; i < sizeof(args)/sizeof(const char*); i++) {
-        __VALID_STRUCT_DECL(args[i]);
+        __VALID_CLASS_DECL(args[i]);
     }
 }
 
-void gram_valid_test_func_decl() {
+TEST(GRAMAR_TEST, FUNCTIONS) {
 #define __VALID_FUNC_DECL(str)\
     yylex_init(&scanner);\
     buf = yy_scan_string(str, scanner);\
     rs = yyparse(scanner);\
-    CASSERT_EQ(rs, 0);\
+    EXPECT_EQ(0, rs);\
     yy_delete_buffer(buf, scanner);\
     yylex_destroy(scanner);
 
@@ -53,8 +53,8 @@ void gram_valid_test_func_decl() {
         "func a() {}",
         "func a(int a, double b, c){}",
         "func __(int a, b = 1.000, c=Complex(a,b,c)){}",
-        "func __(a=1, c<In, ad<b, b> >  b){}",
-        "func _a(int a,b,c,d,e,f,g) int, double, Complex<a.b<Complex<c> > > { 1 >>> 3 }",
+        "func __(a=1, c<In, ad<b, b>>  b){}",
+        "func _a(int a,b,c,d,e,f,g) int, double, Complex<a.b<Complex<c>>> { 1 >>> 3 }",
         "func a(int a,b) { return }",
         "func a(int a,b) { return }",
         "func a(int a,b) { a += 1 b += 2 return a, b, c Complex(d)}",
@@ -90,9 +90,8 @@ void gram_valid_test_func_decl() {
     }
 }
 
-int main(int argc, const char *argv[])
-{
-    CTEST_FUNC(gram_valid_test_class_decl);
-    CTEST_FUNC(gram_valid_test_func_decl);
-    return 0;
+int main(int argc, char **argv)
+{ 
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

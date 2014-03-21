@@ -7,11 +7,65 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <string>
+#include <vector>
+
+
+using namespace std;
+
 
 #define ARRAY_INIT_DEFAULT_SIZE 10
 
+class Expr;
 
-typedef struct YYLTYPE {
+class VarDecl {
+public:
+    int type;
+    vector<string> ids;
+    vector<Expr> exprs;
+};
+
+
+
+class ClassDecl {
+public:
+    string name;
+    vector<VarDecl> members;
+};
+
+
+class BasicExpr {
+public:
+    int type;
+    string text;
+};
+
+
+class OperandExpr {
+public:
+    vector<BasicExpr*> attrs;
+
+    vector<Expr*> arguments;  // NULL for attributes only
+                              // NONNULL for callable or indexible
+    
+    int type;                 // clalable or indexible, or not operator
+    OperandExpr* next;
+};
+
+class Expr {
+public:
+    int operator_type;
+    Expr* op[2];
+    /* self node data */
+    int operand_type;
+    
+};
+
+
+
+
+class YYLTYPE {
+public:
     /* defaults */
     int first_line;
     int first_column;
@@ -19,54 +73,13 @@ typedef struct YYLTYPE {
     int last_column;
     /*  added */
     FILE* file;
-    struct class_decl** class_decls;
-    size_t calss_size;
-} YYLTYPE;
+    vector<ClassDecl*> classDecls;
+};
 
-typedef union YYSTYPE {
+union YYSTYPE {
 
-} YYSTYPE;
-
-
-typedef struct class_decl {
-    char* class_name;
-    struct var_decl* members;
-} class_decl_t;
+};
 
 
-typedef struct var_decl {
-    int type;
-    char** ids;
-    size_t id_size;
-    struct expr** exprs;
-    size_t expr_size;
-} var_decl_t;
-
-
-typedef struct expr {
-    int operator_type;
-    struct expr* op[2];
-    /* self node data */
-    int operand_type;
-    
-} expr_t;
-
-
-typedef struct operand_expr {
-    struct basic_expr** attrs;
-    size_t size;
-
-    struct expr** arguments;  // NULL for attributes only
-                              // NONNULL for callable or indexible
-    
-    int type;                 // clalable or indexible, or not operator
-    struct operand_expr* next;
-} operand_expr_t;
-
-
-typedef struct basic_expr {
-    int type;
-    char* text;
-} basic_expr_t;
 
 #endif

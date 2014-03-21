@@ -1,8 +1,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <gtest/gtest.h>
+#include <string>
 #include "parser.h"
-#include "ctest.h"
+
+
+using namespace std;
 
 yyscan_t scanner;
 YY_BUFFER_STATE buf;
@@ -11,19 +15,21 @@ int tmprs;
 YYSTYPE lval;
 YYLTYPE lloc;
 
-
-void test_lexer_only() { 
-#define __LEX_TEST(str, tok);\
+#define __LEX_TEST(str, tok) \
     yylex_init(&scanner);\
     buf = yy_scan_string(str, scanner);\
     tmprs = yylex(&lval, &lloc, scanner);\
-    CASSERT_EQ( tmprs, tok );\
-    CASSERT_STR_EQ( yyget_text(scanner), str );\
+    EXPECT_EQ( tmprs, tok );\
+    EXPECT_STREQ( yyget_text(scanner), str );\
     yy_delete_buffer(buf, scanner);\
-    yylex_destroy(scanner);\
+    yylex_destroy(scanner);
+
+
+TEST(LEX_TEST, LEX_TEST){
 
     struct {
-        char *str; int tok;
+        const char *str;
+        int tok;
     } args[] = {
         {"090123123", TOK_INT},
         {"+090123123", TOK_INT},
@@ -89,9 +95,8 @@ void test_lexer_only() {
 }
 
 
-int main(int argc, const char *argv[])
+int main(int argc, char **argv)
 { 
-    CTEST_FUNC(test_lexer_only);
-
-    return 0;
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

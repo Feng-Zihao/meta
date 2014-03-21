@@ -3,10 +3,10 @@
 CXX=clang++
 SRC_DIR=../src/
 OBJ_DIR=../obj/
-CXXFLAGS=-g -O0 -I$(SRC_DIR) -DCTEST_IGNORE_PASS
-LDFLAGS=
+CXXFLAGS=-g -O0 -I$(SRC_DIR) -std=c++11
+LDFLAGS=-lgtest
 
-.PHONY:  all clean
+.PHONY: all clean
 
 all: lex-test gram-test
 
@@ -16,7 +16,7 @@ lex-test: $(addprefix $(OBJ_DIR),lex.o lex-test.o)
 gram-test: $(addprefix $(OBJ_DIR),lex.o gram.o gram-test.o)
 	$(CXX) $(LDFLAGS) $^ -o $@
 
-$(addprefix $(OBJ_DIR),%.o): %.cpp *.h
+$(addprefix $(OBJ_DIR),%.o): %.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 clean:
